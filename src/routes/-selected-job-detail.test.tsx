@@ -129,6 +129,7 @@ const board = {
     xUrl: null,
     facebookUrl: null,
     linkedinUrl: null,
+    instagramUrl: null,
   },
   footer: {
     contactEmail: null,
@@ -136,6 +137,7 @@ const board = {
     xUrl: null,
     facebookUrl: null,
     linkedinUrl: null,
+    instagramUrl: null,
   },
   talentDirectoryVisibility: 'public',
   talentAccessModel: null,
