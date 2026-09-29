@@ -82,6 +82,7 @@ function resolveBoardContext(
       xUrl: context.contact?.xUrl ?? null,
       facebookUrl: context.contact?.facebookUrl ?? null,
       linkedinUrl: context.contact?.linkedinUrl ?? null,
+      instagramUrl: context.contact?.instagramUrl ?? null,
     } satisfies BoardContextFooter,
     // `posting` arrived with memberships; an API deployment predating it omits
     // the block. Default to "anyone may post" rather than gating the form.

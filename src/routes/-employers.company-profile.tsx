@@ -402,6 +402,7 @@ const SOCIAL_KEYS: ReadonlySet<CompanyFormBuiltinKey> = new Set([
   'linkedinUrl',
   'xUrl',
   'facebookUrl',
+  'instagramUrl',
 ]);
 
 function ProfileEditorCard({
@@ -450,6 +451,9 @@ function ProfileEditorCard({
       : '',
     facebookUrl: company.facebookUrl
       ? stripSocialHandle(company.facebookUrl, ['facebook.com'])
+      : '',
+    instagramUrl: company.instagramUrl
+      ? stripSocialHandle(company.instagramUrl, ['instagram.com'])
       : '',
   });
   const [customValues, setCustomValues] =
@@ -548,6 +552,11 @@ function ProfileEditorCard({
     if (shows('facebookUrl')) {
       body.facebookUrl = form.facebookUrl.trim()
         ? toSocialUrl(form.facebookUrl, 'facebook.com')
+        : '';
+    }
+    if (shows('instagramUrl')) {
+      body.instagramUrl = form.instagramUrl.trim()
+        ? toSocialUrl(form.instagramUrl, 'instagram.com')
         : '';
     }
     return body;
@@ -728,6 +737,18 @@ function ProfileEditorCard({
             onChange={(facebookUrl) => setForm({ ...form, facebookUrl })}
           />
         );
+      case 'instagramUrl':
+        return (
+          <SocialField
+            id="company-instagram"
+            label={m.employerProfile_instagramLabel()}
+            domain="instagram.com"
+            domains={['instagram.com']}
+            value={form.instagramUrl}
+            required={requires('instagramUrl')}
+            onChange={(instagramUrl) => setForm({ ...form, instagramUrl })}
+          />
+        );
       case 'description':
         return (
           <Field
@@ -807,7 +828,7 @@ function ProfileEditorCard({
                   <legend className="text-sm font-medium">
                     {m.employerProfile_linksHeading()}
                   </legend>
-                  <div className="grid gap-4 sm:grid-cols-3">{cells}</div>
+                  <div className="grid gap-4 sm:grid-cols-2">{cells}</div>
                   <FieldDescription>
                     {m.employerProfile_linksHint()}
                   </FieldDescription>

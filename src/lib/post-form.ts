@@ -202,7 +202,7 @@ export function stripSocialHandle(value: string, domains: string[]): string {
       break;
     }
   }
-  return result.replace(/^\/+/, '');
+  return result.replace(/^\/+|\/+$/g, '');
 }
 
 /**

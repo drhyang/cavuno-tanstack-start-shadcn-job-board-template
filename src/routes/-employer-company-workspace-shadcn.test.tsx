@@ -179,6 +179,7 @@ const employerCompany = {
   xUrl: null,
   linkedinUrl: 'https://linkedin.com/company/northstar',
   facebookUrl: null,
+  instagramUrl: 'https://www.instagram.com/northstar/',
   logoUrl: null,
 } satisfies CompanyProfileLoaderData['employerCompany'];
 
@@ -821,10 +822,11 @@ describe('employer company workspace', () => {
     expect(screen.getByRole('textbox', { name: 'Website' })).toHaveValue(
       'northstar.example',
     );
-    // The three per-network social fields sit behind their domain addons.
+    // Each social field sits behind its domain addon.
     expect(screen.getByText('linkedin.com/company/')).toBeInTheDocument();
     expect(screen.getByText('x.com/')).toBeInTheDocument();
     expect(screen.getByText('facebook.com/')).toBeInTheDocument();
+    expect(screen.getByText('instagram.com/')).toBeInTheDocument();
     expect(screen.getByRole('toolbar', { name: 'About' })).toBeInTheDocument();
     expect(screen.getByText('Hiring')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save company' })).toBeEnabled();
@@ -838,6 +840,12 @@ describe('employer company workspace', () => {
       target: { value: 'https://www.linkedin.com/company/northstar' },
     });
     expect(linkedin).toHaveValue('northstar');
+
+    const instagram = screen.getByRole('textbox', { name: 'Instagram' });
+    fireEvent.change(instagram, {
+      target: { value: 'https://www.instagram.com/northstar/' },
+    });
+    expect(instagram).toHaveValue('northstar');
   });
 
   it('prefills the tagline and social fields from the editable company read', () => {
@@ -852,6 +860,29 @@ describe('employer company workspace', () => {
     expect(screen.getByRole('textbox', { name: 'LinkedIn' })).toHaveValue(
       'northstar',
     );
+    expect(screen.getByRole('textbox', { name: 'Instagram' })).toHaveValue(
+      'northstar',
+    );
+  });
+
+  it('saves an Instagram handle as a profile URL', async () => {
+    profileActions.updateCompany.mockResolvedValue({ ok: true, data: null });
+    profileActions.invalidate.mockResolvedValue(undefined);
+    renderProfile();
+
+    fireEvent.change(screen.getByRole('textbox', { name: 'Instagram' }), {
+      target: { value: 'flexwork.florida' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Save company' }));
+
+    await waitFor(() =>
+      expect(profileActions.updateCompany).toHaveBeenCalledOnce(),
+    );
+    expect(
+      profileActions.updateCompany.mock.calls[0]?.[0]?.data.body,
+    ).toMatchObject({
+      instagramUrl: 'https://instagram.com/flexwork.florida',
+    });
   });
 
   it('uploads a new company logo through the profile logo control', async () => {
@@ -1732,6 +1763,7 @@ describe('Company profile — operator form layout', () => {
         builtin('name', { locked: true }),
         builtin('summary', { visible: false }),
         builtin('linkedinUrl', { visible: false }),
+        builtin('instagramUrl', { visible: false }),
         builtin('website'),
       ],
     });
@@ -1743,6 +1775,7 @@ describe('Company profile — operator form layout', () => {
     ).toBeTruthy();
     expect(screen.queryByRole('textbox', { name: 'Tagline' })).toBeNull();
     expect(screen.queryByRole('textbox', { name: 'LinkedIn' })).toBeNull();
+    expect(screen.queryByRole('textbox', { name: 'Instagram' })).toBeNull();
 
     fireEvent.click(screen.getByRole('button', { name: 'Save company' }));
 
@@ -1756,6 +1789,7 @@ describe('Company profile — operator form layout', () => {
     });
     expect(body).not.toHaveProperty('summary');
     expect(body).not.toHaveProperty('linkedinUrl');
+    expect(body).not.toHaveProperty('instagramUrl');
   });
 
   it('blocks the save while a required field is empty', async () => {

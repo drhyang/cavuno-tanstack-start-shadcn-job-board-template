@@ -362,6 +362,7 @@ export const COMPANY_FORM_BUILTINS = [
   'linkedinUrl',
   'xUrl',
   'facebookUrl',
+  'instagramUrl',
   'description',
 ] as const;
 
