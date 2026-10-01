@@ -49,6 +49,7 @@ function renderFooter(footer: BoardContextFooter) {
         impressum: false,
       }}
       footer={footer}
+      contactEnabled={false}
       talentDirectoryVisibility="off"
       hasEmployerOfferPage={false}
     />,

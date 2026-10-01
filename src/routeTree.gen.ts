@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdsDottxtRouteImport } from './routes/ads[.]txt'
 import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
 import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as IndexnowKeyDottxtRouteImport } from './routes/indexnow-key[.]txt'
@@ -139,6 +140,11 @@ const AdsDottxtRoute = AdsDottxtRouteImport.update({
 const ApplyRoute = ApplyRouteImport.update({
   id: '/apply',
   path: '/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiePolicyRoute = CookiePolicyRouteImport.update({
@@ -649,6 +655,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/ads.txt': typeof AdsDottxtRoute
   '/apply': typeof ApplyRoute
+  '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/impressum': typeof ImpressumRoute
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
@@ -752,6 +759,7 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/ads.txt': typeof AdsDottxtRoute
   '/apply': typeof ApplyRoute
+  '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/impressum': typeof ImpressumRoute
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
@@ -856,6 +864,7 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/ads.txt': typeof AdsDottxtRoute
   '/apply': typeof ApplyRoute
+  '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/impressum': typeof ImpressumRoute
   '/indexnow-key.txt': typeof IndexnowKeyDottxtRoute
@@ -961,6 +970,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/ads.txt'
     | '/apply'
+    | '/contact'
     | '/cookie-policy'
     | '/impressum'
     | '/indexnow-key.txt'
@@ -1064,6 +1074,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/ads.txt'
     | '/apply'
+    | '/contact'
     | '/cookie-policy'
     | '/impressum'
     | '/indexnow-key.txt'
@@ -1167,6 +1178,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/ads.txt'
     | '/apply'
+    | '/contact'
     | '/cookie-policy'
     | '/impressum'
     | '/indexnow-key.txt'
@@ -1271,6 +1283,7 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AdsDottxtRoute: typeof AdsDottxtRoute
   ApplyRoute: typeof ApplyRoute
+  ContactRoute: typeof ContactRoute
   CookiePolicyRoute: typeof CookiePolicyRoute
   ImpressumRoute: typeof ImpressumRoute
   IndexnowKeyDottxtRoute: typeof IndexnowKeyDottxtRoute
@@ -1407,6 +1420,13 @@ declare module '@tanstack/react-router' {
       path: '/apply'
       fullPath: '/apply'
       preLoaderRoute: typeof ApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookie-policy': {
@@ -2123,6 +2143,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AdsDottxtRoute: AdsDottxtRoute,
   ApplyRoute: ApplyRoute,
+  ContactRoute: ContactRoute,
   CookiePolicyRoute: CookiePolicyRoute,
   ImpressumRoute: ImpressumRoute,
   IndexnowKeyDottxtRoute: IndexnowKeyDottxtRoute,

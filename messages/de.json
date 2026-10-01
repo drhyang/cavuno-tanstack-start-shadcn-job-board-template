@@ -3,6 +3,19 @@
   "adPreview_label": "Anzeigenplatzierungen",
   "adPreview_description": "Platzhalter anzeigen, wo Anzeigen erscheinen würden.",
   "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_title": "Kontakt",
+  "contact_description": "Senden Sie eine Nachricht an das Jobbörsen-Team.",
+  "contact_intro": "Senden Sie eine Nachricht an {boardName}. Wir melden uns so bald wie möglich.",
+  "contact_nameLabel": "Name",
+  "contact_emailLabel": "E-Mail",
+  "contact_messageLabel": "Nachricht",
+  "contact_websiteLabel": "Website",
+  "contact_send": "Nachricht senden",
+  "contact_loading": "Formular wird geladen…",
+  "contact_sending": "Wird gesendet…",
+  "contact_error": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+  "contact_successTitle": "Wir haben Ihre Nachricht erhalten",
+  "contact_successBody": "Wir antworten per E-Mail an {email}.",
   "accessOffer_everyMonths": [
     {
       "declarations": [

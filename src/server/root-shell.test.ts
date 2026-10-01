@@ -11,6 +11,7 @@ const mocks = vi.hoisted(() => {
     stale: vi.fn(),
     seo: vi.fn(),
     offer: vi.fn(),
+    contact: vi.fn(),
     me: vi.fn(),
     grant: vi.fn(),
     companies: vi.fn(),
@@ -47,6 +48,7 @@ vi.mock('../lib/board', () => ({
   }),
 }));
 vi.mock('./preview', () => ({ resolvePreviewStateForViewer: mocks.preview }));
+vi.mock('./contact', () => ({ getContactForRoot: mocks.contact }));
 vi.mock('./queries', () => ({
   getFreshBoardContext: mocks.fresh,
   getStaleBoardContext: mocks.stale,
@@ -61,6 +63,11 @@ beforeEach(() => {
   mocks.fresh.mockResolvedValue({ name: 'Fixture board' });
   mocks.seo.mockResolvedValue({ canonicalBase: 'https://fixture.example' });
   mocks.offer.mockResolvedValue({ visible: true });
+  mocks.contact.mockResolvedValue({
+    object: 'board_contact',
+    enabled: true,
+    boardName: 'Fixture board',
+  });
 });
 describe('public and session shells', () => {
   it('public document exposes only public fields without viewer reads', async () => {
@@ -70,6 +77,11 @@ describe('public and session shells', () => {
       board: { name: 'Fixture board' },
       seo: { canonicalBase: 'https://fixture.example' },
       offerGate: { visible: true },
+      contact: {
+        object: 'board_contact',
+        enabled: true,
+        boardName: 'Fixture board',
+      },
     });
     expect(mocks.me).not.toHaveBeenCalled();
     expect(mocks.grant).not.toHaveBeenCalled();

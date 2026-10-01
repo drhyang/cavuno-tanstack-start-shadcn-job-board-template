@@ -168,6 +168,7 @@ export default function Footer({
   slug,
   features,
   footer,
+  contactEnabled,
   connected = false,
   talentDirectoryVisibility,
   hasEmployerOfferPage,
@@ -199,6 +200,7 @@ export default function Footer({
     impressum: boolean;
   };
   footer: BoardContextFooter | null;
+  contactEnabled: boolean;
   connected?: boolean;
   /**
    * The tri-state behind `features.talentDirectory` — hosted chrome links
@@ -294,15 +296,22 @@ export default function Footer({
   // ── About ──
   const aboutLinks: FooterLink[] = [
     { href: '/about', label: copy.footer.aboutLabel },
-    ...(footer?.contactEmail
+    ...(contactEnabled
       ? [
           {
-            href: `mailto:${footer.contactEmail}`,
+            href: '/contact',
             label: copy.footer.contactLabel,
-            external: true,
           },
         ]
-      : []),
+      : footer?.contactEmail
+        ? [
+            {
+              href: `mailto:${footer.contactEmail}`,
+              label: copy.footer.contactLabel,
+              external: true,
+            },
+          ]
+        : []),
     ...(footer?.websiteUrl
       ? [
           {
@@ -357,9 +366,7 @@ export default function Footer({
   ];
 
   // Hosted referral attribution: ?ref= the board's public host.
-  const marketingHref = `https://cavuno.com/?ref=${encodeURIComponent(
-    primaryDomain ?? slug,
-  )}`;
+  const marketingHref = `https://cavuno.com/?ref=${encodeURIComponent(primaryDomain ?? slug)}`;
 
   return (
     <footer
