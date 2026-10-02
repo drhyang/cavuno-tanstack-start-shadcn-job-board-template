@@ -62,8 +62,7 @@ export function HomePage() {
       membershipPlanName: company.membership?.planName ?? null,
     }));
   const categoryCards = [...topCategories]
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 8)
+    .slice(0, 20)
     .map((related) => ({
       slug: related.slug,
       name: related.term,
