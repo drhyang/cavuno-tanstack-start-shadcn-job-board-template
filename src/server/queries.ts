@@ -125,8 +125,8 @@ export const getFreshBoardContext = createServerFn({ method: 'GET' }).handler(
 /** Last successful context, only for a fail-closed shell after fresh failure. */
 export const getStaleBoardContext = createServerFn({ method: 'GET' }).handler(
   async () => {
-    const stale = readStaleBoardContext();
-    return resolveBoardContext(await (stale ?? readBoardContext()));
+    const stale = await readStaleBoardContext();
+    return resolveBoardContext(stale ?? (await readBoardContext()));
   },
 );
 
