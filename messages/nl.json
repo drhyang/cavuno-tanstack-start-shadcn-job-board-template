@@ -104,6 +104,8 @@
       }
     }
   ],
+  "accountRecommended_emailInvitationAction": "E-mails met passende vacatures inschakelen",
+  "accountRecommended_emailInvitationTitle": "Ontvang passende vacatures in je inbox",
   "accountRecommended_employerProfileLink": "Naar je profiel",
   "accountRecommended_employerText": "Je werkgeversaccount heeft geen werkzoekendeprofiel om vacatures mee te matchen.",
   "accountRecommended_employerTitle": "Jobmatches zijn voor werkzoekende-accounts",
@@ -497,10 +499,13 @@
   "candidateLanding_title": "For job seekers",
   "pricing_description": "Compare plans for job seekers and employers.",
   "pricing_title": "Plans and pricing",
-  "candidatePaywallLock_alertsTitle": "Voor vacaturemeldingen heb je betaalde toegang nodig",
-  "candidatePaywallLock_ctaLabel": "Toegang ontgrendelen",
-  "candidatePaywallLock_description": "Kies een toegangsoptie om dit deel van je account te gebruiken.",
-  "candidatePaywallLock_matchesTitle": "Voor passende vacatures heb je betaalde toegang nodig",
+  "candidatePaywallLock_alertsTitle": "Ontgrendel vacaturemeldingen",
+  "candidatePaywallLock_ctaLabel": "Doorgaan naar afrekenen",
+  "candidatePaywallLock_description": "Kies een abonnement om toegang te krijgen.",
+  "candidatePaywallLock_matchesTitle": "Ontgrendel aanbevolen vacatures",
+  "candidatePaywallLock_recommendedBadge": "Aanbevolen",
+  "candidatePaywallLock_noOffersText": "Er zijn momenteel geen betaalde opties beschikbaar. Je kunt vacatures blijven bekijken.",
+  "candidatePaywallLock_checkoutTerms": "Bekijk alle betalingsvoorwaarden bij het afrekenen voordat je betaalt.",
   "categoryPage_jobsHeading": "Vacatures in {category}",
   "categoryPage_notFoundText": "Categorie niet gevonden.",
   "commandDialog_searchPlaceholder": "Zoek een opdracht om uit te voeren…",
@@ -2261,5 +2266,6 @@
   "ui_moreLabel": "Meer",
   "ui_sidebarDescription": "Toont de zijbalk op mobiele apparaten.",
   "ui_sidebarTitle": "Zijbalk",
-  "ui_sidebarToggleLabel": "Zijbalk openen of sluiten"
+  "ui_sidebarToggleLabel": "Zijbalk openen of sluiten",
+  "candidatePaywallLock_includedLabel": "Inbegrepen bij dit abonnement"
 }

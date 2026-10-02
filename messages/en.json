@@ -104,6 +104,8 @@
       }
     }
   ],
+  "accountRecommended_emailInvitationAction": "Enable match emails",
+  "accountRecommended_emailInvitationTitle": "Get matches in your inbox",
   "accountRecommended_employerProfileLink": "Go to your profile",
   "accountRecommended_employerText": "Your employer account has no job seeker profile to match jobs against.",
   "accountRecommended_employerTitle": "Job matches are for job seeker accounts",
@@ -497,10 +499,13 @@
   "candidateLanding_title": "For job seekers",
   "pricing_description": "Compare plans for job seekers and employers.",
   "pricing_title": "Plans and pricing",
-  "candidatePaywallLock_alertsTitle": "Job alerts need a paid plan",
-  "candidatePaywallLock_ctaLabel": "Unlock access",
-  "candidatePaywallLock_description": "Choose a plan to unlock this part of your account.",
-  "candidatePaywallLock_matchesTitle": "Job matches need a paid plan",
+  "candidatePaywallLock_alertsTitle": "Unlock job alerts",
+  "candidatePaywallLock_ctaLabel": "Continue to checkout",
+  "candidatePaywallLock_description": "Choose a plan to get access.",
+  "candidatePaywallLock_matchesTitle": "Unlock job matches",
+  "candidatePaywallLock_recommendedBadge": "Recommended",
+  "candidatePaywallLock_noOffersText": "No paid plans are available right now. You can keep browsing jobs.",
+  "candidatePaywallLock_checkoutTerms": "Review the full billing terms in checkout before paying.",
   "categoryPage_jobsHeading": "{category} jobs",
   "categoryPage_notFoundText": "Category not found.",
   "commandDialog_searchPlaceholder": "Search for a command to run...",
@@ -2261,5 +2266,6 @@
   "ui_moreLabel": "More",
   "ui_sidebarDescription": "Displays the mobile sidebar.",
   "ui_sidebarTitle": "Sidebar",
-  "ui_sidebarToggleLabel": "Toggle sidebar"
+  "ui_sidebarToggleLabel": "Toggle sidebar",
+  "candidatePaywallLock_includedLabel": "Included in this plan"
 }

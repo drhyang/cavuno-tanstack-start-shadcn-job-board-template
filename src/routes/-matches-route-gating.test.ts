@@ -13,12 +13,15 @@ const getRecommendedJobs =
   vi.fn<MatchesLoaderDependencies['getRecommendedJobs']>();
 const getSeoBase = vi.fn<MatchesLoaderDependencies['getSeoBase']>();
 const getPaywallOffers = vi.fn<MatchesLoaderDependencies['getPaywallOffers']>();
+const getNotificationPreferences =
+  vi.fn<MatchesLoaderDependencies['getNotificationPreferences']>();
 
 const dependencies: MatchesLoaderDependencies = {
   getBoardContext,
   getRecommendedJobs,
   getSeoBase,
   getPaywallOffers,
+  getNotificationPreferences,
 };
 
 beforeEach(() => {
@@ -32,7 +35,7 @@ beforeEach(() => {
     data: [],
     hasMore: false,
     nextCursor: null,
-    skillCount: 0,
+    skillCount: 2,
     parseStatus: null,
     resume: {
       object: 'resume',
@@ -45,6 +48,21 @@ beforeEach(() => {
     },
   });
   getSeoBase.mockResolvedValue({ boardName: 'Acme Board' });
+  getNotificationPreferences.mockResolvedValue({
+    object: 'list',
+    url: '/v1/me/notification-preferences',
+    data: [
+      {
+        object: 'notification_preference',
+        channel: 'recommendedJobEmails',
+        subscribed: false,
+        waitlisted: false,
+        updatedAt: null,
+      },
+    ],
+    hasMore: false,
+    nextCursor: null,
+  });
   getPaywallOffers.mockResolvedValue({
     object: 'list',
     url: '/v1/paywall/offers',
@@ -64,7 +82,56 @@ describe('matches route — recommendations feature gate', () => {
 
     expect(data).toMatchObject({ data: [] });
     expect(getRecommendedJobs).toHaveBeenCalledOnce();
+    expect(data).toMatchObject({
+      emailPreference: { subscribed: false, waitlisted: false },
+    });
+    expect(getNotificationPreferences).toHaveBeenCalledOnce();
   });
+
+  it('keeps matches available when the email preference cannot be read', async () => {
+    getNotificationPreferences.mockRejectedValue(new Error('read failed'));
+
+    const data = await createMatchesLoader(dependencies)();
+
+    expect(data).toMatchObject({
+      locked: false,
+      data: [],
+      emailPreference: null,
+    });
+  });
+
+  it.each([
+    { skillCount: 0, parseStatus: null },
+    { skillCount: 2, parseStatus: 'parsing' as const },
+    { skillCount: 0, parseStatus: 'failed' as const },
+  ])(
+    'waits for a usable profile before reading email preferences: %j',
+    async (state) => {
+      const recommended = await getRecommendedJobs();
+      if (recommended.employerOnly)
+        throw new Error('Expected candidate fixture');
+      getRecommendedJobs.mockResolvedValue({ ...recommended, ...state });
+      getRecommendedJobs.mockClear();
+
+      const data = await createMatchesLoader(dependencies)();
+
+      expect(data).toMatchObject({ locked: false, emailPreference: null });
+      expect(getNotificationPreferences).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([
+    'UNAUTHENTICATED',
+    'EMAIL_UNVERIFIED',
+    'CANDIDATE_PAYWALL_ACCESS_REQUIRED',
+  ])(
+    'does not read email preferences before matches access succeeds: %s',
+    async (error) => {
+      getRecommendedJobs.mockRejectedValue(new Error(error));
+      await createMatchesLoader(dependencies)().catch(() => undefined);
+      expect(getNotificationPreferences).not.toHaveBeenCalled();
+    },
+  );
 
   it('gives an employer account the employer state, not the resume prompt', async () => {
     getRecommendedJobs.mockResolvedValue({ employerOnly: true });
@@ -77,6 +144,7 @@ describe('matches route — recommendations feature gate', () => {
       seo: { boardName: 'Acme Board' },
     });
     expect(getPaywallOffers).not.toHaveBeenCalled();
+    expect(getNotificationPreferences).not.toHaveBeenCalled();
   });
 
   it('falls through to the authoritative API when the fresh context read fails', async () => {
@@ -102,6 +170,7 @@ describe('matches route — recommendations feature gate', () => {
     expect(isRouteNotFound(outcome)).toBe(true);
     expect(getRecommendedJobs).not.toHaveBeenCalled();
     expect(getSeoBase).not.toHaveBeenCalled();
+    expect(getNotificationPreferences).not.toHaveBeenCalled();
   });
 
   it('returns unauthenticated visitors to matches after sign-in', async () => {
@@ -204,6 +273,7 @@ describe('matches route — job-seeker plan gate', () => {
           intervalUnit: 'month',
           intervalCount: 1,
           isDefault: true,
+          entitlements: { listings: true, matches: true, job_alerts: true },
         },
       ],
       hasMore: false,
@@ -214,6 +284,53 @@ describe('matches route — job-seeker plan gate', () => {
 
     expect(data).toMatchObject({ locked: true });
     expect(data.locked && data.offers).toHaveLength(1);
+  });
+
+  it('offers only plans that unlock matches, even when an alerts plan is the default', async () => {
+    getRecommendedJobs.mockRejectedValue(
+      new Error('CANDIDATE_PAYWALL_ACCESS_REQUIRED'),
+    );
+    const base = {
+      object: 'paywall_offer' as const,
+      label: 'Plan',
+      billingLabel: 'per month',
+      amountCents: 900,
+      currency: 'usd',
+      offerType: 'recurring' as const,
+      intervalUnit: 'month',
+      intervalCount: 1,
+    };
+    getPaywallOffers.mockResolvedValue({
+      object: 'list',
+      url: '/v1/paywall/offers',
+      hasMore: false,
+      nextCursor: null,
+      data: [
+        {
+          ...base,
+          offerKey: 'alerts',
+          isDefault: true,
+          entitlements: { listings: false, matches: false, job_alerts: true },
+        },
+        {
+          ...base,
+          offerKey: 'matches',
+          isDefault: false,
+          entitlements: { listings: false, matches: true, job_alerts: false },
+        },
+        {
+          ...base,
+          offerKey: 'combined',
+          isDefault: false,
+          entitlements: { listings: true, matches: true, job_alerts: true },
+        },
+      ],
+    });
+    const data = await createMatchesLoader(dependencies)();
+    expect(data.locked && data.offers.map((row) => row.offerKey)).toEqual([
+      'matches',
+      'combined',
+    ]);
   });
 
   it('does not sign the viewer out when their plan is what is missing', async () => {

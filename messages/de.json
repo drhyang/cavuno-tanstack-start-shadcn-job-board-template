@@ -104,6 +104,8 @@
       }
     }
   ],
+  "accountRecommended_emailInvitationAction": "E-Mails mit passenden Jobs aktivieren",
+  "accountRecommended_emailInvitationTitle": "Passende Jobs in deinem Posteingang",
   "accountRecommended_employerProfileLink": "Zu deinem Profil",
   "accountRecommended_employerText": "Dein Arbeitgeberkonto hat kein Jobsuchenden-Profil, mit dem Jobs abgeglichen werden können.",
   "accountRecommended_employerTitle": "Passende Jobs gibt es für Jobsuchende-Konten",
@@ -497,10 +499,13 @@
   "candidateLanding_title": "For job seekers",
   "pricing_description": "Compare plans for job seekers and employers.",
   "pricing_title": "Plans and pricing",
-  "candidatePaywallLock_alertsTitle": "Job-Alerts erfordern einen kostenpflichtigen Tarif",
-  "candidatePaywallLock_ctaLabel": "Zugang freischalten",
-  "candidatePaywallLock_description": "Wählen Sie einen Tarif, um diesen Teil Ihres Kontos freizuschalten.",
-  "candidatePaywallLock_matchesTitle": "Job-Matches erfordern einen kostenpflichtigen Tarif",
+  "candidatePaywallLock_alertsTitle": "Job-Benachrichtigungen freischalten",
+  "candidatePaywallLock_ctaLabel": "Weiter zur Zahlung",
+  "candidatePaywallLock_description": "Wähle einen Tarif, um Zugriff zu erhalten.",
+  "candidatePaywallLock_matchesTitle": "Job-Matches freischalten",
+  "candidatePaywallLock_recommendedBadge": "Empfohlen",
+  "candidatePaywallLock_noOffersText": "Zurzeit sind keine kostenpflichtigen Tarife verfügbar. Du kannst weiterhin nach Jobs suchen.",
+  "candidatePaywallLock_checkoutTerms": "Prüfe die vollständigen Zahlungsbedingungen im Checkout, bevor du bezahlst.",
   "categoryPage_jobsHeading": "{category}-Jobs",
   "categoryPage_notFoundText": "Kategorie nicht gefunden.",
   "commandDialog_searchPlaceholder": "Befehl suchen…",
@@ -2261,5 +2266,6 @@
   "ui_moreLabel": "Mehr",
   "ui_sidebarDescription": "Zeigt die mobile Seitenleiste an.",
   "ui_sidebarTitle": "Seitenleiste",
-  "ui_sidebarToggleLabel": "Seitenleiste umschalten"
+  "ui_sidebarToggleLabel": "Seitenleiste umschalten",
+  "candidatePaywallLock_includedLabel": "In diesem Tarif enthalten"
 }

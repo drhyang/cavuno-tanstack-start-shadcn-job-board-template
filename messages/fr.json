@@ -104,6 +104,8 @@
       }
     }
   ],
+  "accountRecommended_emailInvitationAction": "Activer les e-mails d’offres adaptées",
+  "accountRecommended_emailInvitationTitle": "Recevez des offres adaptées dans votre boîte mail",
   "accountRecommended_employerProfileLink": "Aller à votre profil",
   "accountRecommended_employerText": "Votre compte employeur n’a pas de profil candidat auquel comparer les offres.",
   "accountRecommended_employerTitle": "Les offres recommandées sont réservées aux comptes candidats",
@@ -497,10 +499,13 @@
   "candidateLanding_title": "For job seekers",
   "pricing_description": "Compare plans for job seekers and employers.",
   "pricing_title": "Plans and pricing",
-  "candidatePaywallLock_alertsTitle": "Les alertes emploi nécessitent une formule payante",
-  "candidatePaywallLock_ctaLabel": "Débloquer l’accès",
-  "candidatePaywallLock_description": "Choisissez une formule pour débloquer cette partie de votre compte.",
-  "candidatePaywallLock_matchesTitle": "Les offres recommandées nécessitent une formule payante",
+  "candidatePaywallLock_alertsTitle": "Débloquez les alertes emploi",
+  "candidatePaywallLock_ctaLabel": "Passer au paiement",
+  "candidatePaywallLock_description": "Choisissez une offre pour obtenir l’accès.",
+  "candidatePaywallLock_matchesTitle": "Débloquez les recommandations d’emploi",
+  "candidatePaywallLock_recommendedBadge": "Recommandé",
+  "candidatePaywallLock_noOffersText": "Aucune offre payante n’est disponible pour le moment. Vous pouvez continuer à consulter les emplois.",
+  "candidatePaywallLock_checkoutTerms": "Consultez toutes les conditions de facturation lors du paiement avant de payer.",
   "categoryPage_jobsHeading": "Offres {category}",
   "categoryPage_notFoundText": "Catégorie introuvable.",
   "commandDialog_searchPlaceholder": "Rechercher une commande…",
@@ -2261,5 +2266,6 @@
   "ui_moreLabel": "Plus",
   "ui_sidebarDescription": "Affiche la barre latérale mobile.",
   "ui_sidebarTitle": "Barre latérale",
-  "ui_sidebarToggleLabel": "Afficher ou masquer la barre latérale"
+  "ui_sidebarToggleLabel": "Afficher ou masquer la barre latérale",
+  "candidatePaywallLock_includedLabel": "Inclus dans cette offre"
 }

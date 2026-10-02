@@ -22,10 +22,12 @@ import { getLocale } from '../paraglide/runtime';
 import { getRecommendedJobs, saveJob } from '../server/account';
 import { getPaywallOffers } from '../server/paywall';
 import { getFreshBoardContext, getSeoBase } from '../server/queries';
+import { getNotificationPreferences } from '../server/settings';
 import { SelectedJobDetail } from './-selected-job-detail';
 import { useSelectedJob } from './-use-selected-job';
 
 import { toSavedJobCardVM } from '@/board/job-view-model';
+import { candidateOffersForFeature } from '@/board/paywall-offer';
 import { CandidatePaywallLock } from '@/components/board/candidate-paywall-lock';
 import { JobSearchResult } from '@/components/board/job-search-result';
 import { SaveJobButton } from '@/components/board/save-job-button';
@@ -34,6 +36,7 @@ import {
   CandidateRoutePendingPage,
 } from '@/components/candidate-route-state';
 import { EmptyState } from '@/components/empty-state';
+import { JobMatchEmailInvitation } from '@/components/job-match-email-invitation';
 import { Page, PageContent } from '@/components/layout/page';
 import { InPlaceListingSelect } from '@/components/master-detail-link';
 import { useRootSession } from '@/components/root-session';
@@ -65,6 +68,9 @@ export type MatchesLoaderDependencies = {
   getSeoBase: () => Promise<{ boardName: string }>;
   /** Offers for the lock UI — only read once the board has refused. */
   getPaywallOffers: () => ReturnType<typeof getPaywallOffers>;
+  getNotificationPreferences: () => ReturnType<
+    typeof getNotificationPreferences
+  >;
 };
 
 const matchesLoaderDependencies: MatchesLoaderDependencies = {
@@ -72,6 +78,7 @@ const matchesLoaderDependencies: MatchesLoaderDependencies = {
   getRecommendedJobs,
   getSeoBase,
   getPaywallOffers,
+  getNotificationPreferences,
 };
 
 export function createMatchesLoader(
@@ -92,7 +99,24 @@ export function createMatchesLoader(
         dependencies.getRecommendedJobs(),
         dependencies.getSeoBase(),
       ]);
-      return { locked: false as const, ...recommended, seo };
+      if (recommended.employerOnly) {
+        return { locked: false as const, ...recommended, seo };
+      }
+      // Finish the profile first; email delivery is a later choice. A failed
+      // preference read must not hide matches or guess that emails are off.
+      const preferences =
+        recommendedJobsEmptyKind(recommended) === 'empty'
+          ? await dependencies.getNotificationPreferences().catch(() => null)
+          : null;
+      return {
+        locked: false as const,
+        ...recommended,
+        seo,
+        emailPreference:
+          preferences?.data.find(
+            (pref) => pref.channel === 'recommendedJobEmails',
+          ) ?? null,
+      };
     } catch (error) {
       if (isRedirect(error)) throw error;
       if (isApiNotFound(error)) throw notFound();
@@ -104,7 +128,11 @@ export function createMatchesLoader(
           dependencies.getPaywallOffers().catch(() => ({ data: [] })),
           dependencies.getSeoBase(),
         ]);
-        return { locked: true as const, offers: offers.data, seo };
+        return {
+          locked: true as const,
+          offers: candidateOffersForFeature(offers.data, 'matches'),
+          seo,
+        };
       }
       if (authFailure === 'email-unverified') {
         throw redirect({
@@ -142,6 +170,8 @@ export const Route = createFileRoute('/matches')({
   pendingComponent: CandidateRoutePendingPage,
   errorComponent: CandidateRouteErrorPage,
   loader: createMatchesLoader(),
+  // Settings and email unsubscribe links update the same preference.
+  staleTime: 0,
   head: ({ loaderData }) => ({
     meta: [
       {
@@ -161,11 +191,13 @@ function JobMatchesPage() {
   if (loaderData.locked) {
     return (
       <Page width="wide">
-        <CandidatePaywallLock
-          title={m.candidatePaywallLock_matchesTitle()}
-          offers={loaderData.offers}
-          returnTo="/matches"
-        />
+        <PageContent>
+          <CandidatePaywallLock
+            title={m.candidatePaywallLock_matchesTitle()}
+            offers={loaderData.offers}
+            returnTo="/matches"
+          />
+        </PageContent>
       </Page>
     );
   }
@@ -242,6 +274,7 @@ function JobMatchesResults({
   const heading = firstName
     ? m.accountRecommended_heading({ name: firstName })
     : m.accountRecommended_headingFallback();
+  const emptyKind = recommendedJobsEmptyKind(recommendedJobs);
   const header = (
     <header className="space-y-1 px-4 md:px-0">
       <Text as="h1" variant="heading1">
@@ -258,11 +291,6 @@ function JobMatchesResults({
     </header>
   );
 
-  const emptyKind = recommendedJobsEmptyKind({
-    skillCount: recommendedJobs.skillCount,
-    parseStatus: recommendedJobs.parseStatus,
-  });
-
   return (
     <Page width="wide" fill>
       <main
@@ -278,9 +306,17 @@ function JobMatchesResults({
               list={
                 <div
                   data-slot="recommended-jobs-empty"
-                  className="space-y-4 pt-4 pb-4 md:col-span-2"
+                  className="space-y-4 pt-4 pb-4 md:col-span-2 md:ps-1"
                 >
                   {header}
+                  {emptyKind === 'empty' ? (
+                    <div className="max-w-lg px-4 md:px-0">
+                      <JobMatchEmailInvitation
+                        preference={recommendedJobs.emailPreference}
+                        onEnabled={() => router.invalidate()}
+                      />
+                    </div>
+                  ) : null}
                   {emptyKind === 'needs-profile' ? (
                     <EmptyState
                       icon={<Upload aria-hidden="true" />}
@@ -321,11 +357,17 @@ function JobMatchesResults({
                 >
                   <div
                     data-slot="recommended-jobs-content"
-                    className="space-y-4 pe-4 pt-4 pb-4"
+                    className="space-y-4 pe-4 pt-4 pb-4 md:ps-1"
                   >
                     {header}
                     <InPlaceListingSelect onSelect={selection.onResultActivate}>
                       <div className="space-y-3">
+                        {emptyKind === 'empty' ? (
+                          <JobMatchEmailInvitation
+                            preference={recommendedJobs.emailPreference}
+                            onEnabled={() => router.invalidate()}
+                          />
+                        ) : null}
                         {rows.map(({ item, vm }) => (
                           <JobSearchResult
                             key={item.job.id}

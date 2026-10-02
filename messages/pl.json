@@ -110,6 +110,8 @@
       }
     }
   ],
+  "accountRecommended_emailInvitationAction": "Włącz e-maile z dopasowanymi ofertami",
+  "accountRecommended_emailInvitationTitle": "Otrzymuj dopasowane oferty na swoją skrzynkę",
   "accountRecommended_employerProfileLink": "Przejdź do profilu",
   "accountRecommended_employerText": "Twoje konto pracodawcy nie ma profilu kandydata, do którego można dopasować oferty.",
   "accountRecommended_employerTitle": "Dopasowania ofert są dla kont kandydatów",
@@ -505,10 +507,13 @@
   "candidateLanding_title": "For job seekers",
   "pricing_description": "Compare plans for job seekers and employers.",
   "pricing_title": "Plans and pricing",
-  "candidatePaywallLock_alertsTitle": "Alerty o ofertach wymagają płatnego planu",
-  "candidatePaywallLock_ctaLabel": "Odblokuj dostęp",
-  "candidatePaywallLock_description": "Wybierz plan, aby odblokować tę część konta.",
-  "candidatePaywallLock_matchesTitle": "Dopasowane oferty wymagają płatnego planu",
+  "candidatePaywallLock_alertsTitle": "Odblokuj powiadomienia o ofertach pracy",
+  "candidatePaywallLock_ctaLabel": "Przejdź do płatności",
+  "candidatePaywallLock_description": "Wybierz plan, aby uzyskać dostęp.",
+  "candidatePaywallLock_matchesTitle": "Odblokuj dopasowane oferty pracy",
+  "candidatePaywallLock_recommendedBadge": "Polecany",
+  "candidatePaywallLock_noOffersText": "Obecnie nie ma dostępnych płatnych planów. Możesz nadal przeglądać oferty pracy.",
+  "candidatePaywallLock_checkoutTerms": "Przed zapłatą sprawdź pełne warunki płatności podczas finalizacji zakupu.",
   "categoryPage_jobsHeading": "Oferty: {category}",
   "categoryPage_notFoundText": "Nie znaleziono kategorii.",
   "commandDialog_searchPlaceholder": "Wyszukaj polecenie do uruchomienia...",
@@ -2333,5 +2338,6 @@
   "ui_moreLabel": "Więcej",
   "ui_sidebarDescription": "Wyświetla panel boczny na urządzeniach mobilnych.",
   "ui_sidebarTitle": "Panel boczny",
-  "ui_sidebarToggleLabel": "Pokaż lub ukryj panel boczny"
+  "ui_sidebarToggleLabel": "Pokaż lub ukryj panel boczny",
+  "candidatePaywallLock_includedLabel": "W ramach tego planu"
 }
