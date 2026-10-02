@@ -120,7 +120,7 @@ export function CompanySearchPage({
     markets.length > 0 ? (
       <aside
         aria-label={m.companiesIndex_browseByMarketHeading()}
-        className="hidden md:block"
+        className="hidden md:block md:pt-14"
       >
         <div className="space-y-3">
           <h2 className="text-sm font-semibold">
@@ -224,36 +224,10 @@ export function CompanySearchPage({
                     count={count}
                     pageSize={pageSize}
                     hrefForPage={(nextPage) =>
-                      listingPageHref(currentHref, nextPage, [
-                        'selectedCompany',
-                      ])
+                      listingPageHref(currentHref, nextPage)
                     }
                     onPageChange={onPageChange}
                   />
-
-                  {markets.length > 0 ? (
-                    <section
-                      aria-label={m.companiesIndex_browseByMarketHeading()}
-                      className="border-border space-y-3 border-t pt-4"
-                    >
-                      <h2 className="text-sm font-semibold">
-                        {m.companiesIndex_browseByMarketHeading()}
-                      </h2>
-                      <div className="flex flex-wrap gap-1.5">
-                        {markets.map((market) => (
-                          <Badge
-                            key={market.slug}
-                            variant="outline"
-                            render={
-                              <Link to={companyMarketPath(market.slug)} />
-                            }
-                          >
-                            {market.name}
-                          </Badge>
-                        ))}
-                      </div>
-                    </section>
-                  ) : null}
                 </SearchResultsList>
               }
               detail={marketsSidebar}
