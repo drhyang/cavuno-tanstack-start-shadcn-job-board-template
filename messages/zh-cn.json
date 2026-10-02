@@ -1,7 +1,4 @@
 {
-  "adPreview_placeholder": "AD UNIT HERE",
-  "adPreview_label": "Ad placements",
-  "adPreview_description": "Show placeholders where ads would appear.",
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "accessOffer_everyMonths": [
     {
@@ -10,7 +7,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "every {countLabel} month",
         "countPlural=*": "every {countLabel} months"
@@ -24,7 +23,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "every {countLabel} year",
         "countPlural=*": "every {countLabel} years"
@@ -84,7 +85,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "1 job matches your profile and preferences.",
         "countPlural=*": "{countLabel} jobs match your profile and preferences."
@@ -106,7 +109,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "You have saved 1 job.",
         "countPlural=*": "You have saved {countLabel} jobs."
@@ -127,6 +132,9 @@
   "accountShell_savedJobsNav": "Saved jobs",
   "accountShell_settingsNav": "Settings",
   "accountShell_subscriptionNav": "Subscription",
+  "adPreview_description": "Show placeholders where ads would appear.",
+  "adPreview_label": "Ad placements",
+  "adPreview_placeholder": "AD UNIT HERE",
   "adRail_label": "Advertisement",
   "alertManager_allNewJobsLabel": "All new jobs",
   "alertManager_anyRoleText": "Any role",
@@ -419,9 +427,9 @@
   "boardError_jobSlugTakenText": "A job with this URL already exists. Pick a different slug.",
   "boardError_jobsQuotaText": "You’ve reached your plan’s active job limit. Upgrade to post more.",
   "boardError_lastAdminText": "A company needs at least one admin.",
-  "boardError_logoLookupUnavailableText": "Logo lookup is unavailable right now. Upload a logo file instead.",
   "boardError_locationInvalidText": "One of the locations could not be found. Remove it and choose it again.",
   "boardError_locationsUnavailableText": "Location lookup is unavailable right now. Try again in a moment.",
+  "boardError_logoLookupUnavailableText": "Logo lookup is unavailable right now. Upload a logo file instead.",
   "boardError_membershipPlanNotFoundText": "That membership plan is no longer available.",
   "boardError_membershipSeatTakenText": "This company already has a membership, or has one awaiting payment.",
   "boardError_messagingBlockedText": "You can’t message this candidate because one of you has blocked the other.",
@@ -484,14 +492,15 @@
   "candidateLanding_plansHeading": "Job seeker plans",
   "candidateLanding_signUpAction": "Create a free account",
   "candidateLanding_title": "For job seekers",
-  "pricing_description": "Compare plans for job seekers and employers.",
-  "pricing_title": "Plans and pricing",
   "candidatePaywallLock_alertsTitle": "Job alerts need a paid plan",
   "candidatePaywallLock_ctaLabel": "Unlock access",
   "candidatePaywallLock_description": "Choose a plan to unlock this part of your account.",
   "candidatePaywallLock_matchesTitle": "Job matches need a paid plan",
   "categoryPage_jobsHeading": "{category}职位",
   "categoryPage_notFoundText": "Category not found.",
+  "collectionField_maxSelectionsText": "Choose up to {count}.",
+  "collectionField_searchPlaceholder": "Search to add…",
+  "collectionField_unavailableEntryLabel": "Unavailable entry",
   "commandDialog_searchPlaceholder": "Search for a command to run...",
   "commandDialog_title": "Command Palette",
   "common_closeLabel": "Close",
@@ -515,7 +524,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 职位",
         "countPlural=*": "{countLabel} 职位"
@@ -530,7 +541,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 职位",
         "countPlural=*": "{countLabel} 职位"
@@ -546,7 +559,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "View all {countLabel} job",
         "countPlural=*": "View all {countLabel} jobs"
@@ -580,7 +595,9 @@
         "input categoryCount",
         "local categoryCountPlural = categoryCount: plural"
       ],
-      "selectors": ["categoryCountPlural"],
+      "selectors": [
+        "categoryCountPlural"
+      ],
       "match": {
         "categoryCountPlural=one": "Breakdown across {categoryCount} job category.",
         "categoryCountPlural=*": "Breakdown across {categoryCount} job categories."
@@ -597,7 +614,9 @@
         "input jobCount",
         "local jobCountPlural = jobCount: plural"
       ],
-      "selectors": ["jobCountPlural"],
+      "selectors": [
+        "jobCountPlural"
+      ],
       "match": {
         "jobCountPlural=one": "{company} pays {range} per year on average across {jobCount} job posting.",
         "jobCountPlural=*": "{company} pays {range} per year on average across {jobCount} job postings."
@@ -626,7 +645,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 家雇主",
         "countPlural=*": "{countLabel} 家雇主"
@@ -650,6 +671,19 @@
   "composer_hintText": "⌘ / Ctrl + Enter to send",
   "composer_placeholderText": "Send a message",
   "composer_sendAriaLabel": "Send message",
+  "contact_description": "给 Jobs.ac.cn 发送消息。",
+  "contact_emailLabel": "邮箱",
+  "contact_error": "消息发送失败，请重试。",
+  "contact_intro": "给 {boardName} 发送消息。我们会尽快回复您。",
+  "contact_loading": "正在加载表单…",
+  "contact_messageLabel": "信息",
+  "contact_nameLabel": "姓名",
+  "contact_send": "发送消息",
+  "contact_sending": "正在发送…",
+  "contact_successBody": "我们会将回复发送到 {email}。",
+  "contact_successTitle": "我们已收到您的消息",
+  "contact_title": "联系我们",
+  "contact_websiteLabel": "网站",
   "cookieConsent_acceptLabel": "Accept",
   "cookieConsent_denyLabel": "Decline",
   "cookieConsent_description": "We use cookies to understand how this board is used and to improve it. Analytics run only if you accept.",
@@ -666,7 +700,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} candidate",
         "countPlural=*": "{countLabel} candidates"
@@ -680,7 +716,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 雇主",
         "countPlural=*": "{countLabel} 雇主"
@@ -694,7 +732,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 个职位",
         "countPlural=*": "{countLabel} 个职位"
@@ -708,7 +748,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 职位",
         "countPlural=*": "{countLabel} 职位"
@@ -768,7 +810,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} applicant",
         "countPlural=*": "{countLabel} applicants"
@@ -828,7 +872,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "1 featured slot left on this plan",
         "countPlural=*": "{countLabel} featured slots left on this plan"
@@ -907,7 +953,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} other member",
         "countPlural=*": "{countLabel} other members"
@@ -946,7 +994,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "You have 1 active job.",
         "countPlural=*": "You have {countLabel} active jobs."
@@ -990,7 +1040,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 个展示职位",
         "countPlural=*": "{countLabel} 个展示职位"
@@ -1004,7 +1056,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 置顶展示",
         "countPlural=*": "{countLabel} 置顶展示"
@@ -1019,7 +1073,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} message",
         "countPlural=*": "{countLabel} messages"
@@ -1033,7 +1089,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} profile unlock",
         "countPlural=*": "{countLabel} profile unlocks"
@@ -1068,7 +1126,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "You have 1 team member.",
         "countPlural=*": "You have {countLabel} team members."
@@ -1350,7 +1410,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} 个职位",
         "countPlural=*": "{countLabel} 个职位"
@@ -1367,7 +1429,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "显示 {countLabel} 中的 {from}–{to} 职位",
         "countPlural=*": "显示 {countLabel} 中的 {from}–{to} 职位"
@@ -1437,6 +1501,7 @@
   "locationCombobox_noMatchText": "No jobs in {location}",
   "locationCombobox_placeholderText": "地点…",
   "locationCombobox_searchingText": "Searching…",
+  "locationField_pickRequiredError": "Choose a location from the suggestions.",
   "locationPage_jobsHeading": "{place}职位",
   "locationPage_notFoundText": "Location not found.",
   "locationSkillPage_jobsHeading": "{place}{skill}职位",
@@ -1479,7 +1544,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} of them can be featured.",
         "countPlural=*": "{countLabel} of them can be featured."
@@ -1496,7 +1563,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} of them can be featured at a time.",
         "countPlural=*": "{countLabel} of them can be featured at a time."
@@ -1510,7 +1579,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} one-time post",
         "countPlural=*": "{countLabel} one-time posts"
@@ -1524,7 +1595,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} job live at once",
         "countPlural=*": "{countLabel} jobs live at once"
@@ -1548,7 +1621,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} member",
         "countPlural=*": "{countLabel} members"
@@ -1636,9 +1711,6 @@
   "passwordPage_passwordLabel": "Password",
   "passwordPage_title": "Enter password",
   "placeTags_removeAriaLabel": "Remove {name}",
-  "collectionField_searchPlaceholder": "Search to add…",
-  "collectionField_maxSelectionsText": "Choose up to {count}.",
-  "collectionField_unavailableEntryLabel": "Unavailable entry",
   "planComposed_featuredListing": "{days} 天置顶展示",
   "planComposed_featuredName": "Featured listing",
   "planComposed_maxActiveJobs": "{count} 个展示职位",
@@ -1652,7 +1724,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "包含 1 个置顶展示职位",
         "countPlural=*": "包含 {countLabel} 个置顶展示职位"
@@ -1668,7 +1742,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "每次 1 个职位展示",
         "countPlural=*": "{countLabel} 个职位展示"
@@ -1677,22 +1753,22 @@
   ],
   "planFeature_unlimitedActive": "Unlimited active jobs",
   "planFeature_unlimitedValue": "Unlimited {name}",
+  "plan_customJobPosting_description": "需要更多职位发布名额？联系我们，为您定制套餐。",
+  "plan_customJobPosting_name": "定制方案",
   "plan_featuredListing_description": "A 30 day featured listing — pinned to the top of the board and highlighted in the weekly alert digest.",
   "plan_featuredListing_name": "Featured listing",
+  "plan_featuredPost_description": "1 个置顶职位展示",
+  "plan_featuredPost_name": "1 个推广职位",
+  "plan_featuredPosts_description": "6 个置顶职位展示",
+  "plan_featuredPosts_name": "6 个推广职位",
   "plan_free_description": "A 30 day standard listing",
   "plan_free_name": "Free",
+  "plan_standardPost_description": "1 个标准职位展示",
+  "plan_standardPost_name": "1 个标准职位",
+  "plan_standardPosts_description": "6 个标准职位展示",
+  "plan_standardPosts_name": "6 个标准职位",
   "plan_talentAccessMonthly_description": "Search the talent directory and unlock candidate profiles. 25 profile unlocks and 10 outreach messages every month.",
   "plan_talentAccessMonthly_name": "Talent access — monthly",
-  "plan_standardPost_name": "1 个标准职位",
-  "plan_standardPost_description": "1 个标准职位展示",
-  "plan_featuredPost_name": "1 个推广职位",
-  "plan_featuredPost_description": "1 个置顶职位展示",
-  "plan_standardPosts_name": "6 个标准职位",
-  "plan_standardPosts_description": "6 个标准职位展示",
-  "plan_featuredPosts_name": "6 个推广职位",
-  "plan_featuredPosts_description": "6 个置顶职位展示",
-  "plan_customJobPosting_name": "定制方案",
-  "plan_customJobPosting_description": "需要更多职位发布名额？联系我们，为您定制套餐。",
   "postCard_minReadSuffix": "min",
   "postCheckout_backToPostLabel": "发布职位",
   "postCheckout_browseJobsLabel": "浏览职位",
@@ -1820,6 +1896,8 @@
   "previewToolbar_viewingAs": "Viewing as:",
   "previewToolbar_yourBoard": "Your board (real data)",
   "previewToolbar_yourBoardHint": "Primary publishable key · live tenant data",
+  "pricing_description": "Compare plans for job seekers and employers.",
+  "pricing_title": "Plans and pricing",
   "profileCompleteness_introText": "Upload your resume or fill it out below — complete profiles stand out to employers.",
   "profileCompleteness_itemPhotoLabel": "Profile photo",
   "profileCompleteness_percentText": "{percent}% complete",
@@ -1830,6 +1908,7 @@
   "profileForm_countryLabel": "Country",
   "profileForm_countryNotSpecified": "Not specified",
   "profileForm_displayNameLabel": "Display name",
+  "profileForm_fieldRequiredError": "Complete {field} before saving.",
   "profileForm_handleAvailableText": "Available.",
   "profileForm_handleCheckingText": "Checking…",
   "profileForm_handleDescription": "Your public profile address: 3 to 50 lowercase letters, numbers or hyphens.",
@@ -1838,11 +1917,9 @@
   "profileForm_handleLengthError": "Use between 3 and 50 characters.",
   "profileForm_handleRequiredError": "Choose a handle before saving.",
   "profileForm_handleTakenText": "That handle is taken.",
-  "profileForm_fieldRequiredError": "Complete {field} before saving.",
   "profileForm_headlineLabel": "Headline",
   "profileForm_headlinePlaceholder": "Senior Frontend Engineer",
   "profileForm_locationLabel": "Location",
-  "locationField_pickRequiredError": "Choose a location from the suggestions.",
   "profileForm_locationPlaceholder": "Berlin, Germany",
   "profileForm_openToRelocatingLabel": "Open to relocating",
   "profileForm_saveLabel": "Save profile",
@@ -1946,7 +2023,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{skill} salaries across {countLabel} location.",
         "countPlural=*": "{skill} salaries across {countLabel} locations."
@@ -1972,7 +2051,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{title} salaries across {countLabel} location.",
         "countPlural=*": "{title} salaries across {countLabel} locations."
@@ -1998,7 +2079,9 @@
         "input jobCountLabel",
         "local jobCountPlural = jobCount: plural"
       ],
-      "selectors": ["jobCountPlural"],
+      "selectors": [
+        "jobCountPlural"
+      ],
       "match": {
         "jobCountPlural=one": "{jobCountLabel} job posting",
         "jobCountPlural=*": "{jobCountLabel} job postings"
@@ -2221,7 +2304,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} unlock remaining.",
         "countPlural=*": "{countLabel} unlocks remaining."
@@ -2240,29 +2325,6 @@
   "talentUnlock_upgradeLabel": "Upgrade",
   "talentUnlock_upgradingLabel": "Upgrading…",
   "talentUnlock_viewPlansLabel": "View talent plans",
-  "threadView_archiveLabel": "Archive",
-  "threadView_backToInboxAriaLabel": "Back to inbox",
-  "threadView_blockLabel": "Block",
-  "threadView_blockedHintText": "You blocked {name}. Unblock from the menu to resume messaging.",
-  "threadView_candidateLabel": "Candidate",
-  "threadView_coldRuleHintText": "Wait for {name} to reply before sending another message.",
-  "threadView_conversationActionsAriaLabel": "Conversation actions",
-  "threadView_employerLabel": "Employer",
-  "threadView_noMessagesText": "No messages yet.",
-  "threadView_scrollToLatestLabel": "Scroll to latest message",
-  "threadView_unarchiveLabel": "Unarchive",
-  "threadView_unblockLabel": "Unblock",
-  "threadView_unreadMessagesLabel": "Unread messages",
-  "ui_breadcrumbLabel": "Breadcrumb",
-  "ui_carouselNextLabel": "Next slide",
-  "ui_carouselPreviousLabel": "Previous slide",
-  "ui_loadingLabel": "Loading",
-  "ui_moreLabel": "More",
-  "ui_sidebarDescription": "Displays the mobile sidebar.",
-  "ui_sidebarTitle": "Sidebar",
-  "ui_sidebarToggleLabel": "Toggle sidebar",
-
-  
   "taxonomy": {
     "architecture-and-design": "建筑与设计",
     "architecture": "建筑学",
@@ -2486,6 +2548,26 @@
     "public-administration": "公共管理",
     "public-policy": "公共政策",
     "sociology": "社会学"
-  }
-
+  },
+  "threadView_archiveLabel": "Archive",
+  "threadView_backToInboxAriaLabel": "Back to inbox",
+  "threadView_blockLabel": "Block",
+  "threadView_blockedHintText": "You blocked {name}. Unblock from the menu to resume messaging.",
+  "threadView_candidateLabel": "Candidate",
+  "threadView_coldRuleHintText": "Wait for {name} to reply before sending another message.",
+  "threadView_conversationActionsAriaLabel": "Conversation actions",
+  "threadView_employerLabel": "Employer",
+  "threadView_noMessagesText": "No messages yet.",
+  "threadView_scrollToLatestLabel": "Scroll to latest message",
+  "threadView_unarchiveLabel": "Unarchive",
+  "threadView_unblockLabel": "Unblock",
+  "threadView_unreadMessagesLabel": "Unread messages",
+  "ui_breadcrumbLabel": "Breadcrumb",
+  "ui_carouselNextLabel": "Next slide",
+  "ui_carouselPreviousLabel": "Previous slide",
+  "ui_loadingLabel": "Loading",
+  "ui_moreLabel": "More",
+  "ui_sidebarDescription": "Displays the mobile sidebar.",
+  "ui_sidebarTitle": "Sidebar",
+  "ui_sidebarToggleLabel": "Toggle sidebar"
 }
