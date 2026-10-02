@@ -56,6 +56,46 @@ const PLAN_LABELS = new Map<string, PlanLabelEntry>([
         'Search the talent directory and unlock candidate profiles. 25 profile unlocks and 10 outreach messages every month.',
     },
   ],
+  [
+    '1 Standard Post',
+    {
+      name: m.plan_standardPost_name,
+      description: m.plan_standardPost_description,
+      seedDescription: '1 Standard Job Listing',
+    },
+  ],
+  [
+    '1 Featured Post',
+    {
+      name: m.plan_featuredPost_name,
+      description: m.plan_featuredPost_description,
+      seedDescription: '1 Featured Job Listing',
+    },
+  ],
+  [
+    '6 Standard Posts',
+    {
+      name: m.plan_standardPosts_name,
+      description: m.plan_standardPosts_description,
+      seedDescription: '6 Standard Job Listings',
+    },
+  ],
+  [
+    '6 Featured Posts',
+    {
+      name: m.plan_featuredPosts_name,
+      description: m.plan_featuredPosts_description,
+      seedDescription: '6 Featured Job Listings',
+    },
+  ],
+  [
+    'Custom Job Posting',
+    {
+      name: m.plan_customJobPosting_name,
+      description: m.plan_customJobPosting_description,
+      seedDescription: 'Need more job posting slots? Contact us for a tailored package.',
+    },
+  ],
 ]);
 
 function localeOpt(language?: string) {
