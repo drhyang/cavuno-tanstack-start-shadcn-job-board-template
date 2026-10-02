@@ -4,7 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "cavuno-shadcn-ui-job-board-template",
+  "name": "jobs-ac-cn-template",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./src/server.ts",
@@ -19,7 +19,7 @@
   "vars": {
     "CAVUNO_API_URL": "https://api.cavuno.com",
     // replace with your board's pk_ before deploy
-    "CAVUNO_BOARD": "pk_d9ce40a106227b615ec710de3f3d73dc",
+    "CAVUNO_BOARD": "pk_8af4bf03623bf0e91a46c9c14e7b3c15",
   },
   "observability": {
     "enabled": true,
