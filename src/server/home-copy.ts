@@ -87,11 +87,7 @@ export function resolveHomeCopy(
       blog,
       m.home_viewAllBlogLabel(),
     ),
-    metaTitle: resolveText(copy.metaTitle, common, m.home_heroHeadline()),
-    metaDescription: resolveText(
-      copy.metaDescription ?? m.home_heroSupporting(),
-      common,
-      '',
-    ),
+    metaTitle: copy.metaTitle ?? m.home_metaTitle(),
+    metaDescription: copy.metaDescription ?? m.home_metaDescription(),
   };
 }

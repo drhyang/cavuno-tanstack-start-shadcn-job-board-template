@@ -16,7 +16,6 @@ import { createServerFn } from '@tanstack/react-start';
 import { getBoard } from '../lib/board';
 import { boardAccessMiddleware } from '../lib/board-access-middleware';
 import { readBoardContext } from '../lib/board-context-cache';
-import { headTitle } from '../lib/page-title';
 import { readPublicOrigin } from '../lib/public-origin';
 import { gatedRead } from './board-access';
 import { resolveHomeCopy } from './home-copy';
@@ -132,7 +131,7 @@ export const getHomePage = createServerFn({ method: 'GET' })
         postsCount: blog?.count,
         talentCount: talentPage?.count,
       });
-      const title = headTitle(seo.boardName, copy.metaTitle);
+      const title = copy.metaTitle;
       const description = copy.metaDescription;
       const canonical = selfUrl(seo.origin, '/');
       const head = {
