@@ -65,7 +65,10 @@ export function HomePage() {
     .slice(0, 20)
     .map((related) => ({
       slug: related.slug,
-      name: related.term,
+      name:
+	(m as unknown as Record<string, () => string>)[
+          `taxonomy.${related.slug}`
+        ]?.() ?? related.term,
       countLabel:
         related.count > 0
           ? entityCount(related.count, getLocale(), m.count_jobs, {
