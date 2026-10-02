@@ -298,7 +298,7 @@ export default function Header({
             'max-w-48 truncate',
             search.visible &&
               logoUrl &&
-              'sr-only sm:not-sr-only sm:inline xl:sr-only 2xl:not-sr-only 2xl:inline',
+              'sr-only sm:not-sr-only sm:inline',
           )}
           title={boardName}
         >
