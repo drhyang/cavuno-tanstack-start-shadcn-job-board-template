@@ -297,7 +297,10 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
       const heading = m.categoryPage_jobsHeading({
-        category: category.displayName,
+        category:
+          (m as unknown as Record<string, () => string>)[
+            `taxonomy.${category.canonicalSlug}`
+          ]?.() ?? category.displayName,
       });
       const head = listingHead({
         title: listingPageTitle({

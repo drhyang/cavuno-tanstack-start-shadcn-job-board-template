@@ -38,7 +38,12 @@ function CategoryPage() {
   const search = Route.useSearch();
   return (
     <ProgrammaticJobsView
-      heading={m.categoryPage_jobsHeading({ category: category.displayName })}
+      heading={m.categoryPage_jobsHeading({
+        category:
+          (m as unknown as Record<string, () => string>)[
+            `taxonomy.${category.canonicalSlug}`
+          ]?.() ?? category.displayName,
+      })}
       count={list.count}
       gatedCount={list.gatedCount}
       jobs={list.data}
