@@ -366,11 +366,12 @@ export function HomeLanding({
             }
           >
             <PreferListingWorkspace>
-              <Grid as="ul" columns={{ base: 1, md: 2 }} gap="5">
+              <Grid as="ul" columns={{ base: 1, md: 1 }} gap="5">
                 {latestJobs.map((vm) => (
                   <li key={vm.id}>
                     <JobCard
                       vm={vm}
+		      compact
                       action={
                         <SaveJobButton
                           jobId={vm.id}
