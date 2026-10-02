@@ -36,10 +36,14 @@ function LocationCategoryPage() {
   const { place, category, list, relatedSearches } = Route.useLoaderData();
   const { location } = Route.useParams();
   const search = Route.useSearch();
+    const categoryName =
+    (m as unknown as Record<string, () => string>)[
+      `taxonomy.${category.canonicalSlug}`
+    ]?.() ?? category.displayName;
   return (
     <ProgrammaticJobsView
       heading={m.locationCategoryPage_jobsHeading({
-        category: category.displayName,
+        category: categoryName,
         place: place.displayName,
       })}
       count={list.count}

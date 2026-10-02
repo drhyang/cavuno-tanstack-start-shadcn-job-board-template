@@ -36,13 +36,14 @@ export const Route = createFileRoute('/jobs/$keyword')({
 function CategoryPage() {
   const { category, list, relatedSearches } = Route.useLoaderData();
   const search = Route.useSearch();
+  const categoryName =
+    (m as unknown as Record<string, () => string>)[
+      `taxonomy.${category.canonicalSlug}`
+    ]?.() ?? category.displayName;
   return (
     <ProgrammaticJobsView
       heading={m.categoryPage_jobsHeading({
-        category:
-          (m as unknown as Record<string, () => string>)[
-            `taxonomy.${category.canonicalSlug}`
-          ]?.() ?? category.displayName,
+        category: categoryName
       })}
       count={list.count}
       gatedCount={list.gatedCount}

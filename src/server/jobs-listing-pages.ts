@@ -296,11 +296,12 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const categoryName =
+        (m as unknown as Record<string, () => string>)[
+          `taxonomy.${category.canonicalSlug}`
+        ]?.() ?? category.displayName;
       const heading = m.categoryPage_jobsHeading({
-        category:
-          (m as unknown as Record<string, () => string>)[
-            `taxonomy.${category.canonicalSlug}`
-          ]?.() ?? category.displayName,
+        category: categoryName,
       });
       const head = listingHead({
         title: listingPageTitle({
@@ -602,8 +603,12 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const categoryName =
+        (m as unknown as Record<string, () => string>)[
+          `taxonomy.${category.canonicalSlug}`
+        ]?.() ?? category.displayName;
       const heading = m.locationCategoryPage_jobsHeading({
-        category: category.displayName,
+        category: categoryName,
         place: place.displayName,
       });
       // Hosted parity: Home > Jobs > country > … > place (linked) > category,
