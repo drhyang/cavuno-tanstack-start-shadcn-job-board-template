@@ -67,6 +67,20 @@ export const LEGAL_CONTENT = {
     'cookie-policy': cookiePolicyContent.nl,
     impressum: impressumContent.nl,
   },
+  'zh-cn': {
+    about: aboutContent.en,
+    'privacy-policy': privacyPolicyContent.en,
+    'terms-of-service': termsOfServiceContent.en,
+    'cookie-policy': cookiePolicyContent.en,
+    impressum: impressumContent.en,
+  },
+  'zh-hk': {
+    about: aboutContent.en,
+    'privacy-policy': privacyPolicyContent.en,
+    'terms-of-service': termsOfServiceContent.en,
+    'cookie-policy': cookiePolicyContent.en,
+    impressum: impressumContent.en,
+  },
 } satisfies Record<LegalLocale, Record<LegalPageType, LegalPageContent>>;
 
 /**

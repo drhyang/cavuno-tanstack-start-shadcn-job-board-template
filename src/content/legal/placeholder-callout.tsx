@@ -39,6 +39,16 @@ const CALLOUT = {
     description:
       'Dit is tijdelijke inhoud voor een vacaturesitesjabloon. Publiceer deze niet als echt beleid of als echte Over ons-pagina. Vervang de onderstaande onderdelen vóór de lancering door uw eigen tekst (en laat de juridische pagina’s juridisch beoordelen).',
   },
+  'zh-cn': {
+    title: 'Placeholder — replace before launch',
+    description:
+      'This is placeholder content for a template board. Do not ship it as a real policy or about page. Replace the sections below with your own copy (and have counsel review legal pages) before going live.',
+  },
+  'zh-hk': {
+    title: 'Placeholder — replace before launch',
+    description:
+      'This is placeholder content for a template board. Do not ship it as a real policy or about page. Replace the sections below with your own copy (and have counsel review legal pages) before going live.',
+  },
 } satisfies Record<LegalLocale, { title: string; description: string }>;
 
 const CALLOUT_LOCALES = [

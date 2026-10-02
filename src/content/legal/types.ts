@@ -9,7 +9,7 @@ export type LegalPageType =
   | 'impressum';
 
 /** Viewer chrome locales the legal scaffolds ship with. */
-export type LegalLocale = 'en' | 'de' | 'fr' | 'es' | 'pl' | 'nl';
+export type LegalLocale = 'en' | 'de' | 'fr' | 'es' | 'pl' | 'nl'| 'zh-cn'| 'zh-hk';
 
 /**
  * Application-owned legal/about page content.
