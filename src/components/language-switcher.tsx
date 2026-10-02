@@ -88,6 +88,8 @@ export const LOCALE_ENDONYMS = new Map([
   ['nl', 'Nederlands'],
   ['pt', 'Português'],
   ['pl', 'Polski'],
+  ['zh-cn', '简体中文'],
+  ['zh-hk', '繁體中文'],
 ]);
 
 export function localeEndonym(locale: string): string {
