@@ -21,9 +21,7 @@ import {
 import { ListingPagination } from '@/components/board/listing-pagination';
 import { Box } from '@/components/layout/box';
 import { Page } from '@/components/layout/page';
-import { InPlaceListingSelect } from '@/components/master-detail-link';
 import {
-  SearchResultDetail,
   SearchResultsLayout,
   SearchResultsList,
   SearchResultsToolbar,
@@ -38,7 +36,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@/components/ui/empty';
-import { useSearchSelection } from '@/hooks/use-search-selection';
 import { ADS_OFF, type BoardAdsConfig } from '@/lib/board-ads';
 import { entityCount } from '@/lib/entity-count';
 import { clampPage, listingPageHref } from '@/lib/pagination';
@@ -56,10 +53,11 @@ export function CompanySearchPage({
   markets,
   customFilters,
   onPageChange,
-  selectedCompany,
-  onSelectedCompanyReplace,
-  onSelectedCompanyPush,
-  detail,
+  // Kept for API compatibility; page now renders a single-pane layout.
+  selectedCompany: _selectedCompany,
+  onSelectedCompanyReplace: _onSelectedCompanyReplace,
+  onSelectedCompanyPush: _onSelectedCompanyPush,
+  detail: _detail,
   startAd,
   endAd,
   ads = ADS_OFF,
@@ -92,14 +90,6 @@ export function CompanySearchPage({
   const hasCustomFilters = Boolean(customFilters?.active.length);
   const hasActiveSearch = Boolean(query || breadcrumb || hasCustomFilters);
   const companyVms = companies;
-  const companySlugs = companyVms.map((company) => company.slug);
-  const selection = useSearchSelection({
-    selectedId: selectedCompany,
-    resultIds: companySlugs,
-    page,
-    onReplace: onSelectedCompanyReplace,
-    onPush: onSelectedCompanyPush,
-  });
   const locale = getLocale();
   const resultCountLabel = entityCount(count, locale, m.count_companies, {
     singular: chromeEntity().companySingular,
@@ -126,6 +116,30 @@ export function CompanySearchPage({
       ) : null}
     </div>
   );
+  const marketsSidebar =
+    markets.length > 0 ? (
+      <aside
+        aria-label={m.companiesIndex_browseByMarketHeading()}
+        className="hidden md:block"
+      >
+        <div className="space-y-3">
+          <h2 className="text-sm font-semibold">
+            {m.companiesIndex_browseByMarketHeading()}
+          </h2>
+          <div className="flex flex-wrap gap-1.5">
+            {markets.map((market) => (
+              <Badge
+                key={market.slug}
+                variant="outline"
+                render={<Link to={companyMarketPath(market.slug)} />}
+              >
+                {market.name}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </aside>
+    ) : null;
   return (
     <Page width="wide" fill>
       <main
@@ -186,31 +200,23 @@ export function CompanySearchPage({
             />
           ) : (
             <SearchResultsLayout
+              reverse
               startAd={rails.startAd}
               endAd={rails.endAd}
               list={
                 <SearchResultsList
-                  ref={selection.listRef}
                   label={m.companySearch_resultsRegionLabel()}
                   scrollRestorationId="companies-search-results"
                 >
                   <div className="space-y-4">{resultsBar}</div>
 
-                  <InPlaceListingSelect onSelect={selection.onResultActivate}>
-                    <ListingAdResults ads={ads}>
-                      {companyVms.map((vm, index) => {
-                        const companySlug = companySlugs[index]!;
-                        return (
-                          <div key={vm.id} data-result-id={companySlug}>
-                            <CompanySearchResult
-                              vm={vm}
-                              selected={companySlug === selection.selectedId}
-                            />
-                          </div>
-                        );
-                      })}
-                    </ListingAdResults>
-                  </InPlaceListingSelect>
+                  <ListingAdResults ads={ads}>
+                    {companyVms.map((vm) => (
+                      <div key={vm.id}>
+                        <CompanySearchResult vm={vm} />
+                      </div>
+                    ))}
+                  </ListingAdResults>
 
                   <ListingPagination
                     compact
@@ -250,15 +256,7 @@ export function CompanySearchPage({
                   ) : null}
                 </SearchResultsList>
               }
-              detail={
-                <SearchResultDetail
-                  ref={selection.detailRef}
-                  label={m.companySearch_selectedCompanyRegionLabel()}
-                  scrollRestorationId="companies-selected-detail"
-                >
-                  {detail}
-                </SearchResultDetail>
-              }
+              detail={marketsSidebar}
             />
           )}
         </div>
