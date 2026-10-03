@@ -47,6 +47,7 @@ import {
 } from '@/lib/site-chrome';
 import { cn } from '@/lib/utils';
 import type { BoardUser, CompanyMembership } from '@cavuno/board';
+import { LanguageSwitcher } from '@/components/language-switcher';
 const navItemClassName =
   'relative flex min-w-16 flex-col items-center justify-center gap-0.5 border-b-2 border-transparent px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50';
 
@@ -360,12 +361,13 @@ export default function Header({
           {signInLabel}
         </Link>
       ) : null}
-      {postJob}
       {signUpHref ? (
         <Link to={signUpHref} className={buttonVariants({ size: 'sm' })}>
           {signUpLabel}
         </Link>
       ) : null}
+      <LanguageSwitcher />
+      {postJob}
     </>
   );
 
