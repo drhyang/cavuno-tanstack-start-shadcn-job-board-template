@@ -68,18 +68,18 @@ export const LEGAL_CONTENT = {
     impressum: impressumContent.nl,
   },
   'zh-cn': {
-    about: aboutContent.en,
-    'privacy-policy': privacyPolicyContent.en,
-    'terms-of-service': termsOfServiceContent.en,
-    'cookie-policy': cookiePolicyContent.en,
-    impressum: impressumContent.en,
+    about: aboutContent['zh-cn'],
+    'privacy-policy': privacyPolicyContent['zh-cn'],
+    'terms-of-service': termsOfServiceContent['zh-cn'],
+    'cookie-policy': cookiePolicyContent['zh-cn'],
+    impressum: impressumContent['zh-cn'],
   },
   'zh-hk': {
-    about: aboutContent.en,
-    'privacy-policy': privacyPolicyContent.en,
-    'terms-of-service': termsOfServiceContent.en,
-    'cookie-policy': cookiePolicyContent.en,
-    impressum: impressumContent.en,
+    about: aboutContent['zh-hk'],
+    'privacy-policy': privacyPolicyContent['zh-hk'],
+    'terms-of-service': termsOfServiceContent['zh-hk'],
+    'cookie-policy': cookiePolicyContent['zh-hk'],
+    impressum: impressumContent['zh-hk'],
   },
 } satisfies Record<LegalLocale, Record<LegalPageType, LegalPageContent>>;
 
@@ -108,6 +108,8 @@ const LEGAL_LOCALES = [
   'es',
   'pl',
   'nl',
+  'zh-cn',
+  'zh-hk',
 ] as const satisfies readonly LegalLocale[];
 
 function resolveLegalLocale(locale: string): LegalLocale {
