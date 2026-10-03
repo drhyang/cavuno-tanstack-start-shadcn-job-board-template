@@ -248,7 +248,7 @@ export default function Header({
   const signUpHref = resolveSignupDestination(features);
   const employerPost = employerPostDestination(user, employerCompanies);
   const postJobClassName = cn(
-    buttonVariants({ variant: 'outline', size: 'sm' }),
+    buttonVariants({ variant: 'default', size: 'sm' }),
     'hidden xl:inline-flex',
   );
   const postJob =
@@ -362,7 +362,7 @@ export default function Header({
         </Link>
       ) : null}
       {signUpHref ? (
-        <Link to={signUpHref} className={buttonVariants({ size: 'sm' })}>
+        <Link to={signUpHref} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>
           {signUpLabel}
         </Link>
       ) : null}
