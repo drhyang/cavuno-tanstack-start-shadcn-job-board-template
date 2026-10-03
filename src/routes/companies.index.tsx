@@ -18,7 +18,7 @@ import {
 import { ProgrammaticCompaniesView } from '@/routes/-programmatic-companies-view';
 
 export const Route = createFileRoute('/companies/')({
-  staticData: { fullBleed: true, ownsMain: true, fillsViewport: true },
+  staticData: { fullBleed: true, ownsMain: true },
   validateSearch: parseCompaniesIndexSearch,
   loaderDeps: ({ search }) => companiesIndexLoaderDeps(search),
   loader: createCompaniesIndexLoader(),
