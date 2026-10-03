@@ -14,7 +14,6 @@ export type SearchResultsLayoutProps = Omit<
 > & {
   list: ReactNode;
   detail: ReactNode;
-  reverse?: boolean;
   startAd?: ReactElement<AdRailProps>;
   endAd?: ReactElement<AdRailProps>;
 };
@@ -71,7 +70,6 @@ export function SearchResultsToolbar({
 export function SearchResultsLayout({
   list,
   detail,
-  reverse = false,
   startAd,
   endAd,
   className,
@@ -96,10 +94,7 @@ export function SearchResultsLayout({
       <div
         data-slot="search-results-core"
         className={cn(
-          'grid w-full max-w-full min-w-0 grid-cols-1 md:h-full md:min-h-0',
-          reverse
-            ? 'md:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_24rem] md:gap-x-6'
-            : 'md:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[24rem_minmax(0,1fr)]',
+          'grid w-full max-w-full min-w-0 grid-cols-1 md:h-full md:min-h-0 md:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[24rem_minmax(0,1fr)]',
           hasStartAd && 'min-[1600px]:col-start-2',
         )}
       >
