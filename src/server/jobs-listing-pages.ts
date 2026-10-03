@@ -68,6 +68,8 @@ import type {
   TaxonomyResolution,
 } from '@cavuno/board';
 
+import { zhLocationName } from './location-zh';
+
 type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 type JsonObject = { [key: string]: JsonValue };
@@ -506,7 +508,8 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
       const list = listResult.value;
       const relatedSearches =
         'relatedSearches' in list ? list.relatedSearches : undefined;
-      const heading = m.locationPage_jobsHeading({ place: place.displayName });
+      const metaPlaceName = zhLocationName(place.canonicalSlug, place.displayName);
+      const heading = m.locationPage_jobsHeading({ place: metaPlaceName });
       // Hosted parity: Home > Jobs > country > … > current place (terminal).
       const crumbs = breadcrumbsCopy();
       const breadcrumbTrail = [
@@ -607,9 +610,10 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
         (m as unknown as Record<string, () => string>)[
           `taxonomy.${category.canonicalSlug}`
         ]?.() ?? category.displayName;
+      const metaPlaceName = zhLocationName(place.canonicalSlug, place.displayName);
       const heading = m.locationCategoryPage_jobsHeading({
         category: categoryName,
-        place: place.displayName,
+        place: metaPlaceName,
       });
       // Hosted parity: Home > Jobs > country > … > place (linked) > category,
       // with facet-relaxation links — ancestors keep the category scope (same
@@ -713,9 +717,10 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const metaPlaceName = zhLocationName(place.canonicalSlug, place.displayName);
       const heading = m.locationSkillPage_jobsHeading({
         skill: skill.displayName,
-        place: place.displayName,
+        place: metaPlaceName,
       });
       // Hosted parity: Home > Jobs > country > … > place (linked) > skill,
       // with the same facet-relaxation trail — ancestors keep the skill
