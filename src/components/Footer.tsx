@@ -11,7 +11,6 @@ import {
   LinkedInIcon,
   XIcon,
 } from '@/components/brand-icons';
-import { LanguageSwitcher } from '@/components/language-switcher';
 import { Box } from '@/components/layout/box';
 import { Container } from '@/components/layout/container';
 import { Badge } from '@/components/ui/badge';
@@ -299,7 +298,6 @@ export default function Footer({
     { href: '/jobs/locations', label: copy.footer.locationsLabel },
     { href: '/salaries', label: copy.footer.salariesLabel },
     // sitemap.xml is a server route, not a router page → plain anchor
-    { href: '/sitemap.xml', label: copy.footer.sitemapLabel, external: true },
   ];
 
   // ── About ──
@@ -473,7 +471,6 @@ export default function Footer({
                 ))}
                 {cookiePreferencesAction}
               </nav>
-              <LanguageSwitcher />
             </div>
           </div>
         </Box>
