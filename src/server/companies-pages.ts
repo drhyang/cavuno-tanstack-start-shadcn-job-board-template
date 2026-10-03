@@ -1,4 +1,5 @@
 import { isBoardApiError, isNotFound } from '@cavuno/board';
+import { zhCompanyName, zhCompanySummary } from './company-zh';
 /**
  * Route-family-owned server boundary for companies listing + profile pages.
  *
@@ -388,28 +389,33 @@ export const getCompanyProfilePage = createServerFn({ method: 'GET' })
       // Meta is summary + open-role count — never strip full HTML description.
       const openCount = company.publishedJobCount ?? jobs.count ?? 0;
       const countLabel = new Intl.NumberFormat(getLocale()).format(openCount);
-      const summary = company.summary?.trim() || null;
-      const description = summary
+      // Meta-only localization: zh-CN / zh-HK visitors get Chinese names and
+      // summaries in <title> and <meta description> for SEO. The page body,
+      // cards, breadcrumb, and JSON-LD keep the API's original English copy,
+      // so we compute these alongside `company` rather than replacing it.
+      const metaName = zhCompanyName(company.slug, company.name);
+      const metaSummary = zhCompanySummary(company.slug, company.summary);
+      const description = metaSummary
         ? m.companyDetail_metaDescriptionWithSummary({
-            summary,
+            summary: metaSummary,
             count: countLabel,
             boardName: seo.boardName,
           })
         : openCount > 0
           ? m.companyDetail_metaDescriptionWithCount({
-              name: company.name,
+              name: metaName,
               boardName: seo.boardName,
               count: countLabel,
             })
           : m.companyDetail_metaDescriptionFallback({
-              name: company.name,
+              name: metaName,
               board: seo.boardName,
             });
       const canonical =
         company.links.public ?? selfUrl(seo.origin, companyPath(company.slug));
       const head = {
         meta: [
-          { title: headTitle(seo.boardName, company.name) },
+          { title: headTitle(seo.boardName, metaName) },
           { name: 'description', content: description },
         ],
         links: [{ rel: 'canonical', href: canonical }],
@@ -429,7 +435,7 @@ export const getCompanyProfilePage = createServerFn({ method: 'GET' })
         identifier: company.id,
         url: website ?? canonical,
       };
-      if (summary) mainEntity.description = summary;
+      if (metaSummary) mainEntity.description = metaSummary;
       if (company.logoUrl) mainEntity.logo = company.logoUrl;
       if (website) mainEntity.sameAs = [website];
 
