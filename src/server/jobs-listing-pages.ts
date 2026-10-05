@@ -541,7 +541,7 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
       );
       return {
         kind: 'ok' as const,
-        place,
+        place: { ...place, displayName: metaPlaceName },
         list,
         seo,
         relatedSearches,
