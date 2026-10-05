@@ -38,8 +38,6 @@ import { getDataSource } from './data-source.server';
 import type { EmployerOfferGate } from './board-context-cache-core';
 import type { DataSource } from './data-source';
 
-import { getLocale } from '../paraglide/runtime';
-
 type BoardContext = Awaited<ReturnType<ReturnType<typeof getBoard>['context']>>;
 
 /** Upper bound on how long an isolate may serve a flipped operator flag. */
@@ -62,20 +60,13 @@ const cache = createBoardContextCache<BoardContext>(
   CONTEXT_TTL_MS,
 );
 
-export async function readBoardContext() {
-  const context = await cache.readBoardContext();
-  return { ...context, language: getLocale() as string };
-}
+export const readBoardContext = cache.readBoardContext;
 
-export async function refreshBoardContext() {
-  const context = await cache.refreshBoardContext();
-  return { ...context, language: getLocale() as string };
-}
+/** Bypass isolate and shared edge caches for operator kill switches. */
+export const refreshBoardContext = cache.refreshBoardContext;
 
-export async function readStaleBoardContext() {
-  const context = await cache.readStaleBoardContext();
-  return context ? { ...context, language: getLocale() as string } : context;
-}
+/** Previous memo for fail-closed recovery after a failed freshness probe. */
+export const readStaleBoardContext = cache.readStaleBoardContext;
 
 /** Test seam: drop everything held for the current or all data sources. */
 export function resetBoardContextCache(source?: DataSource): void {
