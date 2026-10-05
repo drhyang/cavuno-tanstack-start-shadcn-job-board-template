@@ -125,8 +125,8 @@ export const getFreshBoardContext = createServerFn({ method: 'GET' }).handler(
 /** Last successful context, only for a fail-closed shell after fresh failure. */
 export const getStaleBoardContext = createServerFn({ method: 'GET' }).handler(
   async () => {
-    const stale = await readStaleBoardContext();
-    return resolveBoardContext(stale ?? (await readBoardContext()));
+    const stale = readStaleBoardContext();
+    return resolveBoardContext(await (stale ?? readBoardContext()));
   },
 );
 
@@ -390,9 +390,19 @@ export const resendJobAlertConfirmation = createServerFn({ method: 'POST' })
   .validator((input: { email: string }) => input)
   .handler(({ data }) => getBoard().jobAlerts.resendConfirmation(data));
 
+// A valid token whose subscription has no alerts left reads as 404 (the API
+// only finds a subscription through its alerts), so deleting the last alert
+// lands here. Return null for that case; a bad token still throws.
 export const getJobAlertManageState = createServerFn({ method: 'GET' })
   .validator((input: JobAlertManageQuery) => input)
-  .handler(({ data }) => getBoard().jobAlerts.manage(data));
+  .handler(async ({ data }) => {
+    try {
+      return await getBoard().jobAlerts.manage(data);
+    } catch (error) {
+      if (isNotFound(error)) return null;
+      throw error;
+    }
+  });
 
 export const unsubscribeJobAlert = createServerFn({ method: 'POST' })
   .validator((input: JobAlertManageTokenInput) => input)
