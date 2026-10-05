@@ -20,9 +20,11 @@ type Table = Record<string, string>;
 const ZH_CN = zhCnData as Table;
 const ZH_HK = zhHkData as Table;
 
-function pickTable(): Table {
+function pickTable(): Table | null {
   const locale: string = getLocale();
-  return locale === 'zh-hk' ? ZH_HK : ZH_CN;
+  if (locale === 'zh-cn') return ZH_CN;
+  if (locale === 'zh-hk') return ZH_HK;
+  return null;
 }
 
 /** Chinese display name for a location slug, or `fallback` if none exists. */
@@ -31,5 +33,7 @@ export function zhLocationName(
   fallback: string,
 ): string {
   if (!slug) return fallback;
-  return pickTable()[slug] ?? fallback;
+  const table = pickTable();
+  if (!table) return fallback;
+  return table[slug] ?? fallback;
 }

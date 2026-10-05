@@ -27,14 +27,10 @@ const ZH_CN = zhCnData as Table;
 const ZH_HK = zhHkData as Table;
 
 function pickTable(): Table {
-  // Paraglide's static type only knows the locales registered in
-  // project.inlang/settings.json; the URL strategy can surface `zh-hk` at
-  // runtime, so widen the type before comparing.
   const locale: string = getLocale();
   return locale === 'zh-hk' ? ZH_HK : ZH_CN;
 }
 
-/** Chinese display name for a company slug, or `fallback` if none exists. */
 export function zhCompanyName(
   slug: string | null | undefined,
   fallback: string,
@@ -43,7 +39,6 @@ export function zhCompanyName(
   return pickTable()[slug]?.name ?? fallback;
 }
 
-/** Chinese summary for a company slug, or `fallback` if none exists. */
 export function zhCompanySummary(
   slug: string | null | undefined,
   fallback: string | null | undefined,
