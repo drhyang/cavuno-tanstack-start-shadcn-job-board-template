@@ -1,5 +1,5 @@
 {
-  "china": "中国",
+  "china": "中国内地",
   "beijing-china": "中国北京",
   "tianjin-china": "中国天津",
   "hebei-china": "中国河北",
@@ -36,5 +36,8 @@
   "hong-kong-hong-kong-hong-kong": "中国香港",
   "hong-kong-hong-kong": "中国香港",
   "hong-kong": "中国香港",
-  "macao-sar-china": "中国澳门"
+  "macao-sar-china": "中国澳门",
+  "macau-macau-macao": "中国澳门",
+  "macau-macau": "中国澳门",
+  "macau": "中国澳门"
 }
