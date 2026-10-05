@@ -9,18 +9,10 @@
  * description is still the English platform seed is not operator copy, so it
  * keeps its translation on board-language pages too.
  */
-import { m } from '../paraglide/messages';
-import {
-  baseLocale,
-  getLocale,
-  isLocale,
-  type Locale,
-} from '../paraglide/runtime';
+import { m } from "../paraglide/messages";
+import { baseLocale, getLocale, isLocale, type Locale } from "../paraglide/runtime";
 
-type MessageFn = (
-  inputs?: Record<string, never>,
-  options?: { locale?: Locale },
-) => string;
+type MessageFn = (inputs?: Record<string, never>, options?: { locale?: Locale }) => string;
 
 interface PlanLabelEntry {
   name: MessageFn;
@@ -31,69 +23,85 @@ interface PlanLabelEntry {
 
 const PLAN_LABELS = new Map<string, PlanLabelEntry>([
   [
-    'Free',
+    "Free",
     {
       name: m.plan_free_name,
       description: m.plan_free_description,
-      seedDescription: 'A 30 day standard listing',
+      seedDescription: "A 30 day standard listing",
     },
   ],
   [
-    'Featured listing',
+    "Featured listing",
     {
       name: m.plan_featuredListing_name,
       description: m.plan_featuredListing_description,
       seedDescription:
-        'A 30 day featured listing — pinned to the top of the board and highlighted in the weekly alert digest.',
+        "A 30 day featured listing — pinned to the top of the board and highlighted in the weekly alert digest.",
     },
   ],
   [
-    'Talent access — monthly',
+    "Talent access — monthly",
     {
       name: m.plan_talentAccessMonthly_name,
       description: m.plan_talentAccessMonthly_description,
       seedDescription:
-        'Search the talent directory and unlock candidate profiles. 25 profile unlocks and 10 outreach messages every month.',
+        "Search the talent directory and unlock candidate profiles. 25 profile unlocks and 10 outreach messages every month.",
     },
   ],
   [
-    '1 Standard Post',
+    "oneStandardPost",
     {
-      name: m.plan_standardPost_name,
-      description: m.plan_standardPost_description,
-      seedDescription: '1 Standard Job Listing',
+      name: m.plan_oneStandardPost_name,
+      description: m.plan_oneStandardPost_description,
+      seedDescription: "1 Standard Job Listing",
     },
   ],
   [
-    '1 Featured Post',
+    "oneFeaturedPost",
     {
-      name: m.plan_featuredPost_name,
-      description: m.plan_featuredPost_description,
-      seedDescription: '1 Featured Job Listing',
+      name: m.plan_oneFeaturedPost_name,
+      description: m.plan_oneFeaturedPost_description,
+      seedDescription: "1 Featured Job Listing",
     },
   ],
   [
-    '6 Standard Posts',
+    "fiveStandardPosts",
     {
-      name: m.plan_standardPosts_name,
-      description: m.plan_standardPosts_description,
-      seedDescription: '6 Standard Job Listings',
+      name: m.plan_sixStandardPosts_name,
+      description: m.plan_sixStandardPosts_description,
+      seedDescription: "6 Standard Job Listings",
     },
   ],
   [
-    '6 Featured Posts',
+    "fiveFeaturedPosts",
     {
-      name: m.plan_featuredPosts_name,
-      description: m.plan_featuredPosts_description,
-      seedDescription: '6 Featured Job Listings',
+      name: m.plan_sixFeaturedPosts_name,
+      description: m.plan_sixFeaturedPosts_description,
+      seedDescription: "6 Featured Job Listings",
     },
   ],
   [
-    'Custom Job Posting',
+    "sixStandardPosts",
     {
-      name: m.plan_customJobPosting_name,
-      description: m.plan_customJobPosting_description,
-      seedDescription: 'Need more job posting slots? Contact us for a tailored package.',
+      name: m.plan_sixStandardPosts_name,
+      description: m.plan_sixStandardPosts_description,
+      seedDescription: "6 Standard Job Listings",
+    },
+  ],
+  [
+    "sixFeaturedPosts",
+    {
+      name: m.plan_sixFeaturedPosts_name,
+      description: m.plan_sixFeaturedPosts_description,
+      seedDescription: "6 Featured Job Listings",
+    },
+  ],
+  [
+    "customPlan",
+    {
+      name: m.plan_customPlan_name,
+      description: m.plan_customPlan_description,
+      seedDescription: "Need more job posting slots? Contact us for a tailored package.",
     },
   ],
 ]);
@@ -133,15 +141,12 @@ interface PlanFacts {
  *    plans still get a translated baseline;
  * 3. the wire's freeform authoring description, board-language.
  */
-export function planDescription(
-  plan: PlanFacts,
-  language?: string,
-): string | null {
+export function planDescription(plan: PlanFacts, language?: string): string | null {
   const facts = plan.featureSummary;
   if (
-    plan.purpose === 'talent_access' ||
-    plan.purpose === 'job_seeker' ||
-    plan.purpose === 'membership' ||
+    plan.purpose === "talent_access" ||
+    plan.purpose === "job_seeker" ||
+    plan.purpose === "membership" ||
     (facts && facts.maxActiveJobs === 0)
   ) {
     return plan.description ?? null;
@@ -159,7 +164,7 @@ export function planDescription(
   if (facts && facts.maxActiveJobs > 0 && facts.durationDays > 0) {
     const listing =
       (!Array.isArray(plan.features) &&
-        plan.features?.['jobs.featured_slots']?.value === 'unlimited') ||
+        plan.features?.["jobs.featured_slots"]?.value === "unlimited") ||
       facts.featuredSlots > 0
         ? m.planComposed_featuredListing({ days: facts.durationDays }, locale)
         : m.planComposed_standardListing({ days: facts.durationDays }, locale);
