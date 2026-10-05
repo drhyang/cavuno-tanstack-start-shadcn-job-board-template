@@ -13,32 +13,30 @@
  * Head + breadcrumb JSON-LD are computed in getJobsLocationsIndexPage so
  * `@cavuno/board/seo` and breadcrumbsCopy stay out of the universal entry.
  */
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { MapPin } from 'lucide-react';
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { MapPin } from "lucide-react";
 
-import { jsonLdHeadScripts } from '../components/json-ld';
-import { m } from '../paraglide/messages';
-import { getLocale } from '../paraglide/runtime';
-import { getJobsLocationsIndexPage } from '../server/jobs-listing-pages';
+import { jsonLdHeadScripts } from "../components/json-ld";
+import { m } from "../paraglide/messages";
+import { getLocale } from "../paraglide/runtime";
+import { getJobsLocationsIndexPage } from "../server/jobs-listing-pages";
 
-import { Page, PageContent, PageHeader } from '@/components/layout/page';
-import { Badge } from '@/components/ui/badge';
+import { Page, PageContent, PageHeader } from "@/components/layout/page";
+import { Badge } from "@/components/ui/badge";
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from '@/components/ui/empty';
-import type { PublicPlace } from '@cavuno/board';
+} from "@/components/ui/empty";
+import type { PublicPlace } from "@cavuno/board";
 
-export const Route = createFileRoute('/jobs/locations/')({
+export const Route = createFileRoute("/jobs/locations/")({
   staticData: { ownsMain: true },
   loader: () => getJobsLocationsIndexPage(),
   head: ({ loaderData }) =>
-    loaderData
-      ? { ...loaderData.head, scripts: jsonLdHeadScripts(loaderData.jsonLd) }
-      : {},
+    loaderData ? { ...loaderData.head, scripts: jsonLdHeadScripts(loaderData.jsonLd) } : {},
   component: LocationsIndexPage,
 });
 
@@ -60,15 +58,11 @@ function buildHierarchy(places: PublicPlace[]): PlaceNode[] {
   }
 
   const buildNode = (place: PublicPlace): PlaceNode => {
-    const children = (childrenOf.get(place.id) ?? []).sort(
-      (a, b) => b.jobCount - a.jobCount,
-    );
+    const children = (childrenOf.get(place.id) ?? []).sort((a, b) => b.jobCount - a.jobCount);
     return { place, children: children.map(buildNode) };
   };
 
-  const roots = places.filter(
-    (place) => !place.parentId || !byId.has(place.parentId),
-  );
+  const roots = places.filter((place) => !place.parentId || !byId.has(place.parentId));
   roots.sort((a, b) => b.jobCount - a.jobCount);
   return roots.map(buildNode);
 }
@@ -85,14 +79,39 @@ function PlaceTree({ nodes }: { nodes: PlaceNode[] }) {
                 params={{ location: node.place.slug }}
                 className="text-foreground hover:text-primary focus-visible:ring-ring/30 rounded-sm underline-offset-4 transition-colors hover:underline focus-visible:ring-3 focus-visible:outline-none"
               >
-                {node.place.name}
+                {node.place.slug === "china"
+                  ? "Mainland, China"
+                  : node.place.slug === "hong-kong-sar-china" ||
+                      node.place.slug === "hong-kong-hong-kong-hong-kong-sar-china" ||
+                      node.place.slug === "hong-kong-hong-kong-hong-kong" ||
+                      node.place.slug === "hong-kong-hong-kong" ||
+                      node.place.slug === "hong-kong"
+                    ? "Hong Kong, China"
+                    : node.place.slug === "macau-sar-china" ||
+                        node.place.slug === "macau-macau-macao" ||
+                        node.place.slug === "macau-macau" ||
+                        node.place.slug === "macau"
+                      ? "Macau, China"
+                      : node.place.name}
               </Link>
             ) : (
-              <span className="text-muted-foreground">{node.place.name}</span>
+              <span className="text-muted-foreground">
+                {node.place.slug === "china"
+                  ? "Mainland, China"
+                  : node.place.slug === "hong-kong-sar-china" ||
+                      node.place.slug === "hong-kong-hong-kong-hong-kong" ||
+                      node.place.slug === "hong-kong-hong-kong" ||
+                      node.place.slug === "hong-kong"
+                    ? "Hong Kong, China"
+                    : node.place.slug === "macau-sar-china" ||
+                        node.place.slug === "macau-macau-macau" ||
+                        node.place.slug === "macau-macau" ||
+                        node.place.slug === "macau"
+                      ? "Macau, China"
+                      : node.place.name}
+              </span>
             )}
-            <Badge variant="secondary">
-              {node.place.jobCount.toLocaleString(getLocale())}
-            </Badge>
+            <Badge variant="secondary">{node.place.jobCount.toLocaleString(getLocale())}</Badge>
           </div>
           {node.children.length > 0 ? (
             <div className="border-border ms-4 mt-1 border-s ps-3">
@@ -111,9 +130,7 @@ function LocationsIndexPage() {
 
   return (
     <Page width="wide">
-      <PageContent
-        header={<PageHeader title={m.jobsLocationsIndex_heading()} />}
-      >
+      <PageContent header={<PageHeader title={m.jobsLocationsIndex_heading()} />}>
         {tree.length === 0 ? (
           <Empty className="py-12">
             <EmptyHeader>
@@ -121,9 +138,7 @@ function LocationsIndexPage() {
                 <MapPin />
               </EmptyMedia>
               <EmptyTitle>{m.jobsLocationsIndex_heading()}</EmptyTitle>
-              <EmptyDescription>
-                {m.jobsLocationsIndex_emptyText()}
-              </EmptyDescription>
+              <EmptyDescription>{m.jobsLocationsIndex_emptyText()}</EmptyDescription>
             </EmptyHeader>
           </Empty>
         ) : (
