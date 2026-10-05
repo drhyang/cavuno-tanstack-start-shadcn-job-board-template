@@ -1,9 +1,19 @@
 import { describe, expect, it } from 'vitest';
 
+import { m } from '../paraglide/messages';
 import {
   employerJobStatusBadgeVariant,
+  employerJobStatusLabel,
   isEmployerJobExpired,
 } from './employer-job-labels';
+
+describe('employerJobStatusLabel', () => {
+  it('labels a job awaiting operator approval instead of throwing', () => {
+    expect(employerJobStatusLabel('pending_approval')).toBe(
+      m.employerJob_statusPendingApproval(),
+    );
+  });
+});
 
 describe('employerJobStatusBadgeVariant', () => {
   it('keeps expired visually distinct from published and draft', () => {

@@ -20,7 +20,10 @@ function installBoardAnalytics(options: { publishableKey: string }) {
 
 /**
  * Boots Cavuno Analytics once per document. Publishable key comes from
- * the public board shell (same pk_ as Board API).
+ * the public board shell (same pk_ as Board API). When the board requires
+ * cookie consent, the tracker loads only after an explicit accept. A later
+ * decline withdraws it (see CookieConsentProvider); reopening "Cookie
+ * preferences" alone does not.
  */
 export function BoardAnalyticsBoot({
   publishableKey,
@@ -32,8 +35,10 @@ export function BoardAnalyticsBoot({
   /** Test seam; runtime defaults to the current document host. */
   hostname?: string;
 }) {
-  const { required, choice } = useCookieConsent();
+  const { required, choice, markAnalyticsLoaded } = useCookieConsent();
   const entry = useRef<{ href: string; referrer: string } | null>(null);
+  // Unresolved (`undefined`) and denied/undecided are not allowed yet.
+  const allowed = !required || choice === 'accepted';
   useEffect(() => {
     if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) return;
     if (!publishableKey.startsWith('pk_')) return;
@@ -53,8 +58,10 @@ export function BoardAnalyticsBoot({
   useEffect(() => {
     if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) return;
     if (!publishableKey.startsWith('pk_')) return;
+    if (!allowed) return;
     install({ publishableKey });
-  }, [publishableKey, install, hostname]);
+    markAnalyticsLoaded();
+  }, [publishableKey, install, markAnalyticsLoaded, hostname, allowed]);
 
   return null;
 }

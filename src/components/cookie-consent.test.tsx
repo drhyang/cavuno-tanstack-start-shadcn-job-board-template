@@ -2,14 +2,16 @@
 
 import '@testing-library/jest-dom/vitest';
 import type { ReactNode } from 'react';
+import { useEffect } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 /**
  * Cookie-consent behavior: the choice is resolved client-side after mount
  * so SSR / the first render never paint the banner or footer action. After
- * mount, no cookie + required opens the banner; a saved cookie or legacy
+ * mount, no cookie + required opens the banner; a saved cookie or
  * localStorage choice closes it and shows "Cookie preferences". Accept/deny
- * persist to cookie (+ legacy localStorage); the reopener clears them.
+ * persist to cookie (+ the cross-tab localStorage mirror); the reopener
+ * clears them.
  */
 import {
   RouterProvider,
@@ -19,6 +21,7 @@ import {
   createRouter,
 } from '@tanstack/react-router';
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -47,6 +50,7 @@ const STORAGE_KEY = 'cavuno:cookie-consent';
 afterEach(() => {
   cleanup();
   localStorage.clear();
+  delete window.__cavunoAnalyticsOff;
   document.cookie = `${COOKIE_CONSENT_COOKIE}=; Path=/; Max-Age=0`;
   for (const el of document.querySelectorAll(
     'script[id^="cavuno-analytics-"]',
@@ -312,5 +316,70 @@ describe('floating-stack slot handover', () => {
       name: m.jobAlertFloatingPrompt_defaultTitle(),
     });
     expect(bannerRegion()).not.toBeInTheDocument();
+  });
+});
+
+describe('a choice made in another tab', () => {
+  /** A tracker that has run in this document. */
+  function LoadedTracker() {
+    const { markAnalyticsLoaded } = useCookieConsent();
+    useEffect(markAnalyticsLoaded, [markAnalyticsLoaded]);
+    return <p>Tracker</p>;
+  }
+
+  function renderLoaded() {
+    document.cookie = serializeCookieConsent('accepted');
+    const withdraw = vi.fn();
+    renderWithRouter(() => (
+      <CookieConsentProvider required withdrawAnalytics={withdraw}>
+        <LoadedTracker />
+        <CookiePreferencesFooterAction />
+      </CookieConsentProvider>
+    ));
+    return { withdraw };
+  }
+
+  const otherTab = (newValue: string | null) =>
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent('storage', { key: STORAGE_KEY, newValue }),
+      );
+    });
+
+  it('a decline stops Cavuno Analytics and clears cookies without a reload', async () => {
+    const { withdraw } = renderLoaded();
+    await screen.findByText('Tracker');
+    document.cookie = '_ga=GA1.1.1; Path=/';
+
+    otherTab('denied');
+
+    expect(withdraw).not.toHaveBeenCalled();
+    expect(window.__cavunoAnalyticsOff).toBe(true);
+    expect(document.cookie).not.toContain('_ga=');
+  });
+
+  it('an accept after a decline lifts the kill switch', async () => {
+    renderLoaded();
+    await screen.findByText('Tracker');
+
+    otherTab('denied');
+    otherTab('accepted');
+
+    expect(window.__cavunoAnalyticsOff).toBe(false);
+  });
+
+  it('a reopen leaves this tab alone', async () => {
+    const { withdraw } = renderLoaded();
+    await screen.findByRole('button', {
+      name: m.cookieConsent_preferencesLabel(),
+    });
+
+    otherTab(null);
+
+    expect(window.__cavunoAnalyticsOff).toBeUndefined();
+    expect(
+      screen.getByRole('button', { name: m.cookieConsent_preferencesLabel() }),
+    ).toBeInTheDocument();
+    expect(withdraw).not.toHaveBeenCalled();
   });
 });

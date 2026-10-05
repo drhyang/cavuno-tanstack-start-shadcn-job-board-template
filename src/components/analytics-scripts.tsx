@@ -28,17 +28,17 @@ interface VendorScript {
 }
 
 /**
- * Host-scoped GA4 cookies (MIG-11): never let `_ga` default to a parent
+ * Host-only GA4 cookies (MIG-11): never let `_ga` default to a parent
  * domain like `.cavuno.app` on custom board domains.
  */
 function ga4ConfigSnippet(measurementId: string): string {
   const id = JSON.stringify(measurementId);
-  const hostname = JSON.stringify(window.location.hostname);
   return (
     'window.dataLayer=window.dataLayer||[];' +
     'window.gtag=window.gtag||function(){window.dataLayer.push(arguments);};' +
     "window.gtag('js',new Date());" +
-    `window.gtag('config',${id},{cookie_domain:${hostname},cookie_flags:'SameSite=Lax;Secure'});`
+    // 'none' → host-only cookies the board can clear on withdrawal; ADR-0085 forbids Domain= writes.
+    `window.gtag('config',${id},{cookie_domain:'none',cookie_flags:'SameSite=Lax;Secure'});`
   );
 }
 
@@ -104,8 +104,10 @@ function vendorScripts(analytics: BoardAnalyticsConfig): VendorScript[] {
   return scripts;
 }
 
-function injectVendorScripts(analytics: BoardAnalyticsConfig) {
-  for (const vendor of vendorScripts(analytics)) {
+/** Returns whether any tracker is configured (and now loaded). */
+function injectVendorScripts(analytics: BoardAnalyticsConfig): boolean {
+  const vendors = vendorScripts(analytics);
+  for (const vendor of vendors) {
     const inlineId = `cavuno-analytics-${vendor.key}`;
     const loaderId = `cavuno-analytics-${vendor.key}-loader`;
     // DOM-presence guard (not module state) keeps injection idempotent
@@ -129,14 +131,18 @@ function injectVendorScripts(analytics: BoardAnalyticsConfig) {
   }
   // Inline stubs (Meta/LinkedIn) may already be callable before loaders finish.
   flushBoardPixelQueue();
+  return vendors.length > 0;
 }
 
 /**
  * Injects the board's configured trackers (GTM, GA4, Meta Pixel, LinkedIn
  * Insight) client-side. When the board requires cookie consent, injection
  * waits for an explicit accept — a deny (or no choice yet) loads nothing.
- * Scripts already loaded in this document stay until the next navigation;
- * a later revocation applies from the next page load.
+ * Loaded scripts cannot be unloaded, so a later decline withdraws them
+ * (see CookieConsentProvider): their first-party cookies are cleared and the
+ * page reloads once without them (after a decline in another tab, on the
+ * next navigation). Reopening "Cookie preferences" alone
+ * leaves them running.
  */
 export function AnalyticsScripts({
   analytics,
@@ -148,16 +154,16 @@ export function AnalyticsScripts({
   /** Test seam; runtime defaults to the current document host. */
   hostname?: string;
 }) {
-  const { required, choice } = useCookieConsent();
+  const { required, choice, markAnalyticsLoaded } = useCookieConsent();
   // Unresolved (`undefined`) and denied/undecided are not allowed yet.
   const allowed = !required || choice === 'accepted';
 
   useEffect(() => {
     if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) return;
     if (!allowed) return;
-    injectVendorScripts(analytics);
+    if (injectVendorScripts(analytics)) markAnalyticsLoaded();
     void reportWebVitals();
-  }, [allowed, analytics, hostname, reportWebVitals]);
+  }, [allowed, analytics, hostname, reportWebVitals, markAnalyticsLoaded]);
 
   return null;
 }

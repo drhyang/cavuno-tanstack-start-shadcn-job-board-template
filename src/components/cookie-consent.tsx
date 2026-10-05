@@ -2,9 +2,11 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react';
@@ -25,6 +27,10 @@ import {
 } from '@/components/ui/card';
 import { footerCopy } from '@/copy-groups/footer';
 import {
+  clearAnalyticsCookies,
+  withdrawAnalytics as withdrawLoadedAnalytics,
+} from '@/lib/analytics-withdrawal';
+import {
   clearCookieConsent,
   parseCookieConsent,
   serializeCookieConsent,
@@ -32,10 +38,21 @@ import {
 } from '@/lib/cookie-consent';
 import { chromeCookieConsent } from '@/lib/site-chrome';
 
-/** Legacy localStorage key — migrated once to the consent cookie on mount. */
+/**
+ * Cross-tab mirror of the choice: its `storage` event tells other tabs. The
+ * consent cookie is the source of truth (a pre-cookie value found here is
+ * migrated to the cookie on mount).
+ */
 const STORAGE_KEY = 'cavuno:cookie-consent';
 
 export type { CookieConsentChoice };
+
+declare global {
+  interface Window {
+    /** Cavuno tracker kill switch: `metrics.js` sends nothing while true. */
+    __cavunoAnalyticsOff?: boolean;
+  }
+}
 
 interface CookieConsentState {
   /** The board's `analytics.cookieConsentRequired` flag. */
@@ -49,8 +66,16 @@ interface CookieConsentState {
   bannerOpen: boolean;
   accept: () => void;
   deny: () => void;
-  /** Clear the saved choice and reopen the banner ("Cookie preferences"). */
+  /**
+   * Reopen the banner ("Cookie preferences"). An earlier accept stays in
+   * force — loaded analytics keep running — until the visitor declines.
+   */
   reopenBanner: () => void;
+  /**
+   * Analytics loaders call this once they have run in this document, so a
+   * later decline knows there is something to withdraw.
+   */
+  markAnalyticsLoaded: () => void;
 }
 
 /**
@@ -65,6 +90,7 @@ const CookieConsentContext = createContext<CookieConsentState>({
   accept: () => {},
   deny: () => {},
   reopenBanner: () => {},
+  markAnalyticsLoaded: () => {},
 });
 
 export function useCookieConsent(): CookieConsentState {
@@ -98,19 +124,35 @@ function clearPersistedChoice() {
  * post-hydration pop-in is accepted and standard for consent UIs. The
  * public document can then be edge-cached without varying on the cookie.
  *
- * On mount: `document.cookie` via `parseCookieConsent`, then the legacy
- * localStorage key, else `null` (undecided).
+ * On mount: `document.cookie` via `parseCookieConsent`, then the
+ * localStorage mirror (migrated to the cookie), else `null` (undecided).
  */
 export function CookieConsentProvider({
   required,
+  withdrawAnalytics = withdrawLoadedAnalytics,
   children,
 }: {
   required: boolean;
+  /** Test seam; runtime clears analytics cookies and reloads. */
+  withdrawAnalytics?: () => void;
   children: ReactNode;
 }) {
   const [choice, setChoice] = useState<CookieConsentChoice | null | undefined>(
     undefined,
   );
+  // Whether any tracker (Cavuno Analytics or a third-party tag) has run in
+  // this document. Loaded trackers cannot be unloaded, so a decline after
+  // one ran withdraws: clear their cookies and reload without them.
+  const analyticsLoaded = useRef(false);
+  const markAnalyticsLoaded = useCallback(() => {
+    analyticsLoaded.current = true;
+  }, []);
+  // Stop trackers this document loaded; the choice is already persisted.
+  const withdrawIfLoaded = useCallback(() => {
+    if (!analyticsLoaded.current) return;
+    analyticsLoaded.current = false;
+    withdrawAnalytics();
+  }, [withdrawAnalytics]);
 
   useEffect(() => {
     const fromCookie = parseCookieConsent(document.cookie);
@@ -131,6 +173,38 @@ export function CookieConsentProvider({
     setChoice(null);
   }, []);
 
+  // A choice made in another tab applies here too. On a decline there,
+  // Cavuno Analytics in this tab stops at once (kill switch, lifted again
+  // by an accept) and the
+  // analytics cookies are cleared. Third-party tags already loaded in this
+  // tab keep running until its next full page load: no reload, so nothing
+  // the visitor typed is lost. (`null` is a reopen elsewhere: the earlier
+  // choice stands here.)
+  useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY) return;
+      if (event.newValue === 'accepted') {
+        window.__cavunoAnalyticsOff = false;
+        setChoice('accepted');
+      }
+      if (event.newValue === 'denied') {
+        setChoice('denied');
+        window.__cavunoAnalyticsOff = true;
+        clearAnalyticsCookies();
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
+  // A declined visitor carries no analytics cookies. Swept on every load,
+  // not only at withdrawal: trackers rewrite some cookies as the withdrawn
+  // document unloads (GA4's `_ga_<ID>` session cookie on pagehide), so
+  // the reloaded document finishes the job.
+  useEffect(() => {
+    if (required && choice === 'denied') clearAnalyticsCookies();
+  }, [required, choice]);
+
   const value = useMemo<CookieConsentState>(
     () => ({
       required,
@@ -138,19 +212,22 @@ export function CookieConsentProvider({
       // Undetermined (`undefined`) must match SSR: no banner until mount.
       bannerOpen: required && choice === null,
       accept: () => {
+        window.__cavunoAnalyticsOff = false;
         persistChoice('accepted');
         setChoice('accepted');
       },
       deny: () => {
         persistChoice('denied');
         setChoice('denied');
+        withdrawIfLoaded();
       },
       reopenBanner: () => {
         clearPersistedChoice();
         setChoice(null);
       },
+      markAnalyticsLoaded,
     }),
-    [required, choice],
+    [required, choice, withdrawIfLoaded, markAnalyticsLoaded],
   );
 
   return (
@@ -225,7 +302,8 @@ export function CookieConsentBanner() {
 /**
  * The footer's "Cookie preferences" entry — rendered only after a choice
  * exists to revisit. Clears the saved choice, which immediately reopens the
- * banner. Styled to sit among the footer's legal links.
+ * banner; trackers an earlier accept loaded keep running until a decline.
+ * Styled to sit among the footer's legal links.
  */
 export function CookiePreferencesFooterAction() {
   const { required, choice, reopenBanner } = useCookieConsent();
