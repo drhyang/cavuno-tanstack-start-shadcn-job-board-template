@@ -1502,7 +1502,7 @@
   "locationCombobox_placeholderText": "地点…",
   "locationCombobox_searchingText": "Searching…",
   "locationField_pickRequiredError": "Choose a location from the suggestions.",
-  "locationPage_jobsHeading": "{place}职位",
+  "locationPage_jobsHeading": "{place} Jobs",
   "locationPage_notFoundText": "Location not found.",
   "locationSkillPage_jobsHeading": "{place}{skill}职位",
   "logoUpload_changeLogoLabel": "Change logo",

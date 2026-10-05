@@ -26,9 +26,15 @@ type Table = Record<string, Entry>;
 const ZH_CN = zhCnData as Table;
 const ZH_HK = zhHkData as Table;
 
-function pickTable(): Table {
+/**
+ * Pick the zh table for the active locale, or `null` on any other locale
+ * (including the base English) so callers fall back to the API's English copy.
+ */
+function pickTable(): Table | null {
   const locale: string = getLocale();
-  return locale === 'zh-hk' ? ZH_HK : ZH_CN;
+  if (locale === 'zh-cn') return ZH_CN;
+  if (locale === 'zh-hk') return ZH_HK;
+  return null;
 }
 
 export function zhCompanyName(
@@ -36,7 +42,9 @@ export function zhCompanyName(
   fallback: string,
 ): string {
   if (!slug) return fallback;
-  return pickTable()[slug]?.name ?? fallback;
+  const table = pickTable();
+  if (!table) return fallback;
+  return table[slug]?.name ?? fallback;
 }
 
 export function zhCompanySummary(
@@ -44,5 +52,7 @@ export function zhCompanySummary(
   fallback: string | null | undefined,
 ): string | null {
   if (!slug) return fallback ?? null;
-  return pickTable()[slug]?.summary ?? fallback ?? null;
+  const table = pickTable();
+  if (!table) return fallback ?? null;
+  return table[slug]?.summary ?? fallback ?? null;
 }
