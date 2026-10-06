@@ -13,9 +13,29 @@ import {
   searchQueryString,
   searchString,
   type UrlSearchInput,
+  type UrlSearchValue,
 } from '@/lib/pagination';
 
-export interface JobsSearch extends ListingFilters {
+/**
+ * The SDK's listing filters plus the board's custom employment type, which
+ * the SDK vocabulary does not carry. The URL holds its key as
+ * `customEmploymentType=<key>`, next to the built-in `employmentType`, and
+ * it reaches the API as `customEmploymentType: [key]`.
+ */
+export type JobsFilters = ListingFilters & { customEmploymentType?: string };
+
+/** Wire max length of a custom employment type key. */
+const CUSTOM_EMPLOYMENT_TYPE_KEY_MAX = 100;
+
+/** A custom employment type key from a URL; unknown keys simply match nothing. */
+export function parseCustomEmploymentType(
+  raw: UrlSearchValue,
+): string | undefined {
+  const key = searchString(raw)?.trim();
+  return key && key.length <= CUSTOM_EMPLOYMENT_TYPE_KEY_MAX ? key : undefined;
+}
+
+export interface JobsSearch extends JobsFilters {
   /** 1-based page; page 1 drops from the URL. */
   page?: number;
   /** Desktop detail-pane selection; the value is the canonical job slug. */
@@ -31,6 +51,9 @@ export function parseJobsSearch(search: UrlSearchInput): JobsSearch {
 
   return {
     ...parseListingFilters(listingSearch),
+    customEmploymentType: parseCustomEmploymentType(
+      search.customEmploymentType,
+    ),
     page: pageSearchValue(parsePageParam(search.page)),
     selectedJob,
   };
