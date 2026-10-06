@@ -9,6 +9,7 @@ import {
   createCompanyJobsLoader,
 } from './-employers.company-jobs';
 
+import { requestToaster } from '@/lib/deferred-toaster';
 import { headTitle } from '@/lib/page-title';
 import type { UrlSearchInput } from '@/lib/pagination';
 
@@ -47,8 +48,19 @@ function CompanyJobsPage() {
             to: '/employers/companies/$slug/jobs/$jobId/edit',
             params: { slug, jobId },
           }),
+        dismissJoined: (slug) =>
+          router.navigate({
+            to: '/employers/companies/$slug',
+            params: { slug },
+            search: ({ joined: _joined, ...rest }) => rest,
+            replace: true,
+          }),
         toastError: toast.error,
-        toastSuccess: toast.success,
+        toastSuccess: (message) => {
+          // The joined greeting fires on page load, before any click.
+          requestToaster();
+          toast.success(message);
+        },
       }}
     />
   );
