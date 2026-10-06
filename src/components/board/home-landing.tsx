@@ -142,7 +142,6 @@ function HiringIndex({
         />
       }
     >
-      <PreferListingWorkspace>
         <Grid as="ul" columns={{ base: 1, sm: 2, lg: 3 }} gap="4">
           {companies.map((company) => (
             <li key={company.id} className="h-full">
@@ -160,7 +159,6 @@ function HiringIndex({
             </li>
           ))}
         </Grid>
-      </PreferListingWorkspace>
     </PageSection>
   );
 }
