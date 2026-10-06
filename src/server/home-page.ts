@@ -45,7 +45,7 @@ function asJsonObjects<T>(value: T): JsonObject[] {
 /** Job cards on the landing rail. Category tiles come from the taxonomy
  * collection (live `jobCount`), not from `relatedSearches` on this page. */
 const HOME_JOB_RAIL_LIMIT = 10;
-const HOME_CATEGORY_LIMIT = 250;
+const HOME_CATEGORY_LIMIT = 150;
 
 export const getHomePage = createServerFn({ method: 'GET' })
   .middleware([boardAccessMiddleware])
