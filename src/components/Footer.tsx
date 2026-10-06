@@ -170,6 +170,7 @@ export default function Footer({
   features,
   footer,
   contactEnabled,
+  impressumAvailable,
   connected = false,
   talentDirectoryVisibility,
   hasEmployerOfferPage,
@@ -199,10 +200,15 @@ export default function Footer({
     blog: boolean;
     talentDirectory: 'off' | 'public' | 'employers_only' | boolean;
     publicJobSubmission: boolean;
-    impressum: boolean;
   };
   footer: BoardContextFooter | null;
   contactEnabled: boolean;
+  /**
+   * Whether /impressum is published (`impressumAvailable`, resolved by the
+   * root loader on the server so legal content stays out of the client
+   * bundle).
+   */
+  impressumAvailable: boolean;
   connected?: boolean;
   /**
    * The tri-state behind `features.talentDirectory` — hosted chrome links
@@ -298,6 +304,7 @@ export default function Footer({
     { href: '/jobs/locations', label: copy.footer.locationsLabel },
     { href: '/salaries', label: copy.footer.salariesLabel },
     // sitemap.xml is a server route, not a router page → plain anchor
+    // { href: '/sitemap.xml', label: copy.footer.sitemapLabel, external: true },
   ];
 
   // ── About ──
@@ -359,7 +366,7 @@ export default function Footer({
     { href: '/terms-of-service', label: copy.footer.termsOfServiceLabel },
     { href: '/privacy-policy', label: copy.footer.privacyPolicyLabel },
     { href: '/cookie-policy', label: copy.footer.cookiePolicyLabel },
-    ...(features.impressum
+    ...(impressumAvailable
       ? [{ href: '/impressum', label: copy.footer.impressumLabel }]
       : []),
   ];

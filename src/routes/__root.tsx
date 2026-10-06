@@ -219,8 +219,13 @@ function RootErrorPage(props: ErrorComponentProps) {
 }
 
 function RootLayout() {
-  const { board, offerGate, publishableKey, contactEnabled } =
-    Route.useLoaderData();
+  const {
+    board,
+    offerGate,
+    publishableKey,
+    contactEnabled,
+    impressumAvailable,
+  } = Route.useLoaderData();
 
   // Embed widget: no site chrome, no session island, no BoardAnalyticsBoot
   // (first-party analytics). Third-party iframe.
@@ -244,6 +249,7 @@ function RootLayout() {
         offerGate={offerGate}
         publishableKey={publishableKey}
         contactEnabled={contactEnabled}
+        impressumAvailable={impressumAvailable}
       />
     </RootSessionProvider>
   );
@@ -254,11 +260,13 @@ function RootChrome({
   offerGate,
   publishableKey,
   contactEnabled,
+  impressumAvailable,
 }: {
   board: Awaited<ReturnType<typeof getRootShellData>>['board'];
   offerGate: Awaited<ReturnType<typeof getRootShellData>>['offerGate'];
   publishableKey: string;
   contactEnabled: boolean;
+  impressumAvailable: boolean;
 }) {
   const { user, employerCompanies, hasAccessGrant, preview, clearSession } =
     useRootSession();
@@ -287,6 +295,19 @@ function RootChrome({
   });
   const navigate = useNavigate();
   const router = useRouter();
+  // What an accept switches on, for the recorded banner version: the same
+  // conditions BoardAnalyticsBoot, AnalyticsScripts and BoardAdsBoot load on.
+  const consentTrackers = useMemo(
+    () => ({
+      cavunoAnalytics: publishableKey.startsWith('pk_'),
+      ga4: Boolean(board.analytics.ga4MeasurementId),
+      gtm: Boolean(board.analytics.gtmId),
+      metaPixel: Boolean(board.analytics.metaPixelId),
+      linkedInInsight: Boolean(board.analytics.linkedInPartnerId),
+      adsense: board.ads.enabled && Boolean(board.ads.clientId),
+    }),
+    [publishableKey, board.analytics, board.ads],
+  );
   const conversionAnalytics = useMemo(
     () => resolveBoardConversionAnalytics(board.analytics),
     [board.analytics],
@@ -492,8 +513,13 @@ function RootChrome({
   );
 
   return (
-    <CookieConsentProvider required={board.analytics.cookieConsentRequired}>
-      <BoardAdsProvider ads={board.ads}>
+    // Outside the consent provider: it reads `ads.googleConsentMessage`.
+    <BoardAdsProvider ads={board.ads}>
+      <CookieConsentProvider
+        required={board.analytics.cookieConsentRequired}
+        publishableKey={publishableKey}
+        trackers={consentTrackers}
+      >
         <BoardAdPreviewProvider
           enabled={Boolean(
             preview.devToolsEnabled ||
@@ -551,6 +577,7 @@ function RootChrome({
                   features={board.features}
                   footer={board.footer}
                   contactEnabled={contactEnabled}
+                  impressumAvailable={impressumAvailable}
                   talentDirectoryVisibility={board.talentDirectoryVisibility}
                   hasEmployerOfferPage={offerGate.hasEmployerOfferPage}
                   hasMembershipPage={offerGate.hasMembershipPage}
@@ -560,14 +587,13 @@ function RootChrome({
                 />
               </Suspense>
               <CookieConsentBanner />
-              {isBoardAdPage(location.pathname) && (
-                <BoardAdsBoot
-                  key={location.pathname}
-                  hasMobileBottomBar={/\/companies\/[^/]+\/jobs\/[^/]+\/?$/.test(
-                    location.pathname,
-                  )}
-                />
-              )}
+              <BoardAdsBoot
+                key={location.pathname}
+                adPage={isBoardAdPage(location.pathname)}
+                hasMobileBottomBar={/\/companies\/[^/]+\/jobs\/[^/]+\/?$/.test(
+                  location.pathname,
+                )}
+              />
               {user &&
               user.emailVerified &&
               board.features.messaging &&
@@ -611,8 +637,8 @@ function RootChrome({
             </FloatingStackProvider>
           </BoardConversionAnalyticsProvider>
         </BoardAdPreviewProvider>
-      </BoardAdsProvider>
-    </CookieConsentProvider>
+      </CookieConsentProvider>
+    </BoardAdsProvider>
   );
 }
 

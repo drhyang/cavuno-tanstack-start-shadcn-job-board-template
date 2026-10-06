@@ -42,12 +42,30 @@ type JobFormGroup = {
   location?: { visible?: boolean; allowedCountries?: string[] | null };
   sponsorship?: { visible?: boolean };
   workArrangement?: { allowedOptions?: string[] };
-  employmentType?: { allowedOptions?: string[] };
+  employmentType?: {
+    allowedOptions?: string[];
+    customTypes?: readonly JobFormCustomEmploymentType[] | null;
+    order?: readonly string[] | null;
+  };
+};
+
+/**
+ * A board-defined employment type (e.g. "Casual"). `employmentType` is its
+ * built-in Google equivalent; an un-`offered` type still labels the jobs
+ * that use it but is never offered to a poster.
+ */
+export type JobFormCustomEmploymentType = {
+  key: string;
+  label: string;
+  employmentType: string;
+  offered: boolean;
 };
 
 /**
  * Visibility plus the constraints the platform enforces on write.
- * `null` on an allow-list means "no restriction"; a list is never empty.
+ * `null` on an allow-list means "no restriction"; a list is never empty,
+ * except `employmentType.allowedOptions` on a board whose offered custom
+ * types replace every built-in.
  */
 export type JobFormConstraints = JobFormVisibility & {
   salary: {
@@ -64,7 +82,13 @@ export type JobFormConstraints = JobFormVisibility & {
   };
   location: { visible: boolean; allowedCountries: string[] | null };
   workArrangement: { allowedOptions: string[] | null };
-  employmentType: { allowedOptions: string[] | null };
+  employmentType: {
+    allowedOptions: string[] | null;
+    /** Every custom type, offered or not, in the board's order. */
+    customTypes: JobFormCustomEmploymentType[];
+    /** Built-in values and custom keys in display order (`[]` = none set). */
+    order: string[];
+  };
 };
 
 /**
@@ -96,7 +120,7 @@ const UNCONSTRAINED: JobFormConstraints = {
   location: { visible: true, allowedCountries: null },
   sponsorship: { visible: true },
   workArrangement: { allowedOptions: null },
-  employmentType: { allowedOptions: null },
+  employmentType: { allowedOptions: null, customTypes: [], order: [] },
 };
 
 function visibleFlag(value: { visible?: boolean } | undefined): boolean {
@@ -157,9 +181,30 @@ export function resolveJobFormConstraints(
     workArrangement: {
       allowedOptions: allowList(jobForm.workArrangement?.allowedOptions),
     },
-    employmentType: {
-      allowedOptions: allowList(jobForm.employmentType?.allowedOptions),
-    },
+    employmentType: resolveEmploymentTypeConstraints(jobForm.employmentType),
+  };
+}
+
+function resolveEmploymentTypeConstraints(
+  group: JobFormGroup['employmentType'],
+): JobFormConstraints['employmentType'] {
+  const customTypes = group?.customTypes ?? [];
+  // An empty built-in list means "only custom types" when the board offers
+  // some; otherwise it reads as no restriction, like every other allow-list.
+  const allowedOptions =
+    group?.allowedOptions?.length === 0 &&
+    customTypes.some((type) => type.offered)
+      ? []
+      : allowList(group?.allowedOptions);
+  return {
+    allowedOptions,
+    customTypes: customTypes.map(({ key, label, employmentType, offered }) => ({
+      key,
+      label,
+      employmentType,
+      offered,
+    })),
+    order: [...(group?.order ?? [])],
   };
 }
 
