@@ -20,7 +20,10 @@ function installBoardAnalytics(options: { publishableKey: string }) {
 
 /**
  * Boots Cavuno Analytics once per document. Publishable key comes from
- * the public board shell (same pk_ as Board API).
+ * the public board shell (same pk_ as Board API). When the board requires
+ * cookie consent, the tracker loads only after an explicit accept. A later
+ * decline withdraws it (see CookieConsentProvider); reopening "Cookie
+ * preferences" alone does not.
  */
 export function BoardAnalyticsBoot({
   publishableKey,
@@ -32,7 +35,8 @@ export function BoardAnalyticsBoot({
   /** Test seam; runtime defaults to the current document host. */
   hostname?: string;
 }) {
-  const { required, choice } = useCookieConsent();
+  const { required, choice, consentSource, allowed, markAnalyticsLoaded } =
+    useCookieConsent();
   const entry = useRef<{ href: string; referrer: string } | null>(null);
   useEffect(() => {
     if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) return;
@@ -42,19 +46,27 @@ export function BoardAnalyticsBoot({
       href: window.location.href,
       referrer: document.referrer,
     };
-    if (choice === undefined) return;
-    if (choice === 'denied' || (required && choice !== 'accepted')) {
+    // Not known yet: our choice unresolved, or waiting for Google's CMP.
+    if (consentSource === 'pending') return;
+    if (consentSource === 'cavuno' && choice === undefined) return;
+    const declined =
+      consentSource === 'google'
+        ? !allowed
+        : choice === 'denied' || (required && choice !== 'accepted');
+    if (declined) {
       clearBrowserAudienceAttribution(publishableKey);
       return;
     }
     captureBrowserAudienceAttribution(publishableKey, entry.current);
-  }, [publishableKey, hostname, required, choice]);
+  }, [publishableKey, hostname, required, choice, consentSource, allowed]);
 
   useEffect(() => {
     if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) return;
     if (!publishableKey.startsWith('pk_')) return;
+    if (!allowed) return;
     install({ publishableKey });
-  }, [publishableKey, install, hostname]);
+    markAnalyticsLoaded();
+  }, [publishableKey, install, markAnalyticsLoaded, hostname, allowed]);
 
   return null;
 }

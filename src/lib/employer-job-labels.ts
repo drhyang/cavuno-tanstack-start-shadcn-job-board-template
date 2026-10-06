@@ -1,5 +1,5 @@
 import { m } from '../paraglide/messages';
-import { enumLabel } from './enum-labels';
+import { jobEmploymentTypeLabel } from './job-employment-type-label';
 
 import type { EmployerJob } from '@cavuno/board';
 
@@ -8,6 +8,7 @@ const statusLabels = {
   published: m.employerJob_statusPublished,
   expired: m.employerJob_statusExpired,
   archived: m.employerJob_statusArchived,
+  pending_approval: m.employerJob_statusPendingApproval,
 } satisfies Record<EmployerJob['status'], () => string>;
 
 export function employerJobStatusLabel(status: string) {
@@ -49,8 +50,7 @@ export function isEmployerJobExpired(
 
 export function employerJobTypeLabel(
   _language: string,
-  employmentType: EmployerJob['employmentType'],
+  job: Pick<EmployerJob, 'employmentType' | 'customEmploymentType'>,
 ) {
-  if (!employmentType) return '—';
-  return enumLabel(employmentType) ?? employmentType;
+  return jobEmploymentTypeLabel(job) ?? job.employmentType ?? '—';
 }

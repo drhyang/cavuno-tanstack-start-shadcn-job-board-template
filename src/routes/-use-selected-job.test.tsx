@@ -69,6 +69,7 @@ function job(slug: string): PublicJob {
     applyAction: 'external_direct',
     seniority: null,
     employmentType: null,
+    customEmploymentType: null,
     publishedAt: null,
     expiresAt: null,
     createdAt: '2026-01-01T00:00:00.000Z',
@@ -93,6 +94,7 @@ function company(summary: string): PublicCompanyDetail {
     membership: null,
     markets: [],
     customFieldValues: {},
+    customFieldMedia: {},
     objectReferences: [],
     links: { public: 'https://jobs.example/companies/acme' },
   };

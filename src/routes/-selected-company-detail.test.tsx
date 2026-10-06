@@ -32,6 +32,7 @@ const company = {
   membership: null,
   markets: [{ slug: 'technology', name: 'Technology' }],
   customFieldValues: {},
+  customFieldMedia: {},
   objectReferences: [],
   links: { public: 'https://jobs.example/companies/acme' },
 } satisfies PublicCompanyDetail;
@@ -48,6 +49,7 @@ const jobs = {
     description: '<p>Build useful tools.</p>',
     publishedAt: null,
     employmentType: 'full_time',
+    customEmploymentType: null,
     remoteOption: 'hybrid',
     remoteLocationLabel: null,
     remoteWorldwide: false,
