@@ -505,12 +505,13 @@ function RootChrome({
   );
 
   return (
-    <CookieConsentProvider
-      required={board.analytics.cookieConsentRequired}
-      publishableKey={publishableKey}
-      trackers={consentTrackers}
-    >
-      <BoardAdsProvider ads={board.ads}>
+    // Outside the consent provider: it reads `ads.googleConsentMessage`.
+    <BoardAdsProvider ads={board.ads}>
+      <CookieConsentProvider
+        required={board.analytics.cookieConsentRequired}
+        publishableKey={publishableKey}
+        trackers={consentTrackers}
+      >
         <BoardAdPreviewProvider
           enabled={Boolean(
             preview.devToolsEnabled ||
@@ -577,14 +578,13 @@ function RootChrome({
                 />
               </Suspense>
               <CookieConsentBanner />
-              {isBoardAdPage(location.pathname) && (
-                <BoardAdsBoot
-                  key={location.pathname}
-                  hasMobileBottomBar={/\/companies\/[^/]+\/jobs\/[^/]+\/?$/.test(
-                    location.pathname,
-                  )}
-                />
-              )}
+              <BoardAdsBoot
+                key={location.pathname}
+                adPage={isBoardAdPage(location.pathname)}
+                hasMobileBottomBar={/\/companies\/[^/]+\/jobs\/[^/]+\/?$/.test(
+                  location.pathname,
+                )}
+              />
               {user &&
               user.emailVerified &&
               board.features.messaging &&
@@ -628,8 +628,8 @@ function RootChrome({
             </FloatingStackProvider>
           </BoardConversionAnalyticsProvider>
         </BoardAdPreviewProvider>
-      </BoardAdsProvider>
-    </CookieConsentProvider>
+      </CookieConsentProvider>
+    </BoardAdsProvider>
   );
 }
 

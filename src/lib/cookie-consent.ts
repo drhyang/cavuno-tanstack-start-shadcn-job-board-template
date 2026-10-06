@@ -22,13 +22,20 @@ export type CookieConsentChoice = 'accepted' | 'denied';
 export const COOKIE_CONSENT_COOKIE = 'cavuno_cookie_consent';
 
 /** ~13 months in seconds — long-lived preference, not a session token. */
+/**
+ * Cross-tab signal of a decline in Google's consent message (its value
+ * changes on each one, so other tabs get a `storage` event). Separate from
+ * the banner's mirror, which holds the board's own banner choice.
+ */
+export const GOOGLE_DECLINE_STORAGE_KEY = 'cavuno:google-consent-declined';
+
 export const COOKIE_CONSENT_MAX_AGE = 13 * 30 * 24 * 60 * 60;
 
 const COOKIE_CONSENT_CHOICES = ['accepted', 'denied'] as const;
 
 const REOPENED = 'reopened';
 
-const CONSENT_ID_RE =
+export const CONSENT_ID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 function cookieConsentChoice(value: string): CookieConsentChoice | null {
@@ -124,7 +131,7 @@ export interface CookieBannerTrackers {
 }
 
 /** 32-bit FNV-1a over UTF-16 code units, as 8 hex digits. */
-function fnv1a(input: string): string {
+export function fnv1a(input: string): string {
   let hash = 0x811c9dc5;
   for (let index = 0; index < input.length; index += 1) {
     hash ^= input.charCodeAt(index);

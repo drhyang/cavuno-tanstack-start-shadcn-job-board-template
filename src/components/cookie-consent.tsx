@@ -18,6 +18,7 @@ import { CookieIcon } from 'lucide-react';
 import { m } from '../paraglide/messages';
 import { isWorkingPreviewHostname } from './analytics-preview';
 
+import { useBoardAds } from '@/components/board/board-ads-provider';
 import { FloatingStackItem } from '@/components/floating-stack';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,6 +36,7 @@ import {
 import {
   clearCookieConsent,
   cookieBannerVersion,
+  GOOGLE_DECLINE_STORAGE_KEY,
   readCookieConsent,
   serializeCookieConsent,
   serializeReopenedCookieConsent,
@@ -42,6 +44,10 @@ import {
   type CookieBannerTrackers,
   type CookieConsentChoice,
 } from '@/lib/cookie-consent';
+import type { GoogleConsentUpdate } from '@/lib/google-tcf';
+
+/** The Google CMP bridge, loaded only on boards that use Google's message. */
+type GoogleTcf = typeof import('@/lib/google-tcf');
 import { chromeCookieConsent } from '@/lib/site-chrome';
 
 /**
@@ -60,9 +66,28 @@ declare global {
   }
 }
 
+/**
+ * Whose consent UI is in charge for this visitor: the board's banner,
+ * Google's consent message (AdSense boards with `ads.googleConsentMessage`,
+ * visitor where GDPR applies), or not known yet (waiting for Google's CMP).
+ */
+export type ConsentSource = 'cavuno' | 'pending' | 'google';
+
 interface CookieConsentState {
   /** The board's `analytics.cookieConsentRequired` flag. */
   required: boolean;
+  consentSource: ConsentSource;
+  /**
+   * The tracker gate (Cavuno Analytics, GA4/GTM, Meta, LinkedIn). Google
+   * in charge: the visitor's publisher-purpose consent. Pending: false.
+   * Otherwise: consent not required, or accepted on the board's banner.
+   */
+  allowed: boolean;
+  /**
+   * Whether AdSense may load and render units: always when Google's
+   * consent message governs ads, otherwise the same rule as `allowed`.
+   */
+  adsAllowed: boolean;
   /**
    * Saved choice. `undefined` until the client resolves cookie/storage;
    * `null` once resolved and still undecided.
@@ -91,6 +116,9 @@ interface CookieConsentState {
  */
 const CookieConsentContext = createContext<CookieConsentState>({
   required: false,
+  consentSource: 'cavuno',
+  allowed: true,
+  adsAllowed: true,
   choice: null,
   bannerOpen: false,
   accept: () => {},
@@ -138,6 +166,8 @@ function newConsentId(): string {
 }
 
 type RecordConsent = (input: RecordConsentInput) => void;
+
+type WithdrawAnalytics = (options?: { keepAdSense?: boolean }) => void;
 
 function recordBoardConsent(input: RecordConsentInput) {
   analytics.recordConsent(input);
@@ -196,6 +226,24 @@ function clearPersistedChoice(
  * Nothing is recorded on page load, for choices made in another tab, on
  * working-preview hosts, or without a `pk_` key. The choice is saved first;
  * recording can never block it.
+ *
+ * Google's consent message (`ads.googleConsentMessage`, from the
+ * surrounding `BoardAdsProvider`): AdSense loads on page load on every
+ * route and the
+ * source starts `pending` (no banner, no trackers). Google's CMP reporting
+ * `gdprApplies: true` puts Google in charge: the board's banner never
+ * shows, the trackers follow `trackersAllowedFromTcData`, and "Cookie
+ * preferences" reopens Google's message. `gdprApplies: false`, a blocked
+ * AdSense loader, or no answer within 3 s hands over to the board's banner
+ * as usual. A late `gdprApplies: true` still takes over while the visitor
+ * has not answered the board's banner. Each answer in Google's message
+ * (`useractioncomplete`, never page load) is recorded as accepted, denied
+ * or withdrawn (a decline after trackers were allowed or ran), under a consent id
+ * kept in its own cookie, with `googleConsentMessageVersion`. A decline
+ * after trackers ran withdraws them like a decline on the board's banner,
+ * and other tabs stop Cavuno Analytics as for a cross-tab decline. A late
+ * takeover whose stored answer (`tcloaded`) refuses trackers the fallback
+ * already ran withdraws them too, unrecorded (never two reloads in a row).
  */
 export function CookieConsentProvider({
   required,
@@ -212,16 +260,31 @@ export function CookieConsentProvider({
   /** Trackers an accept turns on; part of the recorded banner version. */
   trackers?: CookieBannerTrackers;
   /** Test seam; runtime clears analytics cookies and reloads. */
-  withdrawAnalytics?: () => void;
+  withdrawAnalytics?: WithdrawAnalytics;
   /** Test seam; runtime is `analytics.recordConsent`. */
   recordConsent?: RecordConsent;
   /** Test seam; runtime defaults to the current document host. */
   hostname?: string;
   children: ReactNode;
 }) {
+  // Google's CMP governs ads (and EEA consent) on this board.
+  const googleMode = useBoardAds().googleConsentMessage === true;
   const [choice, setChoice] = useState<CookieConsentChoice | null | undefined>(
     undefined,
   );
+  const [consentSource, setConsentSource] = useState<ConsentSource>(
+    googleMode ? 'pending' : 'cavuno',
+  );
+  // The visitor's answer in Google's message; undefined until there is one.
+  const [googleAllowed, setGoogleAllowed] = useState<boolean | undefined>();
+  // Mirrors for the CMP callback, which outlives renders.
+  const choiceRef = useRef(choice);
+  useEffect(() => {
+    choiceRef.current = choice;
+  }, [choice]);
+  const sourceRef = useRef(consentSource);
+  // The last answer Google's message reported (tcloaded/useractioncomplete).
+  const googleDecisionRef = useRef<boolean | undefined>(undefined);
   // Fallbacks for when the cookie cannot be written (blocked cookies): the
   // cookie stays the source of truth whenever it holds a value.
   const consentIdRef = useRef<string | null>(null);
@@ -234,11 +297,12 @@ export function CookieConsentProvider({
     analyticsLoaded.current = true;
   }, []);
   // Stop trackers this document loaded; the choice is already persisted.
+  // AdSense cookies stay when Google's message governs ads.
   const withdrawIfLoaded = useCallback(() => {
     if (!analyticsLoaded.current) return;
     analyticsLoaded.current = false;
-    withdrawAnalytics();
-  }, [withdrawAnalytics]);
+    withdrawAnalytics({ keepAdSense: googleMode });
+  }, [withdrawAnalytics, googleMode]);
 
   useEffect(() => {
     const fromCookie = readCookieConsent(document.cookie);
@@ -271,6 +335,11 @@ export function CookieConsentProvider({
   // choice stands here.)
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
+      // A decline in Google's message in another tab.
+      if (event.key === GOOGLE_DECLINE_STORAGE_KEY) {
+        window.__cavunoAnalyticsOff = true;
+        clearAnalyticsCookies({ keepAdSense: googleMode });
+      }
       if (event.key !== STORAGE_KEY) return;
       if (event.newValue === 'accepted') {
         window.__cavunoAnalyticsOff = false;
@@ -279,20 +348,24 @@ export function CookieConsentProvider({
       if (event.newValue === 'denied') {
         setChoice('denied');
         window.__cavunoAnalyticsOff = true;
-        clearAnalyticsCookies();
+        clearAnalyticsCookies({ keepAdSense: googleMode });
       }
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  }, [googleMode]);
 
   // A declined visitor carries no analytics cookies. Swept on every load,
   // not only at withdrawal: trackers rewrite some cookies as the withdrawn
   // document unloads (GA4's `_ga_<ID>` session cookie on pagehide), so
   // the reloaded document finishes the job.
   useEffect(() => {
-    if (required && choice === 'denied') clearAnalyticsCookies();
-  }, [required, choice]);
+    const declined =
+      consentSource === 'google'
+        ? googleAllowed === false && googleDecisionRef.current === false
+        : consentSource === 'cavuno' && required && choice === 'denied';
+    if (declined) clearAnalyticsCookies({ keepAdSense: googleMode });
+  }, [consentSource, googleAllowed, required, choice, googleMode]);
 
   // Save a choice made in this tab; returns the previous choice and the id.
   const saveChoice = useCallback((next: CookieConsentChoice) => {
@@ -308,9 +381,13 @@ export function CookieConsentProvider({
   }, []);
 
   // Proof of consent, after the choice is saved. Never throws.
-  const record = useCallback(
-    (consentChoice: RecordConsentInput['choice'], consentId: string) => {
-      if (!required || !publishableKey.startsWith('pk_')) return;
+  const send = useCallback(
+    (
+      consentChoice: RecordConsentInput['choice'],
+      consentId: string,
+      bannerVersion: string,
+    ) => {
+      if (!publishableKey.startsWith('pk_')) return;
       if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) {
         return;
       }
@@ -319,21 +396,136 @@ export function CookieConsentProvider({
           publishableKey,
           consentId,
           choice: consentChoice,
-          bannerVersion: cookieBannerVersion(cookieBannerCopy(), trackers),
+          bannerVersion,
         });
       } catch (error) {
         console.warn('Could not record the cookie-consent choice', error);
       }
     },
-    [required, publishableKey, hostname, recordConsent, trackers],
+    [publishableKey, hostname, recordConsent],
   );
+
+  const record = useCallback(
+    (consentChoice: RecordConsentInput['choice'], consentId: string) => {
+      if (!required) return;
+      send(
+        consentChoice,
+        consentId,
+        cookieBannerVersion(cookieBannerCopy(), trackers),
+      );
+    },
+    [required, send, trackers],
+  );
+
+  const onGoogleConsent = useCallback(
+    (update: GoogleConsentUpdate, tcf: GoogleTcf | null) => {
+      // Trackers the fallback banner let run make a decline a withdrawal.
+      const step = tcf?.googleConsentStep(
+        update,
+        googleDecisionRef.current || analyticsLoaded.current,
+        trackers,
+      );
+      if (!tcf || !step || step.kind === 'fallback') {
+        if (sourceRef.current === 'pending') {
+          sourceRef.current = 'cavuno';
+          setConsentSource('cavuno');
+        }
+        return;
+      }
+      // Fell back and the visitor already answered the board's banner:
+      // that answer stands for this document.
+      const ownChoice = choiceRef.current;
+      if (
+        sourceRef.current === 'cavuno' &&
+        (ownChoice === 'accepted' || ownChoice === 'denied')
+      ) {
+        return;
+      }
+      sourceRef.current = 'google';
+      setConsentSource('google');
+      if (step.kind === 'shown') {
+        setGoogleAllowed(googleDecisionRef.current ?? false);
+        return;
+      }
+      googleDecisionRef.current = step.allowed;
+      setGoogleAllowed(step.allowed);
+      if (!step.record) {
+        // A stored refusal reported after the fallback let trackers run:
+        // withdraw them as for a decline, but record nothing (no action).
+        if (!step.allowed && analyticsLoaded.current) {
+          if (tcf.claimLateWithdrawalReload()) {
+            withdrawIfLoaded();
+          } else {
+            window.__cavunoAnalyticsOff = true;
+            clearAnalyticsCookies({ keepAdSense: googleMode });
+          }
+        }
+        return;
+      }
+      // Its own id cookie: the consent cookie may not exist.
+      const consentId = tcf.googleConsentId(consentIdRef.current, newConsentId);
+      consentIdRef.current = consentId;
+      send(step.record.choice, consentId, step.record.bannerVersion);
+      if (step.allowed) {
+        window.__cavunoAnalyticsOff = false;
+      } else {
+        tcf.broadcastGoogleDecline();
+        withdrawIfLoaded();
+      }
+    },
+    [send, trackers, withdrawIfLoaded, googleMode],
+  );
+
+  // Subscribed once per document; the handler is read through a ref.
+  const onGoogleConsentRef = useRef(onGoogleConsent);
+  useEffect(() => {
+    onGoogleConsentRef.current = onGoogleConsent;
+  }, [onGoogleConsent]);
+  const googleTcfRef = useRef<GoogleTcf | null>(null);
+  useEffect(() => {
+    if (!googleMode) return;
+    const unavailable = () =>
+      onGoogleConsentRef.current({ kind: 'unavailable' }, null);
+    // Working previews never load AdSense, so Google's CMP never comes.
+    if (isWorkingPreviewHostname(hostname ?? window.location.hostname)) {
+      unavailable();
+      return;
+    }
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+    import('@/lib/google-tcf').then(
+      (tcf) => {
+        if (!active) return;
+        googleTcfRef.current = tcf;
+        unsubscribe = tcf.subscribeGoogleConsent((update) =>
+          onGoogleConsentRef.current(update, tcf),
+        );
+      },
+      () => {
+        if (active) unavailable();
+      },
+    );
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, [googleMode, hostname]);
+
+  const ownAllowed = !required || choice === 'accepted';
+  const allowed =
+    consentSource === 'google'
+      ? googleAllowed === true
+      : consentSource === 'cavuno' && ownAllowed;
 
   const value = useMemo<CookieConsentState>(
     () => ({
       required,
+      consentSource,
+      allowed,
+      adsAllowed: googleMode || ownAllowed,
       choice,
       // Undetermined (`undefined`) must match SSR: no banner until mount.
-      bannerOpen: required && choice === null,
+      bannerOpen: consentSource === 'cavuno' && required && choice === null,
       accept: () => {
         window.__cavunoAnalyticsOff = false;
         const { consentId } = saveChoice('accepted');
@@ -347,6 +539,10 @@ export function CookieConsentProvider({
         withdrawIfLoaded();
       },
       reopenBanner: () => {
+        if (consentSource === 'google') {
+          googleTcfRef.current?.showGoogleConsentMessage();
+          return;
+        }
         const stored = readCookieConsent(document.cookie);
         clearPersistedChoice(
           stored?.lastChoice ?? lastChoiceRef.current,
@@ -358,6 +554,10 @@ export function CookieConsentProvider({
     }),
     [
       required,
+      consentSource,
+      allowed,
+      googleMode,
+      ownAllowed,
       choice,
       saveChoice,
       record,
@@ -437,12 +637,18 @@ export function CookieConsentBanner() {
  * The footer's "Cookie preferences" entry — rendered only after a choice
  * exists to revisit. Clears the saved choice, which immediately reopens the
  * banner; trackers an earlier accept loaded keep running until a decline.
+ * When Google's consent message is in charge it is always shown and
+ * reopens Google's message instead.
  * Styled to sit among the footer's legal links.
  */
 export function CookiePreferencesFooterAction() {
-  const { required, choice, reopenBanner } = useCookieConsent();
+  const { required, choice, consentSource, reopenBanner } = useCookieConsent();
 
-  if (!required || (choice !== 'accepted' && choice !== 'denied')) return null;
+  const ownChoice =
+    consentSource === 'cavuno' &&
+    required &&
+    (choice === 'accepted' || choice === 'denied');
+  if (consentSource !== 'google' && !ownChoice) return null;
 
   return (
     <button

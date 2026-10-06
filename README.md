@@ -252,7 +252,7 @@ manual placements stay off until the updated API is deployed.
 - Blog articles: 300×250 desktop sidebar (1024px+).
 - Salary pages retain their full-width content layout; no added ad sidebar.
 - Jobs, companies, and talent search: one 160×600 outer rail at 1600px+ width and 900px+ height.
-- Public browsing/reading pages load AdSense after consent, without forcing any Auto ads format.
+- Public browsing/reading pages load AdSense after consent (with Google's consent message, below: on page load on every route), without forcing any Auto ads format.
 
 See [placement decisions](docs/advertising.md) for the size and UX rationale.
 
@@ -282,6 +282,29 @@ In development or sandbox preview, open the preview toolbar → **Board settings
 and persist for the browser tab. Only manual placements are previewed;
 Google-managed anchors must be checked on the deployed site.
 Preview does not remove third-party scripts already loaded before it was enabled.
+
+### Google's consent message
+
+When `board.context().ads.googleConsentMessage` is true (AdSense on with a
+valid publisher id, and the owner has not turned it off), AdSense loads on page
+load on every public route (ad pages or not) for every visitor and viewport, so
+Google's certified consent message
+(AdSense → Privacy & messaging → European regulations) can ask visitors in the
+EEA, UK and Switzerland. For those visitors (`gdprApplies: true` from
+`__tcfapi`) the board's banner never shows; GA4, GTM, Meta, LinkedIn and Cavuno
+Analytics load only when the visitor consents to all of the owner's own-use
+purposes 1, 7, 8 and 9 (set them to **Consent** under "Add purposes for your
+own use"), and **Cookie preferences** reopens Google's message. Everyone else,
+and anyone whose browser blocks AdSense (at once) or whose CMP has not answered
+within 3 seconds, gets the board's banner as before. A decline in Google's
+message also stops Cavuno Analytics in the visitor's other open tabs. See
+`src/lib/google-tcf.ts`.
+
+In this mode the AdSense tag loads on every route so Google's consent message
+works everywhere; manual ad slots still render only on ad pages. With Auto ads
+or anchor ads on, Google may place ads on any page. If you want to keep ads off
+pages such as sign-in or checkout, you can add AdSense page exclusions (optional).
+See [placement decisions](docs/advertising.md#policy-and-geometry).
 
 ## Analytics & conversion tracking
 
