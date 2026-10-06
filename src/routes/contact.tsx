@@ -44,7 +44,34 @@ function ContactPage() {
           ) : null}
         </div>
         <ContactForm onSent={() => setSent(true)} />
+        <ContactQRCode />
       </div>
     </PageLayout>
+  );
+}
+
+function ContactQRCode() {
+  return (
+    <div className="mt-10 flex flex-col items-center text-center">
+      <div className="mb-10 flex w-full items-center gap-4">
+        <div className="bg-border h-px flex-1" />
+        <span className="text-muted-foreground text-sm font-medium">OR</span>
+        <div className="bg-border h-px flex-1" />
+      </div>
+
+      <h2 className="text-foreground text-xl font-semibold tracking-tight">
+        Contact us via WeCom 通过企业微信联系我们
+      </h2>
+
+      <p className="text-muted-foreground mt-2 text-sm">
+        Please scan the QR code below to contact us. 请扫描下方二维码添加企业微信。
+      </p>
+
+      <img
+        src="/QRCode.png"
+        alt="WeCom QR code"
+        className="mt-5 h-40 w-40 object-contain"
+      />
+    </div>
   );
 }
