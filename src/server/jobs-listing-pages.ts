@@ -401,6 +401,7 @@ export const getJobsSkillPage = createServerFn({ method: 'GET' })
           count: catalogJobCount(list.count, list.gatedCount),
         }),
       });
+      head.meta = [...(head.meta ?? []), { name: 'robots', content: 'noindex' }];
       const crumbs = breadcrumbsCopy();
       const jsonLd = asJsonObjects(
         listingJsonLd({
@@ -766,6 +767,7 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
           count: catalogJobCount(list.count, list.gatedCount),
         }),
       });
+      head.meta = [...(head.meta ?? []), { name: 'robots', content: 'noindex' }];
       const jsonLd = asJsonObjects(
         listingJsonLd({
           origin: seo.origin,
