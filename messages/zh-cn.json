@@ -674,7 +674,7 @@
   "contact_description": "给 Jobs.ac.cn 发送消息。",
   "contact_emailLabel": "邮箱",
   "contact_error": "消息发送失败，请重试。",
-  "contact_intro": "给 {boardName} 发送消息。我们会尽快回复您。",
+  "contact_intro": "给 {boardName} 发送消息。我们通常会在一个工作日内回复。",
   "contact_loading": "正在加载表单…",
   "contact_messageLabel": "信息",
   "contact_nameLabel": "姓名",

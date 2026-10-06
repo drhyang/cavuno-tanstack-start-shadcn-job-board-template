@@ -5,7 +5,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "contact_title": "Contact us",
   "contact_description": "Send a message to the job board team.",
-  "contact_intro": "Send a message to {boardName}. We will get back to you as soon as we can.",
+  "contact_intro": "Send a message to {boardName}. We typically respond within one business day.",
   "contact_nameLabel": "Name",
   "contact_emailLabel": "Email",
   "contact_messageLabel": "Message",
