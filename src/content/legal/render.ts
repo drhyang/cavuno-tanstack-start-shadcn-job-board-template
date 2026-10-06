@@ -77,6 +77,13 @@ const TOKEN =
   /<!--|<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:=\s*(?:"[^"]*"|'[^']*')|=(?!\s*["'])|[^<>=])*)>/g;
 const ATTRIBUTE =
   /([a-zA-Z_:][-a-zA-Z0-9_:.]*)\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'<>]+))/g;
+const ALLOWED_ATTRIBUTES = new Set([
+  'class',
+  'href',
+  'title',
+  'target',
+  'rel',
+]);
 const LINK_ATTRIBUTES = new Set(['href', 'title', 'target', 'rel']);
 // Protocol-relative (`//host`, `/\host`, `\\host`) is rejected: browsers read
 // `\` as `/`.
@@ -137,6 +144,37 @@ function linkAttributes(raw: string, boardName: string): string {
   return kept.length > 0 ? ` ${kept.join(' ')}` : '';
 }
 
+function filterAttributes(
+  raw: string,
+  tagName: string,
+  boardName: string,
+): string {
+  const kept: string[] = [];
+
+  for (const match of raw.matchAll(ATTRIBUTE)) {
+    const name = match[1]!.toLowerCase();
+
+    if (!ALLOWED_ATTRIBUTES.has(name)) continue;
+
+    const value = (match[3] ?? match[4] ?? match[5] ?? '')
+      .replace(
+        /&(?:amp|quot|#39|lt|gt);/g,
+        (entity) => NAMED_ENTITIES.get(entity) ?? entity,
+      )
+      .replace(BOARD_NAME_TOKEN, () => boardName);
+
+    if (
+      name === 'href' &&
+      !SAFE_HREF.test(value.trim().replace(/[\t\n\r]/g, ''))
+    ) {
+      continue;
+    }
+
+    kept.push(`${name}="${escapeHtml(value)}"`);
+  }
+
+  return kept.length > 0 ? ` ${kept.join(' ')}` : '';
+}
 /**
  * Sanitize a legal body and fill in the board name.
  *
@@ -189,7 +227,7 @@ export function renderLegalHtml(html: string, boardName: string): string {
       for (const tag of open.splice(index).reverse()) out += `</${tag}>`;
       continue;
     }
-    const attributes = name === 'a' ? linkAttributes(rest!, boardName) : '';
+    const attributes = filterAttributes(rest!, name, boardName);
     out += `<${name}${attributes}>`;
     // `<div/>` is an empty element, not an open one. A `/` that ends an
     // unquoted value (`href=https://x.com/`) belongs to the value.
