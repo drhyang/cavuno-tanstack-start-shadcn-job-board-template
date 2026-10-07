@@ -1027,6 +1027,10 @@
     "name": "上海交通大学",
     "summary": "上海交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
   },
+  "shanghai-jiao-tong-university-global-college": {
+    "name": "上海交通大学浦江国际学院",
+    "summary": "上海交通大学浦江国际学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
   "east-china-university-of-science-and-technology": {
     "name": "华东理工大学",
     "summary": "华东理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
@@ -1463,7 +1467,7 @@
     "name": "浙江树人学院",
     "summary": "浙江树人学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
   },
-  "zhejiang-yuexiu-university-of-foreign-languages": {
+  "zhejiang-yuexiu-university": {
     "name": "浙江越秀外国语学院",
     "summary": "浙江越秀外国语学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
   },
@@ -3422,5 +3426,149 @@
   "xinjiang-university-of-science-and-technology": {
     "name": "新疆科技学院",
     "summary": "新疆科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+    "city-university-of-hong-kong": {
+    "name": "香港城市大学",
+    "summary": "香港城市大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hong-kong-baptist-university": {
+    "name": "香港浸会大学",
+    "summary": "香港浸会大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lingnan-university-hong-kong": {
+    "name": "岭南大学（香港）",
+    "summary": "岭南大学（香港）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-chinese-university-of-hong-kong": {
+    "name": "香港中文大学",
+    "summary": "香港中文大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-education-university-of-hong-kong": {
+    "name": "香港教育大学",
+    "summary": "香港教育大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-hong-kong-polytechnic-university": {
+    "name": "香港理工大学",
+    "summary": "香港理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-hong-kong-university-of-science-and-technology": {
+    "name": "香港科技大学",
+    "summary": "香港科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-university-of-hong-kong": {
+    "name": "香港大学",
+    "summary": "香港大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hong-kong-metropolitan-university": {
+    "name": "香港都会大学",
+    "summary": "香港都会大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hong-kong-shue-yan-university": {
+    "name": "香港树仁大学",
+    "summary": "香港树仁大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-hang-seng-university-of-hong-kong": {
+    "name": "香港恒生大学",
+    "summary": "香港恒生大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hong-kong-chu-hai-college": {
+    "name": "香港珠海学院",
+    "summary": "香港珠海学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tung-wah-college": {
+    "name": "东华学院",
+    "summary": "东华学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "technological-and-higher-education-institute-of-hong-kong": {
+    "name": "香港高等教育科技学院",
+    "summary": "香港高等教育科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "saint-francis-university": {
+    "name": "圣方济各大学",
+    "summary": "圣方济各大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hong-kong-academy-for-performing-arts": {
+    "name": "香港演艺学院",
+    "summary": "香港演艺学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-open-university-of-hong-kong": {
+    "name": "香港公开大学",
+    "summary": "香港公开大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "caritas-institute-of-higher-education": {
+    "name": "明爱专上学院",
+    "summary": "明爱专上学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "caritas-francis-hsu-college": {
+    "name": "明爱徐诚斌学院",
+    "summary": "明爱徐诚斌学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "centennial-college": {
+    "name": "明德学院",
+    "summary": "明德学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gratia-christian-college": {
+    "name": "宏恩基督教学院",
+    "summary": "宏恩基督教学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hkct-institute-of-higher-education": {
+    "name": "港专学院",
+    "summary": "港专学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hong-kong-nang-yan-college-of-higher-education": {
+    "name": "香港能仁专上学院",
+    "summary": "香港能仁专上学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yew-chung-college-of-early-childhood-education": {
+    "name": "耀中幼教学院",
+    "summary": "耀中幼教学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "uow-college-hong-kong": {
+    "name": "香港伍伦贡学院",
+    "summary": "香港伍伦贡学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-macau": {
+    "name": "澳门大学",
+    "summary": "澳门大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "macao-polytechnic-university": {
+    "name": "澳门理工大学",
+    "summary": "澳门理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "macao-university-of-tourism": {
+    "name": "澳门旅游大学",
+    "summary": "澳门旅游大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "macau-university-of-science-and-technology": {
+    "name": "澳门科技大学",
+    "summary": "澳门科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "city-university-of-macau": {
+    "name": "澳门城市大学",
+    "summary": "澳门城市大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-saint-joseph": {
+    "name": "圣若瑟大学",
+    "summary": "圣若瑟大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "kiang-wu-nursing-college-of-macau": {
+    "name": "澳门镜湖护理学院",
+    "summary": "澳门镜湖护理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "macau-institute-of-management": {
+    "name": "澳门管理学院",
+    "summary": "澳门管理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "macau-millennium-college": {
+    "name": "中西创新学院",
+    "summary": "中西创新学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "united-nations-university-institute-in-macao": {
+    "name": "联合国大学国际软件技术研究所",
+    "summary": "联合国大学国际软件技术研究所招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "macau-bible-institute": {
+    "name": "澳门圣经学院",
+    "summary": "澳门圣经学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
   }
 }
