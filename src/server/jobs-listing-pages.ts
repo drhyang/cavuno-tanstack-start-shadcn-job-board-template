@@ -161,7 +161,7 @@ async function seoBase() {
   ]);
   return {
     boardName: boardContext.name,
-    language: boardContext.language,
+    language: getLocale(),
     origin,
   };
 }
