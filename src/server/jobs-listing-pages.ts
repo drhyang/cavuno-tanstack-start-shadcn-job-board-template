@@ -314,9 +314,14 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
         (m as unknown as Record<string, () => string>)[
           `taxonomy.${category.canonicalSlug}`
         ]?.() ?? category.displayName;
-      const heading = m.categoryPage_jobsHeading({
-        category: categoryName,
-      });
+      const heading =
+        data.categorySlug === 'management-admin-and-support'
+          ? m.categoryPage_jobsHeading_admin({
+            category: categoryName,
+          })
+          : m.categoryPage_jobsHeading({
+            category: categoryName,
+          });
       const head = listingHead({
         title: listingPageTitle({
           heading: heading,
