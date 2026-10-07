@@ -509,6 +509,21 @@
   "candidatePaywallLock_noOffersText": "No hay planes de pago disponibles ahora. Puedes seguir buscando empleos.",
   "candidatePaywallLock_checkoutTerms": "Revisa las condiciones de facturación completas en el pago antes de pagar.",
   "categoryPage_jobsHeading": "Ofertas de {category}",
+  "categoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {category}",
+        "countPlural=*": "{countLabel} ofertas de {category}"
+      }
+    }
+  ],
   "categoryPage_notFoundText": "Categoría no encontrada.",
   "commandDialog_searchPlaceholder": "Busca un comando para ejecutar...",
   "commandDialog_title": "Paleta de comandos",
@@ -653,6 +668,35 @@
   ],
   "companySearch_resultsRegionLabel": "Resultados de empresas",
   "companySearch_resultsShowingRange": "Mostrando {from}–{to} de {count} empresas",
+  "companySearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} empresa",
+        "countPlural=*": "Mostrando {countLabel} empresas"
+      }
+    }
+  ],
+  "companySearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} empresa",
+        "countPlural=*": "Mostrando {to} de {countLabel} empresas"
+      }
+    }
+  ],
   "companySearch_retryLabel": "Reintentar",
   "companySearch_searchLabel": "Buscar",
   "companySearch_selectedCompanyRegionLabel": "Empresa seleccionada",
@@ -1416,6 +1460,35 @@
       }
     }
   ],
+  "jobSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} oferta",
+        "countPlural=*": "Mostrando {countLabel} ofertas"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} oferta",
+        "countPlural=*": "Mostrando {to} de {countLabel} ofertas"
+      }
+    }
+  ],
   "jobSearch_retryLabel": "Reintentar",
   "jobSearch_searchButtonLabel": "Buscar",
   "jobSearch_selectedJobRegionLabel": "Oferta seleccionada",
@@ -1474,14 +1547,138 @@
   "listing_metaDescription": "Explora {heading} en {boardName}.",
   "listing_metaDescriptionWithCount": "Explora {count} {heading} en {boardName}.",
   "locationCategoryPage_jobsHeading": "Ofertas de {category} en {place}",
+  "locationCategoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {category} en {place}",
+        "countPlural=*": "{countLabel} ofertas de {category} en {place}"
+      }
+    }
+  ],
   "locationCombobox_clearAriaLabel": "borrar la ubicación",
   "locationCombobox_locationAriaLabel": "ubicación",
   "locationCombobox_noMatchText": "No hay empleos en {location}",
   "locationCombobox_placeholderText": "Ubicación…",
   "locationCombobox_searchingText": "Buscando…",
   "locationPage_jobsHeading": "Ofertas en {place}",
+  "locationPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta en {place}",
+        "countPlural=*": "{countLabel} ofertas en {place}"
+      }
+    }
+  ],
   "locationPage_notFoundText": "Ubicación no encontrada.",
+  "searchRadius_exactScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} oferta {exactPlace}",
+        "countPlural=*": "Mostrando {from}–{to} ofertas {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} oferta {exactPlace}",
+        "countPlural=*": "Mostrando {to} de {countLabel} ofertas {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScopeUncounted": "Mostrando ofertas {exactPlace}",
+  "searchRadius_exactPlace": "en {place}",
+  "searchRadius_exactEmpty": "No hay ofertas {exactPlace}",
+  "searchRadius_withinScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} oferta a menos de {distance} de {place}",
+        "countPlural=*": "Mostrando {from}–{to} ofertas a menos de {distance} de {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} oferta a menos de {distance} de {place}",
+        "countPlural=*": "Mostrando {to} de {countLabel} ofertas a menos de {distance} de {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScopeUncounted": "Mostrando ofertas a menos de {distance} de {place}",
+  "searchRadius_withinEmpty": "No hay ofertas a menos de {distance} de {place}",
+  "searchRadius_exactOption": "Solo la ubicación exacta",
+  "searchRadius_withinOption": "A menos de {distance}",
+  "searchRadius_menuLabel": "Distancia",
+  "searchRadius_triggerLabel": "Distancia: {distance}",
   "locationSkillPage_jobsHeading": "Ofertas de {skill} en {place}",
+  "locationSkillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {skill} en {place}",
+        "countPlural=*": "{countLabel} ofertas de {skill} en {place}"
+      }
+    }
+  ],
   "logoUpload_changeLogoLabel": "Cambiar logotipo",
   "logoUpload_uploadErrorText": "Error al subir: prueba con una imagen más pequeña.",
   "logoUpload_uploadingLabel": "Subiendo…",
@@ -2145,6 +2342,21 @@
   "siteHeader_signUpLabel": "Registrarse",
   "siteHeader_skipToContentLabel": "Saltar al contenido principal",
   "skillPage_jobsHeading": "Ofertas de {skill}",
+  "skillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {skill}",
+        "countPlural=*": "{countLabel} ofertas de {skill}"
+      }
+    }
+  ],
   "skillPage_notFoundText": "Competencia no encontrada.",
   "skillsSection_addLabel": "Añadir competencia",
   "skillsSection_addSkillLabel": "Competencia",
@@ -2245,6 +2457,35 @@
   "talentSearch_resultsHeading": "Candidatos",
   "talentSearch_resultsRegionLabel": "Resultados de talento",
   "talentSearch_resultsShowingRange": "Mostrando {from}–{to} de {count} candidatos",
+  "talentSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} candidato",
+        "countPlural=*": "Mostrando {countLabel} candidatos"
+      }
+    }
+  ],
+  "talentSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} candidato",
+        "countPlural=*": "Mostrando {to} de {countLabel} candidatos"
+      }
+    }
+  ],
   "talentSearch_retryLabel": "Reintentar",
   "talentSearch_selectedProfileRegionLabel": "Perfil seleccionado",
   "talentSearch_skillLabel": "Competencia",

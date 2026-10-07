@@ -46,6 +46,7 @@ import { catalogJobCount, visiblePageSpan } from '@/board/job-catalog-count';
 import { toJobCardVM } from '@/board/job-view-model';
 import { CompanySectionShell } from '@/components/board/company-section-header';
 import { JobList } from '@/components/board/job-list';
+import { jobsResultsShowingLine } from '@/components/board/jobs-results-bar';
 import { ListingPagination } from '@/components/board/listing-pagination';
 import { PreviewUnlockAlert } from '@/components/board/preview-unlock-alert';
 import { jsonLdHeadScripts } from '@/components/json-ld';
@@ -96,12 +97,7 @@ function CompanyJobsPage() {
       : null;
 
   const countLabel = span
-    ? m.jobSearch_resultsShowingRange({
-        from: span.from.toLocaleString(locale),
-        to: span.to.toLocaleString(locale),
-        count: count,
-        countLabel: count.toLocaleString(locale),
-      })
+    ? jobsResultsShowingLine({ from: span.from, to: span.to, count }, locale)
     : entityCount(count, locale, m.count_jobs, {
         singular: chromeEntity().jobSingular,
         plural: chromeEntity().jobPlural,

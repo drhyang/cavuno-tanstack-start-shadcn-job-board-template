@@ -58,6 +58,7 @@ import {
   type CustomFilterField,
 } from '@/lib/custom-field-filters';
 import { clampPage, listingPageHref } from '@/lib/pagination';
+import { resultsShowingLine, type ResultsSpan } from '@/lib/results-showing';
 import type { TalentSearch } from '@/lib/talent-search';
 import {
   talentListFiltersEqual,
@@ -331,15 +332,14 @@ export function TalentSearchPage({
     : pageSize;
   const resultDescription =
     resultCount > 0
-      ? m.talentSearch_resultsShowingRange({
-          from: ((resultPage - 1) * resultPageSize + 1).toLocaleString(
-            language,
-          ),
-          to: Math.min(resultPage * resultPageSize, resultCount).toLocaleString(
-            language,
-          ),
-          count: resultCount.toLocaleString(language),
-        })
+      ? talentResultsShowingLine(
+          {
+            from: (resultPage - 1) * resultPageSize + 1,
+            to: Math.min(resultPage * resultPageSize, resultCount),
+            count: resultCount,
+          },
+          language,
+        )
       : null;
   const resultsBar = (
     <div data-slot="talent-results-bar" className="pb-3">
@@ -495,4 +495,19 @@ export function TalentSearchPage({
       </main>
     </Page>
   );
+}
+
+/** The "Showing …" line under a talent results heading. */
+export function talentResultsShowingLine(
+  span: ResultsSpan,
+  locale: string,
+): string {
+  return resultsShowingLine(span, locale, {
+    single: ({ count, countLabel }) =>
+      m.talentSearch_resultsShowingCount({ count, countLabel }),
+    lastPage: ({ to, count, countLabel }) =>
+      m.talentSearch_resultsShowingLast({ to, count, countLabel }),
+    range: ({ from, to, countLabel }) =>
+      m.talentSearch_resultsShowingRange({ from, to, count: countLabel }),
+  });
 }

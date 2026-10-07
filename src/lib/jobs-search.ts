@@ -3,6 +3,7 @@ import {
   type ListingFilters,
 } from '@cavuno/board/filters';
 
+import { parseSearchRadiusWithin } from '@/board/search-radius';
 import {
   parseCustomFieldSearch,
   type CustomFieldSearch,
@@ -64,6 +65,22 @@ export type JobsIndexSearch = JobsSearch & CustomFieldSearch;
 
 export function parseJobsIndexSearch(search: UrlSearchInput): JobsIndexSearch {
   return { ...parseJobsSearch(search), ...parseCustomFieldSearch(search) };
+}
+
+/**
+ * Location listings also take `within`: a search distance in the place's
+ * unit, or `0` for the exact place. Anything else is dropped, so the page
+ * uses the default distance.
+ */
+export type LocationJobsSearch = JobsSearch & { within?: number };
+
+export function parseLocationJobsSearch(
+  search: UrlSearchInput,
+): LocationJobsSearch {
+  return {
+    ...parseJobsSearch(search),
+    within: parseSearchRadiusWithin(search.within),
+  };
 }
 
 /** A pane selection changes history, but never the listing request. */

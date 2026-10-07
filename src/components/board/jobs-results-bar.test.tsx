@@ -30,17 +30,32 @@ vi.mock('@/paraglide/messages', async (importOriginal) => {
         to: string;
         count: number;
       }) => `range:${from}:${to};total:${count}`,
+      jobSearch_resultsShowingCount: ({ count }: { count: number }) =>
+        `single;total:${count}`,
+      jobSearch_resultsShowingLast: ({
+        to,
+        count,
+      }: {
+        to: string;
+        count: number;
+      }) => `last:${to};total:${count}`,
     },
   };
 });
 afterEach(cleanup);
 describe('JobsResultsBar data', () => {
-  it('passes the visible count and first-page bounds to its summary', () => {
+  it('counts a single result instead of a 1–1 range', () => {
     render(
       <JobsResultsBar visibleCount={1} page={1} pageSize={20} language="en" />,
     );
     expect(screen.getByText('total:1')).toBeVisible();
-    expect(screen.getByText('range:1:1;total:1')).toBeVisible();
+    expect(screen.getByText('single;total:1')).toBeVisible();
+  });
+  it('gives the position of a last page holding one result', () => {
+    render(
+      <JobsResultsBar visibleCount={21} page={2} pageSize={20} language="en" />,
+    );
+    expect(screen.getByText('last:21;total:21')).toBeVisible();
   });
   it('includes supplied context without fixing its heading placement', () => {
     render(
@@ -56,6 +71,24 @@ describe('JobsResultsBar data', () => {
       screen.getByText('context:Fixture discipline;total:12'),
     ).toBeVisible();
     expect(screen.getByText('range:1:12;total:12')).toBeVisible();
+  });
+  it('prefers the counted heading, given the raw count for plural selection', () => {
+    const countedHeading = vi.fn(
+      ({ count, countLabel }: { count: number; countLabel: string }) =>
+        `counted:${count}:${countLabel}`,
+    );
+    render(
+      <JobsResultsBar
+        visibleCount={1}
+        page={1}
+        pageSize={20}
+        heading="Fixture discipline"
+        countedHeading={countedHeading}
+        language="en"
+      />,
+    );
+    expect(screen.getByText('counted:1:1')).toBeVisible();
+    expect(screen.queryByText(/^context:/)).toBeNull();
   });
   it('includes withheld jobs in the total while bounding the range by visible jobs', () => {
     render(
