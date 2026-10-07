@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 
-import { countryOptions } from '@cavuno/board/format';
+import { countryOptions, distanceUnitForCountry } from '@cavuno/board/format';
 import { useRouter } from '@tanstack/react-router';
 
 import { m } from '../paraglide/messages';
@@ -13,6 +13,15 @@ import {
   updateProfileObjectReferences,
 } from '../server/form-fields';
 
+import {
+  commuteRadiusBounds,
+  commuteRadiusFromDisplay,
+  commuteRadiusToDisplay,
+  effectiveCommuteRadiusKm,
+  parseCommuteRadius,
+  takesCommuteRadius,
+  type HomePlace,
+} from '@/board/commute-radius';
 import { customFieldLabel } from '@/board/custom-field-labels';
 import {
   TALENT_FORM_BUILTINS,
@@ -42,15 +51,20 @@ import type { LocationSuggestionState } from '@/components/location-combobox';
 import { LocationSuggestField } from '@/components/location-suggest-field';
 import { useRootSession } from '@/components/root-session';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Field,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/components/ui/input-group';
 import {
   NativeSelect,
   NativeSelectOption,
@@ -62,6 +76,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import {
   reconcileCommittedAction,
@@ -69,6 +84,7 @@ import {
   toastActionReconciliationError,
   toastActionSuccess,
 } from '@/lib/action-toast';
+import { boardErrorMessage } from '@/lib/board-error-message';
 import {
   handleFromName,
   handleProblem,
@@ -114,6 +130,36 @@ function toForm(profile: CandidateProfileWithCountry): FormState {
     jobSearchStatusVisibleTo: profile.jobSearchStatusVisibleTo,
     openToRelocate: profile.openToRelocate,
   };
+}
+
+/** The stored home place, as the place the form measures commutes from. */
+function toHomePlace(
+  place: CandidateProfile['locationPlace'],
+): HomePlace | null {
+  return place
+    ? {
+        id: place.id,
+        countryCode: place.countryCode,
+        placeType: place.placeType,
+        city: place.city,
+        name: place.name,
+      }
+    : null;
+}
+
+/** A commute distance the candidate typed, in the unit it was typed in. */
+type CommuteDraft = { text: string; unit: 'mi' | 'km' };
+
+/** A typed distance re-expressed in `unit`; unparseable text is kept. */
+function convertCommuteText(
+  draft: CommuteDraft,
+  unit: CommuteDraft['unit'],
+): string {
+  const value = draft.text.trim() === '' ? Number.NaN : Number(draft.text);
+  if (!Number.isFinite(value)) return draft.text;
+  return String(
+    commuteRadiusToDisplay(commuteRadiusFromDisplay(value, draft.unit), unit),
+  );
 }
 
 type Status = 'idle' | 'saving';
@@ -302,6 +348,21 @@ export function ProfileForm({
   // location is whatever the profile already had, so it starts settled.
   const [locationUnpicked, setLocationUnpicked] = useState(false);
   const [locationPickError, setLocationPickError] = useState(false);
+  // A location refused by the API on save (unknown id, lookup down).
+  const [locationSaveError, setLocationSaveError] = useState<string | null>(
+    null,
+  );
+  // The place commutes are measured from: the stored one, a fresh pick, or
+  // none once the candidate types over it.
+  const [homePlace, setHomePlace] = useState<HomePlace | null>(() =>
+    toHomePlace(profile.locationPlace),
+  );
+  const storedHomePlaceId = profile.locationPlace?.id ?? null;
+  const commuteInput = useRef<HTMLInputElement>(null);
+  // `null` until the candidate edits the distance; an untouched field saves
+  // nothing, so the stored value (or the market default) stays.
+  const [commuteDraft, setCommuteDraft] = useState<CommuteDraft | null>(null);
+  const [commuteError, setCommuteError] = useState(false);
   // The handle follows the display name until the candidate types one.
   const [handleFollowsName, setHandleFollowsName] = useState(!profile.handle);
   const incomingOverview = {
@@ -324,6 +385,8 @@ export function ProfileForm({
     ) {
       setLocationUnpicked(false);
       setLocationPickError(false);
+      setLocationSaveError(null);
+      setHomePlace(toHomePlace(profile.locationPlace));
     }
     setForm((draft) => {
       const next = { ...draft };
@@ -468,6 +531,51 @@ export function ProfileForm({
     return null;
   }
 
+  const showsCommuteRadius = takesCommuteRadius(homePlace);
+  // A home place (saved or picked) decides the country on the server.
+  const showsCountry = homePlace === null;
+  const commuteUnit = distanceUnitForCountry(homePlace?.countryCode);
+  const commuteBounds = commuteRadiusBounds(commuteUnit);
+  const unitLabel = (unit: CommuteDraft['unit']) =>
+    unit === 'mi'
+      ? m.profileForm_commuteRadiusMilesUnit()
+      : m.profileForm_commuteRadiusKilometresUnit();
+  // An edited distance keeps its length when a new home place changes the
+  // unit; an untouched one shows the saved distance or the market default.
+  const commuteText = commuteDraft
+    ? commuteDraft.unit === commuteUnit
+      ? commuteDraft.text
+      : convertCommuteText(commuteDraft, commuteUnit)
+    : String(
+        commuteRadiusToDisplay(
+          effectiveCommuteRadiusKm(
+            profile.commuteRadiusKm,
+            homePlace?.countryCode,
+            homePlace?.id === storedHomePlaceId
+              ? profile.commuteRadiusDefaultKm
+              : undefined,
+          ),
+          commuteUnit,
+        ),
+      );
+  // An emptied field resets to the market default, shown as its placeholder.
+  const commuteDefaultText = String(
+    commuteRadiusToDisplay(
+      effectiveCommuteRadiusKm(
+        null,
+        homePlace?.countryCode,
+        homePlace?.id === storedHomePlaceId
+          ? profile.commuteRadiusDefaultKm
+          : undefined,
+      ),
+      commuteUnit,
+    ),
+  );
+  const commuteRangeMessage = m.profileForm_commuteRadiusRangeError({
+    min: `${commuteBounds.min} ${unitLabel(commuteUnit)}`,
+    max: `${commuteBounds.max} ${unitLabel(commuteUnit)}`,
+  });
+
   async function loadChoices(fieldKey: string, search: string) {
     const result = await (
       dependencies.listObjectReferenceChoices ??
@@ -489,6 +597,17 @@ export function ProfileForm({
       locationInput.current?.focus();
       return;
     }
+    const commuteEdited = showsCommuteRadius && commuteDraft !== null;
+    const commuteCleared = commuteEdited && commuteText.trim() === '';
+    const commuteValue =
+      commuteEdited && !commuteCleared
+        ? parseCommuteRadius(commuteText, commuteUnit)
+        : null;
+    if (commuteEdited && !commuteCleared && commuteValue === null) {
+      setCommuteError(true);
+      commuteInput.current?.focus();
+      return;
+    }
     if (missing) return;
     setStatus('saving');
     const handle = form.handle;
@@ -496,17 +615,33 @@ export function ProfileForm({
       // A merge-patch: a built-in the layout hides is not sent, so the value
       // already stored on the profile is kept.
       const data: Parameters<typeof updateProfile>[0]['data'] = {
-        // This is deliberately independent of the free-text location:
-        // no locale parsing or backfill can turn an ambiguous historic
-        // location into an eligibility decision.
-        countryCode: form.countryCode,
         profileVisibility: form.profileVisibility,
         openToRelocate: form.openToRelocate,
       };
+      // With a home place the API sets the country from it, so the hidden
+      // field sends nothing. Without one the candidate picks it: no locale
+      // parsing can turn an ambiguous free-text location into an
+      // eligibility decision.
+      if (showsCountry) data.countryCode = form.countryCode;
       if (shows('name')) data.displayName = form.displayName.trim();
       data.handle = handle;
       if (shows('headline')) data.headline = form.headline.trim();
-      if (shows('location')) data.location = form.location.trim();
+      if (shows('location')) {
+        data.location = form.location.trim();
+        // The picked place goes only when it changed; `null` drops a stored
+        // place the candidate typed over or cleared.
+        const homePlaceId = homePlace?.id ?? null;
+        if (homePlaceId !== storedHomePlaceId) data.locationId = homePlaceId;
+      }
+      if (commuteCleared) {
+        // `null` resets the distance to the market default.
+        data.commuteRadiusKm = null;
+      } else if (commuteValue !== null) {
+        data.commuteRadiusKm = commuteRadiusFromDisplay(
+          commuteValue,
+          commuteUnit,
+        );
+      }
       if (shows('bio')) data.bio = form.bio.trim();
       if (shows('jobSearchStatus')) {
         data.jobSearchStatus = form.jobSearchStatus;
@@ -514,8 +649,18 @@ export function ProfileForm({
       }
       const result = await dependencies.updateProfile({ data });
       if (!result.ok) {
-        // Another candidate took the handle since the last probe.
         setStatus('idle');
+        if ('field' in result && result.field === 'location') {
+          setLocationSaveError(boardErrorMessage({ code: result.code }));
+          locationInput.current?.focus();
+          return;
+        }
+        if ('field' in result && result.field === 'commuteRadius') {
+          setCommuteError(true);
+          commuteInput.current?.focus();
+          return;
+        }
+        // Another candidate took the handle since the last probe.
         setHandleCheck({ handle, status: 'taken' });
         handleInput.current?.focus();
         return;
@@ -559,30 +704,35 @@ export function ProfileForm({
 
   // Neither the country nor the profile visibility is a layout field: they
   // ride with the location and the job search status, and keep a place of
-  // their own when those are hidden.
-  const countryField = (
-    <Field className="gap-1.5">
-      <FieldLabel htmlFor="profile-country">
-        {m.profileForm_countryLabel()}
-      </FieldLabel>
-      <NativeSelect
-        id="profile-country"
-        className="w-full"
-        value={form.countryCode ?? ''}
-        onChange={(event) => set('countryCode', event.target.value || null)}
-      >
-        <NativeSelectOption value="">
-          {m.profileForm_countryNotSpecified()}
-        </NativeSelectOption>
-        {countries.map((country) => (
-          <NativeSelectOption key={country.code} value={country.code}>
-            {country.name}
+  // their own when those are hidden. The country shows only without a home
+  // place, half width under the relocation switch.
+  const countryField = showsCountry ? (
+    <div className="grid gap-4 sm:col-span-2 sm:grid-cols-2">
+      <Field className="gap-1.5">
+        <FieldLabel htmlFor="profile-country">
+          {m.profileForm_countryLabel()}
+        </FieldLabel>
+        <NativeSelect
+          id="profile-country"
+          className="w-full"
+          value={form.countryCode ?? ''}
+          onChange={(event) => set('countryCode', event.target.value || null)}
+        >
+          <NativeSelectOption value="">
+            {m.profileForm_countryNotSpecified()}
           </NativeSelectOption>
-        ))}
-      </NativeSelect>
-      <FieldDescription>{m.profileForm_countryDescription()}</FieldDescription>
-    </Field>
-  );
+          {countries.map((country) => (
+            <NativeSelectOption key={country.code} value={country.code}>
+              {country.name}
+            </NativeSelectOption>
+          ))}
+        </NativeSelect>
+        <FieldDescription>
+          {m.profileForm_countryDescription()}
+        </FieldDescription>
+      </Field>
+    </div>
+  ) : null;
   const visibilityField = (
     <Field className="gap-1.5">
       <FieldLabel htmlFor="profile-visibility">
@@ -608,6 +758,92 @@ export function ProfileForm({
         </SelectContent>
       </Select>
     </Field>
+  );
+
+  // The commute distance sits beside the location (stacked on phones), with
+  // its description and error under the pair; the relocation switch follows.
+  // Without a location field (the layout hides it) the commute field stands
+  // alone. The country follows them, only when there is no home place.
+  const homePlaceName = homePlace?.city || homePlace?.name || '';
+  const commuteControl = showsCommuteRadius ? (
+    <Field
+      className="shrink-0 gap-1.5 sm:w-auto"
+      data-invalid={commuteError || undefined}
+    >
+      <FieldLabel htmlFor="profile-commute-radius">
+        {m.profileForm_commuteRadiusLabel()}
+      </FieldLabel>
+      <InputGroup>
+        <InputGroupInput
+          ref={commuteInput}
+          id="profile-commute-radius"
+          // Text, not number: the range is checked on submit with a
+          // translated inline error, and a decimal distance is valid.
+          type="text"
+          inputMode="decimal"
+          value={commuteText}
+          placeholder={commuteDefaultText}
+          aria-invalid={commuteError || undefined}
+          aria-describedby={
+            commuteError
+              ? 'profile-commute-radius-description profile-commute-radius-error'
+              : 'profile-commute-radius-description'
+          }
+          onChange={(event) => {
+            setCommuteDraft({
+              text: event.target.value,
+              unit: commuteUnit,
+            });
+            setCommuteError(false);
+            setStatus('idle');
+          }}
+        />
+        <InputGroupAddon align="inline-end">
+          {unitLabel(commuteUnit)}
+        </InputGroupAddon>
+      </InputGroup>
+    </Field>
+  ) : null;
+  const commuteNotes = showsCommuteRadius ? (
+    <>
+      <FieldDescription id="profile-commute-radius-description">
+        {m.profileForm_commuteRadiusDescription({ place: homePlaceName })}
+      </FieldDescription>
+      {commuteError ? (
+        <FieldError id="profile-commute-radius-error">
+          {commuteRangeMessage}
+        </FieldError>
+      ) : null}
+    </>
+  ) : null;
+  const relocationField = (
+    <Field orientation="horizontal" className="sm:col-span-2">
+      <FieldContent>
+        <FieldLabel htmlFor="profile-open-to-relocate">
+          {m.profileForm_openToRelocatingLabel()}
+        </FieldLabel>
+        <FieldDescription id="profile-open-to-relocate-description">
+          {m.profileForm_openToRelocateDescription()}
+        </FieldDescription>
+      </FieldContent>
+      <Switch
+        id="profile-open-to-relocate"
+        aria-describedby="profile-open-to-relocate-description"
+        checked={form.openToRelocate}
+        onCheckedChange={(checked) => set('openToRelocate', checked)}
+      />
+    </Field>
+  );
+  const locationSettings = (
+    <div className="flex flex-col gap-4 sm:col-span-2">
+      {showsCommuteRadius ? (
+        <div className="flex flex-col gap-1.5">
+          {commuteControl}
+          {commuteNotes}
+        </div>
+      ) : null}
+      {relocationField}
+    </div>
   );
 
   const handleStatusText =
@@ -698,7 +934,7 @@ export function ProfileForm({
         );
       case 'headline':
         return (
-          <Field className="gap-1.5">
+          <Field className="gap-1.5 sm:col-span-2">
             <FieldLabel htmlFor="profile-headline">
               {m.profileForm_headlineLabel()}
             </FieldLabel>
@@ -714,41 +950,69 @@ export function ProfileForm({
       case 'location':
         return (
           <>
-            <Field
-              className="gap-1.5"
-              data-invalid={locationPickError || undefined}
-            >
-              <FieldLabel htmlFor="profile-location">
-                {m.profileForm_locationLabel()}
-              </FieldLabel>
-              <LocationSuggestField
-                id="profile-location"
-                inputRef={locationInput}
-                value={form.location}
-                placeholder={m.profileForm_locationPlaceholder()}
-                searchingText={m.locationCombobox_searchingText()}
-                invalid={locationPickError}
-                describedBy={
-                  locationPickError ? 'profile-location-error' : undefined
-                }
-                onValueChange={(location) => {
-                  set('location', location);
-                  setLocationUnpicked(location.trim() !== '');
-                  setLocationPickError(false);
-                }}
-                onPick={(place) => {
-                  set('location', place.fullName ?? place.name);
-                  setLocationUnpicked(false);
-                  setLocationPickError(false);
-                }}
-                {...locationSuggestions}
-              />
-              {locationPickError ? (
-                <FieldError id="profile-location-error">
-                  {m.locationField_pickRequiredError()}
-                </FieldError>
-              ) : null}
-            </Field>
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                <Field
+                  className="min-w-0 flex-1 gap-1.5"
+                  data-invalid={
+                    locationPickError || Boolean(locationSaveError) || undefined
+                  }
+                >
+                  <FieldLabel htmlFor="profile-location">
+                    {m.profileForm_locationLabel()}
+                  </FieldLabel>
+                  <LocationSuggestField
+                    id="profile-location"
+                    inputRef={locationInput}
+                    value={form.location}
+                    placeholder={m.profileForm_locationPlaceholder()}
+                    searchingText={m.locationCombobox_searchingText()}
+                    invalid={locationPickError || Boolean(locationSaveError)}
+                    describedBy={
+                      locationPickError || locationSaveError
+                        ? 'profile-location-error'
+                        : undefined
+                    }
+                    onValueChange={(location) => {
+                      set('location', location);
+                      setLocationUnpicked(location.trim() !== '');
+                      setLocationPickError(false);
+                      setLocationSaveError(null);
+                      setHomePlace(null);
+                    }}
+                    onPick={(place) => {
+                      set('location', place.fullName ?? place.name);
+                      setLocationUnpicked(false);
+                      setLocationPickError(false);
+                      setLocationSaveError(null);
+                      setHomePlace(
+                        place.id === storedHomePlaceId
+                          ? toHomePlace(profile.locationPlace)
+                          : {
+                              id: place.id,
+                              countryCode: place.countryCode,
+                              placeType: place.placeType ?? null,
+                              name: place.name,
+                            },
+                      );
+                    }}
+                    {...locationSuggestions}
+                  />
+                  {locationPickError ? (
+                    <FieldError id="profile-location-error">
+                      {m.locationField_pickRequiredError()}
+                    </FieldError>
+                  ) : locationSaveError ? (
+                    <FieldError id="profile-location-error">
+                      {locationSaveError}
+                    </FieldError>
+                  ) : null}
+                </Field>
+                {commuteControl}
+              </div>
+              {commuteNotes}
+            </div>
+            {relocationField}
             {countryField}
           </>
         );
@@ -906,23 +1170,14 @@ export function ProfileForm({
           <div className="grid gap-4 sm:grid-cols-2">{handleField}</div>
         )}
         {shows('location') ? null : (
-          <div className="grid gap-4 sm:grid-cols-2">{countryField}</div>
+          <>
+            {locationSettings}
+            {countryField}
+          </>
         )}
         {shows('jobSearchStatus') ? null : (
           <div className="grid gap-4 sm:grid-cols-3">{visibilityField}</div>
         )}
-
-        <Field orientation="horizontal" className="w-fit">
-          <FieldLabel className="cursor-pointer">
-            <Checkbox
-              checked={form.openToRelocate}
-              onCheckedChange={(checked) =>
-                set('openToRelocate', checked === true)
-              }
-            />
-            {m.profileForm_openToRelocatingLabel()}
-          </FieldLabel>
-        </Field>
 
         <div className="flex flex-wrap items-center gap-3">
           <Button
