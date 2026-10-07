@@ -42,9 +42,15 @@ function CategoryPage() {
     ]?.() ?? category.displayName;
   return (
     <ProgrammaticJobsView
-      heading={m.categoryPage_jobsHeading({
-        category: categoryName
-      })}
+      heading={
+        category.canonicalSlug === 'management-admin-and-support'
+          ? m.categoryPage_jobsHeading_admin({
+            category: categoryName,
+          })
+          : m.categoryPage_jobsHeading({
+            category: categoryName,
+        })
+      }
       count={list.count}
       gatedCount={list.gatedCount}
       jobs={list.data}
