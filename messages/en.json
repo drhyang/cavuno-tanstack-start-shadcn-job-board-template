@@ -508,8 +508,8 @@
   "candidatePaywallLock_recommendedBadge": "Recommended",
   "candidatePaywallLock_noOffersText": "No paid plans are available right now. You can keep browsing jobs.",
   "candidatePaywallLock_checkoutTerms": "Review the full billing terms in checkout before paying.",
-  "categoryPage_jobsHeading": "Academic Jobs in {category}",
-  "categoryPage_jobsHeading_admin": "{category} Jobs",
+  "categoryPage_jobsHeading": "academic jobs in {category}",
+  "categoryPage_jobsHeading_admin": "{category} jobs",
   "categoryPage_notFoundText": "Category not found.",
   "commandDialog_searchPlaceholder": "Search for a command to run...",
   "commandDialog_title": "Command Palette",
@@ -1372,8 +1372,8 @@
       ],
       "selectors": ["countPlural"],
       "match": {
-        "countPlural=one": "{countLabel} job",
-        "countPlural=*": "{countLabel} jobs"
+        "countPlural=one": "{countLabel} academic job",
+        "countPlural=*": "{countLabel} academic jobs"
       }
     }
   ],

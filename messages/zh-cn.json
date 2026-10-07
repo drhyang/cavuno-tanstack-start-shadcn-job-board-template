@@ -1416,8 +1416,8 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "{countLabel} 个职位",
-        "countPlural=*": "{countLabel} 个职位"
+        "countPlural=one": "{countLabel} 个学术职位",
+        "countPlural=*": "{countLabel} 个学术职位"
       }
     }
   ],
