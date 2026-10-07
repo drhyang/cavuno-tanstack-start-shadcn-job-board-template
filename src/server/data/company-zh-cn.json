@@ -1,10 +1,3426 @@
 {
-  "rennes-school-of-business": {
-    "name": "雷恩高等商学院",
-    "summary": "雷恩高等商学院是法国一所知名商学院。"
+  "peking-university": {
+    "name": "北京大学",
+    "summary": "北京大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
   },
-  "taylor-s-university": {
-    "name": "泰莱大学",
-    "summary": "泰莱大学是马来西亚一所知名私立大学。"
+  "renmin-university-of-china": {
+    "name": "中国人民大学",
+    "summary": "中国人民大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tsinghua-university": {
+    "name": "清华大学",
+    "summary": "清华大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-jiaotong-university": {
+    "name": "北京交通大学",
+    "summary": "北京交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-university-of-technology": {
+    "name": "北京工业大学",
+    "summary": "北京工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beihang-university": {
+    "name": "北京航空航天大学",
+    "summary": "北京航空航天大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-institute-of-technology": {
+    "name": "北京理工大学",
+    "summary": "北京理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-science-and-technology-beijing": {
+    "name": "北京科技大学",
+    "summary": "北京科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-china-university-of-technology": {
+    "name": "北方工业大学",
+    "summary": "北方工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-university-of-chemical-technology": {
+    "name": "北京化工大学",
+    "summary": "北京化工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-technology-and-business-university": {
+    "name": "北京工商大学",
+    "summary": "北京工商大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-institute-of-fashion-technology": {
+    "name": "北京服装学院",
+    "summary": "北京服装学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-university-of-posts-and-telecommunications": {
+    "name": "北京邮电大学",
+    "summary": "北京邮电大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-institute-of-graphic-communication": {
+    "name": "北京印刷学院",
+    "summary": "北京印刷学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-university-of-civil-engineering-and-architecture": {
+    "name": "北京建筑大学",
+    "summary": "北京建筑大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-institute-of-petrochemical-technology": {
+    "name": "北京石油化工学院",
+    "summary": "北京石油化工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-electronic-science-and-technology-institute": {
+    "name": "北京电子科技学院",
+    "summary": "北京电子科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-agricultural-university": {
+    "name": "中国农业大学",
+    "summary": "中国农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-university-of-agriculture": {
+    "name": "北京农学院",
+    "summary": "北京农学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-forestry-university": {
+    "name": "北京林业大学",
+    "summary": "北京林业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "peking-union-medical-college": {
+    "name": "北京协和医学院",
+    "summary": "北京协和医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "capital-medical-university": {
+    "name": "首都医科大学",
+    "summary": "首都医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-university-of-chinese-medicine": {
+    "name": "北京中医药大学",
+    "summary": "北京中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-normal-university": {
+    "name": "北京师范大学",
+    "summary": "北京师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "capital-normal-university": {
+    "name": "首都师范大学",
+    "summary": "首都师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "capital-institute-of-physical-education": {
+    "name": "首都体育学院",
+    "summary": "首都体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-foreign-studies-university": {
+    "name": "北京外国语大学",
+    "summary": "北京外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-second-foreign-language-institute": {
+    "name": "北京第二外国语学院",
+    "summary": "北京第二外国语学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-language-and-culture-university": {
+    "name": "北京语言大学",
+    "summary": "北京语言大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "communication-university-of-china": {
+    "name": "中国传媒大学",
+    "summary": "中国传媒大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "central-university-of-finance-and-economics": {
+    "name": "中央财经大学",
+    "summary": "中央财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-international-business-and-economics": {
+    "name": "对外经济贸易大学",
+    "summary": "对外经济贸易大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-wuzi-university": {
+    "name": "北京物资学院",
+    "summary": "北京物资学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "capital-university-of-economics-and-business": {
+    "name": "首都经济贸易大学",
+    "summary": "首都经济贸易大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-fire-rescue-academy": {
+    "name": "中国消防救援学院",
+    "summary": "中国消防救援学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-foreign-affairs-university": {
+    "name": "外交学院",
+    "summary": "外交学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "people-s-public-security-university-of-china": {
+    "name": "中国人民公安大学",
+    "summary": "中国人民公安大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-international-relations": {
+    "name": "国际关系学院",
+    "summary": "国际关系学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-sport-university": {
+    "name": "北京体育大学",
+    "summary": "北京体育大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "central-conservatory-of-music": {
+    "name": "中央音乐学院",
+    "summary": "中央音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-conservatory-of-music": {
+    "name": "中国音乐学院",
+    "summary": "中国音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "central-academy-of-fine-arts": {
+    "name": "中央美术学院",
+    "summary": "中央美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-central-academy-of-drama": {
+    "name": "中央戏剧学院",
+    "summary": "中央戏剧学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "national-academy-of-chinese-theatre-arts": {
+    "name": "中国戏曲学院",
+    "summary": "中国戏曲学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-film-academy": {
+    "name": "北京电影学院",
+    "summary": "北京电影学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-dance-academy": {
+    "name": "北京舞蹈学院",
+    "summary": "北京舞蹈学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "minzu-university-of-china": {
+    "name": "中央民族大学",
+    "summary": "中央民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-political-science-and-law": {
+    "name": "中国政法大学",
+    "summary": "中国政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-china-electric-power-university": {
+    "name": "华北电力大学",
+    "summary": "华北电力大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-women-s-university": {
+    "name": "中华女子学院",
+    "summary": "中华女子学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-information-science-and-technology-university": {
+    "name": "北京信息科技大学",
+    "summary": "北京信息科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-mining-and-technology-beijing": {
+    "name": "中国矿业大学（北京）",
+    "summary": "中国矿业大学（北京）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-petroleum-beijing": {
+    "name": "中国石油大学（北京）",
+    "summary": "中国石油大学（北京）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-geosciences-beijing": {
+    "name": "中国地质大学（北京）",
+    "summary": "中国地质大学（北京）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-union-university": {
+    "name": "北京联合大学",
+    "summary": "北京联合大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-city-university": {
+    "name": "北京城市学院",
+    "summary": "北京城市学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-youth-university-of-political-studies": {
+    "name": "中国青年政治学院",
+    "summary": "中国青年政治学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shougang-institute-of-technology": {
+    "name": "首钢工学院",
+    "summary": "首钢工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-labor-relations": {
+    "name": "中国劳动关系学院",
+    "summary": "中国劳动关系学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "kede-college-capital-normal-university": {
+    "name": "首都师范大学科德学院",
+    "summary": "首都师范大学科德学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "century-college-beijing-university-of-posts-and-telecommunications": {
+    "name": "北京邮电大学世纪学院",
+    "summary": "北京邮电大学世纪学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "geng-dan-college-beijing-university-of-technology": {
+    "name": "北京工业大学耿丹学院",
+    "summary": "北京工业大学耿丹学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-police-academy": {
+    "name": "北京警察学院",
+    "summary": "北京警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-international-studies-university-zhongrui-hotel-management-school": {
+    "name": "北京第二外国语学院中瑞酒店管理学院",
+    "summary": "北京第二外国语学院中瑞酒店管理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-chinese-academy-of-sciences": {
+    "name": "中国科学院大学",
+    "summary": "中国科学院大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-chinese-academy-of-social-sciences": {
+    "name": "中国社会科学院大学",
+    "summary": "中国社会科学院大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nankai-university": {
+    "name": "南开大学",
+    "summary": "南开大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university": {
+    "name": "天津大学",
+    "summary": "天津大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university-of-science-and-technology": {
+    "name": "天津科技大学",
+    "summary": "天津科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-polytechnic-university": {
+    "name": "天津工业大学",
+    "summary": "天津工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "civil-aviation-university-of-china": {
+    "name": "中国民航大学",
+    "summary": "中国民航大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university-of-technology": {
+    "name": "天津理工大学",
+    "summary": "天津理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-agricultural-college": {
+    "name": "天津农学院",
+    "summary": "天津农学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-medical-university": {
+    "name": "天津医科大学",
+    "summary": "天津医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university-of-traditional-chinese-medicine": {
+    "name": "天津中医药大学",
+    "summary": "天津中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-normal-university": {
+    "name": "天津师范大学",
+    "summary": "天津师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university-of-technology-and-education": {
+    "name": "天津职业技术师范大学",
+    "summary": "天津职业技术师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-foreign-studies-university": {
+    "name": "天津外国语大学",
+    "summary": "天津外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university-of-commerce": {
+    "name": "天津商业大学",
+    "summary": "天津商业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-university-of-finance-and-economics": {
+    "name": "天津财经大学",
+    "summary": "天津财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-institute-of-physical-education": {
+    "name": "天津体育学院",
+    "summary": "天津体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-conservatory-of-music": {
+    "name": "天津音乐学院",
+    "summary": "天津音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-academy-of-fine-arts": {
+    "name": "天津美术学院",
+    "summary": "天津美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-chengjian-university": {
+    "name": "天津城建大学",
+    "summary": "天津城建大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianjin-sino-german-university-of-applied-sciences": {
+    "name": "天津中德应用技术大学",
+    "summary": "天津中德应用技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university": {
+    "name": "河北大学",
+    "summary": "河北大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-engineering": {
+    "name": "河北工程大学",
+    "summary": "河北工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-geosciences": {
+    "name": "河北地质大学",
+    "summary": "河北地质大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-technology": {
+    "name": "河北工业大学",
+    "summary": "河北工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-china-university-of-science-and-technology": {
+    "name": "华北理工大学",
+    "summary": "华北理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-science-and-technology": {
+    "name": "河北科技大学",
+    "summary": "河北科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-architecture": {
+    "name": "河北建筑工程学院",
+    "summary": "河北建筑工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-water-resources-and-electric-engineering": {
+    "name": "河北水利电力学院",
+    "summary": "河北水利电力学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-agricultural-university": {
+    "name": "河北农业大学",
+    "summary": "河北农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-medical-university": {
+    "name": "河北医科大学",
+    "summary": "河北医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-north-university": {
+    "name": "河北北方学院",
+    "summary": "河北北方学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengde-medical-university": {
+    "name": "承德医学院",
+    "summary": "承德医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-normal-university": {
+    "name": "河北师范大学",
+    "summary": "河北师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "baoding-university": {
+    "name": "保定学院",
+    "summary": "保定学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-normal-university-for-nationalities": {
+    "name": "河北民族师范学院",
+    "summary": "河北民族师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tangshan-normal-university": {
+    "name": "唐山师范学院",
+    "summary": "唐山师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "langfang-normal-university": {
+    "name": "廊坊师范学院",
+    "summary": "廊坊师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hengshui-university": {
+    "name": "衡水学院",
+    "summary": "衡水学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shijiazhuang-university": {
+    "name": "石家庄学院",
+    "summary": "石家庄学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "handan-college": {
+    "name": "邯郸学院",
+    "summary": "邯郸学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xingtai-university": {
+    "name": "邢台学院",
+    "summary": "邢台学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "cangzhou-normal-university": {
+    "name": "沧州师范学院",
+    "summary": "沧州师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shijiazhuang-tiedao-university": {
+    "name": "石家庄铁道大学",
+    "summary": "石家庄铁道大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yanshan-university": {
+    "name": "燕山大学",
+    "summary": "燕山大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-normal-university-of-science-and-technology": {
+    "name": "河北科技师范学院",
+    "summary": "河北科技师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tangshan-university": {
+    "name": "唐山学院",
+    "summary": "唐山学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-people-s-police-university": {
+    "name": "中国人民警察大学",
+    "summary": "中国人民警察大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-institute-of-physical-education": {
+    "name": "河北体育学院",
+    "summary": "河北体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-finance-university": {
+    "name": "河北金融学院",
+    "summary": "河北金融学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-china-institute-of-aerospace-engineering": {
+    "name": "北华航天工业学院",
+    "summary": "北华航天工业学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-economics-and-business": {
+    "name": "河北经贸大学",
+    "summary": "河北经贸大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "national-police-university-for-criminal-justice": {
+    "name": "中央司法警官学院",
+    "summary": "中央司法警官学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-chinese-medicine": {
+    "name": "河北中医药大学",
+    "summary": "河北中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhangjiakou-university": {
+    "name": "张家口学院",
+    "summary": "张家口学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hebei-university-of-environmental-engineering": {
+    "name": "河北环境工程学院",
+    "summary": "河北环境工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xingtai-medical-college": {
+    "name": "邢台医学院",
+    "summary": "邢台医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-university": {
+    "name": "山西大学",
+    "summary": "山西大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taiyuan-university-of-science-and-technology": {
+    "name": "太原科技大学",
+    "summary": "太原科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-university-of-china": {
+    "name": "中北大学",
+    "summary": "中北大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taiyuan-university-of-technology": {
+    "name": "太原理工大学",
+    "summary": "太原理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-agricultural-university": {
+    "name": "山西农业大学",
+    "summary": "山西农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-medical-university": {
+    "name": "山西医科大学",
+    "summary": "山西医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changzhi-medical-college": {
+    "name": "长治医学院",
+    "summary": "长治医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-normal-university": {
+    "name": "山西师范大学",
+    "summary": "山西师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taiyuan-normal-university": {
+    "name": "太原师范学院",
+    "summary": "太原师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-datong-university": {
+    "name": "山西大同大学",
+    "summary": "山西大同大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jinzhong-college": {
+    "name": "晋中学院",
+    "summary": "晋中学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changzhi-college": {
+    "name": "长治学院",
+    "summary": "长治学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yuncheng-university": {
+    "name": "运城学院",
+    "summary": "运城学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinzhou-teachers-college": {
+    "name": "忻州师范学院",
+    "summary": "忻州师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-finance-university": {
+    "name": "山西财经大学",
+    "summary": "山西财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-university-of-chinese-medicine": {
+    "name": "山西中医药大学",
+    "summary": "山西中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "luliang-college": {
+    "name": "吕梁学院",
+    "summary": "吕梁学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taiyuan-university": {
+    "name": "太原学院",
+    "summary": "太原学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-police-college": {
+    "name": "山西警察学院",
+    "summary": "山西警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-institute-of-technology": {
+    "name": "山西工学院",
+    "summary": "山西工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-university-of-science-and-technology": {
+    "name": "山西科技学院",
+    "summary": "山西科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taiyuan-institute-of-technology": {
+    "name": "太原工业学院",
+    "summary": "太原工业学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-institute-of-communication": {
+    "name": "山西传媒学院",
+    "summary": "山西传媒学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-institute-of-engineering-and-technology": {
+    "name": "山西工程技术学院",
+    "summary": "山西工程技术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanxi-institute-of-energy": {
+    "name": "山西能源学院",
+    "summary": "山西能源学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-university": {
+    "name": "内蒙古大学",
+    "summary": "内蒙古大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-university-of-science-and-technology": {
+    "name": "内蒙古科技大学",
+    "summary": "内蒙古科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-university-of-technology": {
+    "name": "内蒙古工业大学",
+    "summary": "内蒙古工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-agricultural-university": {
+    "name": "内蒙古农业大学",
+    "summary": "内蒙古农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-medical-university": {
+    "name": "内蒙古医科大学",
+    "summary": "内蒙古医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-normal-university": {
+    "name": "内蒙古师范大学",
+    "summary": "内蒙古师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-university-for-nationalities": {
+    "name": "内蒙古民族大学",
+    "summary": "内蒙古民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chifeng-university": {
+    "name": "赤峰大学",
+    "summary": "赤峰大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-university-of-finance-and-economics": {
+    "name": "内蒙古财经大学",
+    "summary": "内蒙古财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hulunbuir-university": {
+    "name": "呼伦贝尔学院",
+    "summary": "呼伦贝尔学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jining-normal-university": {
+    "name": "集宁师范学院",
+    "summary": "集宁师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hetao-college": {
+    "name": "河套学院",
+    "summary": "河套学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hohhot-minzu-college": {
+    "name": "呼和浩特民族学院",
+    "summary": "呼和浩特民族学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "inner-mongolia-arts-university": {
+    "name": "内蒙古艺术学院",
+    "summary": "内蒙古艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ordos-institute-of-applied-technology": {
+    "name": "鄂尔多斯应用技术学院",
+    "summary": "鄂尔多斯应用技术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-university": {
+    "name": "辽宁大学",
+    "summary": "辽宁大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-university-of-technology": {
+    "name": "大连理工大学",
+    "summary": "大连理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-university-of-technology": {
+    "name": "沈阳工业大学",
+    "summary": "沈阳工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-aerospace-university": {
+    "name": "沈阳航空航天大学",
+    "summary": "沈阳航空航天大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-ligong-university": {
+    "name": "沈阳理工大学",
+    "summary": "沈阳理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northeastern-university": {
+    "name": "东北大学",
+    "summary": "东北大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-science-and-technology-liaoning": {
+    "name": "辽宁科技大学",
+    "summary": "辽宁科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-technical-university": {
+    "name": "辽宁工程技术大学",
+    "summary": "辽宁工程技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-petrochemical-university": {
+    "name": "辽宁石油化工大学",
+    "summary": "辽宁石油化工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-university-of-chemical-technology": {
+    "name": "沈阳化工大学",
+    "summary": "沈阳化工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-jiaotong-university": {
+    "name": "大连交通大学",
+    "summary": "大连交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-maritime-university": {
+    "name": "大连海事大学",
+    "summary": "大连海事大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-polytechnic-university": {
+    "name": "大连工业大学",
+    "summary": "大连工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-jianzhu-university": {
+    "name": "沈阳建筑大学",
+    "summary": "沈阳建筑大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-university-of-technology": {
+    "name": "辽宁工业大学",
+    "summary": "辽宁工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-agricultural-university": {
+    "name": "沈阳农业大学",
+    "summary": "沈阳农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-ocean-university": {
+    "name": "大连海洋大学",
+    "summary": "大连海洋大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-medical-university": {
+    "name": "中国医科大学",
+    "summary": "中国医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jinzhou-medical-university": {
+    "name": "锦州医科大学",
+    "summary": "锦州医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-medical-university": {
+    "name": "大连医科大学",
+    "summary": "大连医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-university-of-traditional-chinese-medicine": {
+    "name": "辽宁中医药大学",
+    "summary": "辽宁中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-pharmaceutical-university": {
+    "name": "沈阳药科大学",
+    "summary": "沈阳药科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-medical-college": {
+    "name": "沈阳医学院",
+    "summary": "沈阳医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-normal-university": {
+    "name": "辽宁师范大学",
+    "summary": "辽宁师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-normal-university": {
+    "name": "沈阳师范大学",
+    "summary": "沈阳师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "bohai-university": {
+    "name": "渤海大学",
+    "summary": "渤海大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anshan-normal-university": {
+    "name": "鞍山师范学院",
+    "summary": "鞍山师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-university-of-foreign-languages": {
+    "name": "大连外国语大学",
+    "summary": "大连外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dongbei-university-of-finance-and-economics": {
+    "name": "东北财经大学",
+    "summary": "东北财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-criminal-police-academy": {
+    "name": "中国刑事警察学院",
+    "summary": "中国刑事警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-institute-of-physical-education": {
+    "name": "沈阳体育学院",
+    "summary": "沈阳体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-conservatory-of-music": {
+    "name": "沈阳音乐学院",
+    "summary": "沈阳音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "luxun-academy-of-fine-arts": {
+    "name": "鲁迅美术学院",
+    "summary": "鲁迅美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-university": {
+    "name": "沈阳大学",
+    "summary": "沈阳大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-university": {
+    "name": "大连大学",
+    "summary": "大连大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-institute-of-science-and-technology": {
+    "name": "辽宁科技学院",
+    "summary": "辽宁科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaoning-police-college": {
+    "name": "辽宁警察学院",
+    "summary": "辽宁警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenyang-institute-of-technology": {
+    "name": "沈阳工程学院",
+    "summary": "沈阳工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaodong-university": {
+    "name": "辽东学院",
+    "summary": "辽东学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dalian-minzu-university": {
+    "name": "大连民族大学",
+    "summary": "大连民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yingkou-institute-of-technology": {
+    "name": "营口理工学院",
+    "summary": "营口理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-university": {
+    "name": "吉林大学",
+    "summary": "吉林大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yanbian-university": {
+    "name": "延边大学",
+    "summary": "延边大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changchun-university-of-science-and-technology": {
+    "name": "长春理工大学",
+    "summary": "长春理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northeast-electric-power-university": {
+    "name": "东北电力大学",
+    "summary": "东北电力大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changchun-university-of-technology": {
+    "name": "长春工业大学",
+    "summary": "长春工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-university-of-architecture": {
+    "name": "吉林建筑大学",
+    "summary": "吉林建筑大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-university-of-chemical-technology": {
+    "name": "吉林化工大学",
+    "summary": "吉林化工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-agricultural-university": {
+    "name": "吉林农业大学",
+    "summary": "吉林农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changchun-university-of-chinese-medicine": {
+    "name": "长春中医药大学",
+    "summary": "长春中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northeast-normal-university": {
+    "name": "东北师范大学",
+    "summary": "东北师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beihua-university": {
+    "name": "北华大学",
+    "summary": "北华大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tonghua-teachers-college": {
+    "name": "通化师范学院",
+    "summary": "通化师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-normal-university": {
+    "name": "吉林师范大学",
+    "summary": "吉林师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-normal-university-of-engineering-and-technology": {
+    "name": "吉林工程技术师范学院",
+    "summary": "吉林工程技术师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changchun-normal-university": {
+    "name": "长春师范大学",
+    "summary": "长春师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "baicheng-teachers-college": {
+    "name": "白城师范学院",
+    "summary": "白城师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-university-of-finance-and-economics": {
+    "name": "吉林财经大学",
+    "summary": "吉林财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-institute-of-physical-education": {
+    "name": "吉林体育学院",
+    "summary": "吉林体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-academy-of-arts": {
+    "name": "吉林艺术学院",
+    "summary": "吉林艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-international-studies-university": {
+    "name": "吉林外国语大学",
+    "summary": "吉林外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-business-college": {
+    "name": "吉林工商学院",
+    "summary": "吉林工商学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changchun-institute-of-technology": {
+    "name": "长春工程学院",
+    "summary": "长春工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-agricultural-science-and-technology-college": {
+    "name": "吉林农业科技学院",
+    "summary": "吉林农业科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-police-college": {
+    "name": "吉林警察学院",
+    "summary": "吉林警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changchun-university": {
+    "name": "长春大学",
+    "summary": "长春大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jilin-medical-university": {
+    "name": "吉林医药学院",
+    "summary": "吉林医药学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heilongjiang-university": {
+    "name": "黑龙江大学",
+    "summary": "黑龙江大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-institute-of-technology": {
+    "name": "哈尔滨工业大学",
+    "summary": "哈尔滨工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-university-of-science-and-technology": {
+    "name": "哈尔滨理工大学",
+    "summary": "哈尔滨理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-engineering-university": {
+    "name": "哈尔滨工程大学",
+    "summary": "哈尔滨工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heilongjiang-university-of-science-and-technology": {
+    "name": "黑龙江科技大学",
+    "summary": "黑龙江科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northeast-petroleum-university": {
+    "name": "东北石油大学",
+    "summary": "东北石油大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiamusi-university": {
+    "name": "佳木斯大学",
+    "summary": "佳木斯大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heilongjiang-bayi-agricultural-university": {
+    "name": "黑龙江八一农垦大学",
+    "summary": "黑龙江八一农垦大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northeast-agricultural-university": {
+    "name": "东北农业大学",
+    "summary": "东北农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northeast-forestry-university": {
+    "name": "东北林业大学",
+    "summary": "东北林业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-medical-university": {
+    "name": "哈尔滨医科大学",
+    "summary": "哈尔滨医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heilongjiang-university-of-chinese-medicine": {
+    "name": "黑龙江中医药大学",
+    "summary": "黑龙江中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "mudanjiang-medical-university": {
+    "name": "牡丹江医科大学",
+    "summary": "牡丹江医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-normal-university": {
+    "name": "哈尔滨师范大学",
+    "summary": "哈尔滨师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qiqihar-university": {
+    "name": "齐齐哈尔大学",
+    "summary": "齐齐哈尔大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "mudanjiang-teachers-college": {
+    "name": "牡丹江师范学院",
+    "summary": "牡丹江师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-university": {
+    "name": "哈尔滨学院",
+    "summary": "哈尔滨学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "daqing-normal-university": {
+    "name": "大庆师范学院",
+    "summary": "大庆师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "suihua-university": {
+    "name": "绥化学院",
+    "summary": "绥化学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-university-of-commerce": {
+    "name": "哈尔滨商业大学",
+    "summary": "哈尔滨商业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-institute-of-physical-education": {
+    "name": "哈尔滨体育学院",
+    "summary": "哈尔滨体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-institute-of-finance": {
+    "name": "哈尔滨金融学院",
+    "summary": "哈尔滨金融学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qiqihar-medical-college": {
+    "name": "齐齐哈尔医学院",
+    "summary": "齐齐哈尔医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heilongjiang-institute-of-technology": {
+    "name": "黑龙江工程学院",
+    "summary": "黑龙江工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heihe-university": {
+    "name": "黑河学院",
+    "summary": "黑河学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "harbin-conservatory-of-music": {
+    "name": "哈尔滨音乐学院",
+    "summary": "哈尔滨音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fudan-university": {
+    "name": "复旦大学",
+    "summary": "复旦大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tongji-university": {
+    "name": "同济大学",
+    "summary": "同济大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-jiao-tong-university": {
+    "name": "上海交通大学",
+    "summary": "上海交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "east-china-university-of-science-and-technology": {
+    "name": "华东理工大学",
+    "summary": "华东理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-shanghai-for-science-and-technology": {
+    "name": "上海理工大学",
+    "summary": "上海理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-maritime-university": {
+    "name": "上海海事大学",
+    "summary": "上海海事大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "donghua-university": {
+    "name": "东华大学",
+    "summary": "东华大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-electric-power-university": {
+    "name": "上海电力大学",
+    "summary": "上海电力大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-institute-of-technology": {
+    "name": "上海应用技术大学",
+    "summary": "上海应用技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-medicine-and-health-sciences": {
+    "name": "上海健康医学院",
+    "summary": "上海健康医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-ocean-university": {
+    "name": "上海海洋大学",
+    "summary": "上海海洋大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-traditional-chinese-medicine": {
+    "name": "上海中医药大学",
+    "summary": "上海中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "east-china-normal-university": {
+    "name": "华东师范大学",
+    "summary": "华东师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-normal-university": {
+    "name": "上海师范大学",
+    "summary": "上海师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-international-studies-university": {
+    "name": "上海外国语大学",
+    "summary": "上海外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-finance-and-economics": {
+    "name": "上海财经大学",
+    "summary": "上海财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-international-business-and-economics": {
+    "name": "上海对外经贸大学",
+    "summary": "上海对外经贸大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-customs-college": {
+    "name": "上海海关学院",
+    "summary": "上海海关学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "east-china-university-of-political-science-and-law": {
+    "name": "华东政法大学",
+    "summary": "华东政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-sport": {
+    "name": "上海体育大学",
+    "summary": "上海体育大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-conservatory-of-music": {
+    "name": "上海音乐学院",
+    "summary": "上海音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-theater-academy": {
+    "name": "上海戏剧学院",
+    "summary": "上海戏剧学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university": {
+    "name": "上海大学",
+    "summary": "上海大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-public-security-college": {
+    "name": "上海公安学院",
+    "summary": "上海公安学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-engineering-and-technology": {
+    "name": "上海工程技术大学",
+    "summary": "上海工程技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-lixin-university-of-accounting-and-finance": {
+    "name": "上海立信会计金融学院",
+    "summary": "上海立信会计金融学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-dianji-university": {
+    "name": "上海电机学院",
+    "summary": "上海电机学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-university-of-political-science-and-law": {
+    "name": "上海政法学院",
+    "summary": "上海政法学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-polytechnic-university": {
+    "name": "上海第二工业大学",
+    "summary": "上海第二工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghai-business-school": {
+    "name": "上海商学院",
+    "summary": "上海商学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shanghaitech-university": {
+    "name": "上海科技大学",
+    "summary": "上海科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "new-york-university-shanghai": {
+    "name": "上海纽约大学",
+    "summary": "上海纽约大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university": {
+    "name": "南京大学",
+    "summary": "南京大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "soochow-university": {
+    "name": "苏州大学",
+    "summary": "苏州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southeast-university": {
+    "name": "东南大学",
+    "summary": "东南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-aeronautics-and-astronautics": {
+    "name": "南京航空航天大学",
+    "summary": "南京航空航天大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-science-and-technology": {
+    "name": "南京理工大学",
+    "summary": "南京理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-university-of-science-and-technology": {
+    "name": "江苏科技大学",
+    "summary": "江苏科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-mining": {
+    "name": "中国矿业大学",
+    "summary": "中国矿业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-tech-university": {
+    "name": "南京工业大学",
+    "summary": "南京工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changzhou-university": {
+    "name": "常州大学",
+    "summary": "常州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-posts-and-telecommunications": {
+    "name": "南京邮电大学",
+    "summary": "南京邮电大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hohai-university": {
+    "name": "河海大学",
+    "summary": "河海大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangnan-university": {
+    "name": "江南大学",
+    "summary": "江南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-forestry-university": {
+    "name": "南京林业大学",
+    "summary": "南京林业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-university": {
+    "name": "江苏大学",
+    "summary": "江苏大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-information-science-and-technology": {
+    "name": "南京信息工程大学",
+    "summary": "南京信息工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nantong-university": {
+    "name": "南通大学",
+    "summary": "南通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yancheng-institute-of-technology": {
+    "name": "盐城工学院",
+    "summary": "盐城工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-agricultural-university": {
+    "name": "南京农业大学",
+    "summary": "南京农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-medical-university": {
+    "name": "南京医科大学",
+    "summary": "南京医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xuzhou-medical-university": {
+    "name": "徐州医科大学",
+    "summary": "徐州医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-chinese-medicine": {
+    "name": "南京中医药大学",
+    "summary": "南京中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-pharmaceutical-university": {
+    "name": "中国药科大学",
+    "summary": "中国药科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-normal-university": {
+    "name": "南京师范大学",
+    "summary": "南京师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-normal-university": {
+    "name": "江苏师范大学",
+    "summary": "江苏师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huaiyin-teachers-college": {
+    "name": "淮阴师范学院",
+    "summary": "淮阴师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yancheng-teachers-college": {
+    "name": "盐城师范学院",
+    "summary": "盐城师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-finance-and-economics": {
+    "name": "南京财经大学",
+    "summary": "南京财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-police-officer-academy": {
+    "name": "江苏警官学院",
+    "summary": "江苏警官学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-institute-of-physical-education": {
+    "name": "南京体育学院",
+    "summary": "南京体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-university-of-the-arts": {
+    "name": "南京艺术学院",
+    "summary": "南京艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "suzhou-university-of-science-and-technology": {
+    "name": "苏州科技大学",
+    "summary": "苏州科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-polytechnic-university": {
+    "name": "南京工业职业技术大学",
+    "summary": "南京工业职业技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huai-an-university": {
+    "name": "淮安大学",
+    "summary": "淮安大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changzhou-institute-of-technology": {
+    "name": "常州工学院",
+    "summary": "常州工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yangzhou-university": {
+    "name": "扬州大学",
+    "summary": "扬州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-institute-of-technology": {
+    "name": "南京工程学院",
+    "summary": "南京工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-audit-university": {
+    "name": "南京审计大学",
+    "summary": "南京审计大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-xiaozhuang-university": {
+    "name": "南京晓庄学院",
+    "summary": "南京晓庄学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-institute-of-technology": {
+    "name": "江苏理工学院",
+    "summary": "江苏理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-ocean-university": {
+    "name": "江苏海洋大学",
+    "summary": "江苏海洋大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xuzhou-institute-of-technology": {
+    "name": "徐州工程学院",
+    "summary": "徐州工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-teachers-college-of-special-education": {
+    "name": "南京特殊教育师范学院",
+    "summary": "南京特殊教育师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-police-university": {
+    "name": "南京警察学院",
+    "summary": "南京警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taizhou-university": {
+    "name": "台州学院",
+    "summary": "台州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jinling-institute-of-technology": {
+    "name": "金陵科技学院",
+    "summary": "金陵科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanjing-institute-of-communication": {
+    "name": "南京传媒学院",
+    "summary": "南京传媒学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuxi-university": {
+    "name": "无锡学院",
+    "summary": "无锡学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "suzhou-city-university": {
+    "name": "苏州城市学院",
+    "summary": "苏州城市学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "suqian-college": {
+    "name": "宿迁学院",
+    "summary": "宿迁学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangsu-second-normal-university": {
+    "name": "江苏第二师范学院",
+    "summary": "江苏第二师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-jiaotong-liverpool-university": {
+    "name": "西交利物浦大学",
+    "summary": "西交利物浦大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "duke-kunshan-university": {
+    "name": "昆山杜克大学",
+    "summary": "昆山杜克大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-university": {
+    "name": "浙江大学",
+    "summary": "浙江大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hangzhou-dianzi-university": {
+    "name": "杭州电子科技大学",
+    "summary": "杭州电子科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-university-of-technology": {
+    "name": "浙江工业大学",
+    "summary": "浙江工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-sci-tech-university": {
+    "name": "浙江理工大学",
+    "summary": "浙江理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-ocean-university": {
+    "name": "浙江海洋大学",
+    "summary": "浙江海洋大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-agriculture-and-forestry-university": {
+    "name": "浙江农林大学",
+    "summary": "浙江农林大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wenzhou-medical-university": {
+    "name": "温州医科大学",
+    "summary": "温州医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-university-of-traditional-chinese-medicine": {
+    "name": "浙江中医药大学",
+    "summary": "浙江中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-normal-university": {
+    "name": "浙江师范大学",
+    "summary": "浙江师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hangzhou-normal-university": {
+    "name": "杭州师范大学",
+    "summary": "杭州师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huzhou-normal-university": {
+    "name": "湖州师范大学",
+    "summary": "湖州师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaoxing-university": {
+    "name": "绍兴大学",
+    "summary": "绍兴大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wenzhou-university": {
+    "name": "温州大学",
+    "summary": "温州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lishui-university": {
+    "name": "丽水学院",
+    "summary": "丽水学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-gongshang-university": {
+    "name": "浙江工商大学",
+    "summary": "浙江工商大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiaxing-university": {
+    "name": "嘉兴大学",
+    "summary": "嘉兴大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-academy-of-art": {
+    "name": "中国美术学院",
+    "summary": "中国美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-jiliang-university": {
+    "name": "中国计量大学",
+    "summary": "中国计量大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-wanli-university": {
+    "name": "浙江万里学院",
+    "summary": "浙江万里学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-university-of-science-and-technology": {
+    "name": "浙江科技大学",
+    "summary": "浙江科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningbo-institute-of-technology": {
+    "name": "宁波工程学院",
+    "summary": "宁波工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-institute-of-water-resources-and-hydropower": {
+    "name": "浙江水利水电学院",
+    "summary": "浙江水利水电学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-university-of-finance-and-economics": {
+    "name": "浙江财经大学",
+    "summary": "浙江财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-police-academy": {
+    "name": "浙江警察学院",
+    "summary": "浙江警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "quzhou-university": {
+    "name": "衢州学院",
+    "summary": "衢州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningbo-university": {
+    "name": "宁波大学",
+    "summary": "宁波大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "communication-university-of-zhejiang": {
+    "name": "浙江传媒学院",
+    "summary": "浙江传媒学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-shuren-university": {
+    "name": "浙江树人学院",
+    "summary": "浙江树人学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-yuexiu-university-of-foreign-languages": {
+    "name": "浙江越秀外国语学院",
+    "summary": "浙江越秀外国语学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningbo-university-of-finance-and-economics": {
+    "name": "宁波财经学院",
+    "summary": "宁波财经学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hangzhou-city-university": {
+    "name": "浙大城市学院",
+    "summary": "浙大城市学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningbotech-university": {
+    "name": "浙大宁波理工学院",
+    "summary": "浙大宁波理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hangzhou-medical-college": {
+    "name": "杭州医学院",
+    "summary": "杭州医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huzhou-college": {
+    "name": "湖州学院",
+    "summary": "湖州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wenzhou-institute-of-technology": {
+    "name": "温州理工学院",
+    "summary": "温州理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiaxing-nanhu-college": {
+    "name": "嘉兴南湖学院",
+    "summary": "嘉兴南湖学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-international-studies-university": {
+    "name": "浙江外国语学院",
+    "summary": "浙江外国语学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhejiang-conservatory-of-music": {
+    "name": "浙江音乐学院",
+    "summary": "浙江音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "westlake-university": {
+    "name": "西湖大学",
+    "summary": "西湖大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-nottingham-ningbo-china": {
+    "name": "宁波诺丁汉大学",
+    "summary": "宁波诺丁汉大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wenzhou-kean-university": {
+    "name": "温州肯恩大学",
+    "summary": "温州肯恩大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "eastern-institute-of-technology-ningbo": {
+    "name": "宁波东方理工大学",
+    "summary": "宁波东方理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-university": {
+    "name": "安徽大学",
+    "summary": "安徽大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-science-and-technology-of-china": {
+    "name": "中国科学技术大学",
+    "summary": "中国科学技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hefei-university-of-technology": {
+    "name": "合肥工业大学",
+    "summary": "合肥工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-university-of-technology": {
+    "name": "安徽工业大学",
+    "summary": "安徽工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-university-of-science-and-technology": {
+    "name": "安徽理工大学",
+    "summary": "安徽理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-polytechnic-university": {
+    "name": "安徽工程大学",
+    "summary": "安徽工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-agricultural-university": {
+    "name": "安徽农业大学",
+    "summary": "安徽农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-medical-university": {
+    "name": "安徽医科大学",
+    "summary": "安徽医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "bengbu-medical-university": {
+    "name": "蚌埠医科大学",
+    "summary": "蚌埠医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wannan-medical-university": {
+    "name": "皖南医科大学",
+    "summary": "皖南医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-university-of-chinese-medicine": {
+    "name": "安徽中医药大学",
+    "summary": "安徽中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-normal-university": {
+    "name": "安徽师范大学",
+    "summary": "安徽师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fuyang-normal-university": {
+    "name": "阜阳师范大学",
+    "summary": "阜阳师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anqing-normal-university": {
+    "name": "安庆师范大学",
+    "summary": "安庆师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huaibei-normal-university": {
+    "name": "淮北师范大学",
+    "summary": "淮北师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huangshan-university": {
+    "name": "黄山学院",
+    "summary": "黄山学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wanxi-college": {
+    "name": "皖西学院",
+    "summary": "皖西学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chuzhou-university": {
+    "name": "滁州学院",
+    "summary": "滁州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-university-of-finance-and-economics": {
+    "name": "安徽财经大学",
+    "summary": "安徽财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "suzhou-college": {
+    "name": "宿州学院",
+    "summary": "宿州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chaohu-college": {
+    "name": "巢湖学院",
+    "summary": "巢湖学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huainan-teachers-college": {
+    "name": "淮南师范学院",
+    "summary": "淮南师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tongling-college": {
+    "name": "铜陵学院",
+    "summary": "铜陵学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-jianzhu-university": {
+    "name": "安徽建筑大学",
+    "summary": "安徽建筑大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-science-and-technology-university": {
+    "name": "安徽科技工程大学",
+    "summary": "安徽科技工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hefei-university": {
+    "name": "合肥大学",
+    "summary": "合肥大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "bengbu-college": {
+    "name": "蚌埠学院",
+    "summary": "蚌埠学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chizhou-college": {
+    "name": "池州学院",
+    "summary": "池州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "bozhou-university": {
+    "name": "亳州学院",
+    "summary": "亳州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hefei-institute-of-technology": {
+    "name": "合肥理工学院",
+    "summary": "合肥理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hefei-normal-university": {
+    "name": "合肥师范学院",
+    "summary": "合肥师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anhui-art-institute": {
+    "name": "安徽艺术学院",
+    "summary": "安徽艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xiamen-university": {
+    "name": "厦门大学",
+    "summary": "厦门大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huaqiao-university": {
+    "name": "华侨大学",
+    "summary": "华侨大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fuzhou-university": {
+    "name": "福州大学",
+    "summary": "福州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-university-of-technology": {
+    "name": "福建理工大学",
+    "summary": "福建理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-agriculture-and-forestry-university": {
+    "name": "福建农林大学",
+    "summary": "福建农林大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jimei-university": {
+    "name": "集美大学",
+    "summary": "集美大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-university-of-medicine": {
+    "name": "福建医科大学",
+    "summary": "福建医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-university-of-traditional-chinese-medicine": {
+    "name": "福建中医药大学",
+    "summary": "福建中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-normal-university": {
+    "name": "福建师范大学",
+    "summary": "福建师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "minjiang-university": {
+    "name": "闽江大学",
+    "summary": "闽江大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuyi-university": {
+    "name": "五邑大学",
+    "summary": "五邑大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningde-teachers-college": {
+    "name": "宁德师范学院",
+    "summary": "宁德师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "quanzhou-normal-university": {
+    "name": "泉州师范学院",
+    "summary": "泉州师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "minnan-normal-university": {
+    "name": "闽南师范大学",
+    "summary": "闽南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xiamen-university-of-technology": {
+    "name": "厦门理工学院",
+    "summary": "厦门理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sanming-college": {
+    "name": "三明学院",
+    "summary": "三明学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "longyan-college": {
+    "name": "龙岩学院",
+    "summary": "龙岩学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-business-college": {
+    "name": "福建商学院",
+    "summary": "福建商学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-police-academy": {
+    "name": "福建警察学院",
+    "summary": "福建警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "putian-university": {
+    "name": "莆田学院",
+    "summary": "莆田学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xiamen-medical-college": {
+    "name": "厦门医学院",
+    "summary": "厦门医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-jiangxia-university": {
+    "name": "福建江夏学院",
+    "summary": "福建江夏学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fujian-technical-teachers-college": {
+    "name": "福建技术师范学院",
+    "summary": "福建技术师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "fuyao-university-of-science-and-technology": {
+    "name": "福建福耀科技大学",
+    "summary": "福建福耀科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liming-vocational-university": {
+    "name": "黎明职业大学",
+    "summary": "黎明职业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanchang-university": {
+    "name": "南昌大学",
+    "summary": "南昌大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "east-china-jiaotong-university": {
+    "name": "华东交通大学",
+    "summary": "华东交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "east-china-university-of-technology": {
+    "name": "东华理工大学",
+    "summary": "东华理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanchang-aeronautical-university": {
+    "name": "南昌航空大学",
+    "summary": "南昌航空大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-university-of-science-and-technology": {
+    "name": "江西理工大学",
+    "summary": "江西理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jingdezhen-ceramic-university": {
+    "name": "景德镇陶瓷大学",
+    "summary": "景德镇陶瓷大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-agricultural-university": {
+    "name": "江西农业大学",
+    "summary": "江西农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-university-of-traditional-chinese-medicine": {
+    "name": "江西中医药大学",
+    "summary": "江西中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gannan-medical-university": {
+    "name": "赣南医科大学",
+    "summary": "赣南医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-normal-university": {
+    "name": "江西师范大学",
+    "summary": "江西师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shangrao-teachers-college": {
+    "name": "上饶师范学院",
+    "summary": "上饶师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yichun-university": {
+    "name": "宜春学院",
+    "summary": "宜春学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gannan-normal-university": {
+    "name": "赣南师范大学",
+    "summary": "赣南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jinggangshan-university": {
+    "name": "井冈山大学",
+    "summary": "井冈山大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-university-of-finance-and-economics": {
+    "name": "江西财经大学",
+    "summary": "江西财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jingdezhen-college": {
+    "name": "景德镇学院",
+    "summary": "景德镇学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "pingxiang-college": {
+    "name": "萍乡学院",
+    "summary": "萍乡学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-science-and-technology-normal-university": {
+    "name": "江西科技师范大学",
+    "summary": "江西科技师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-university-of-water-resources-and-electric-power": {
+    "name": "江西水利电力大学",
+    "summary": "江西水利电力大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiangxi-police-academy": {
+    "name": "江西警察学院",
+    "summary": "江西警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinyu-college": {
+    "name": "新余学院",
+    "summary": "新余学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiujiang-university": {
+    "name": "九江学院",
+    "summary": "九江学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gandong-university": {
+    "name": "赣东学院",
+    "summary": "赣东学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gannan-university-of-science-and-technology": {
+    "name": "赣南科技学院",
+    "summary": "赣南科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanchang-medical-college": {
+    "name": "南昌医学院",
+    "summary": "南昌医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yuzhang-teachers-college": {
+    "name": "豫章师范学院",
+    "summary": "豫章师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanchang-teachers-college": {
+    "name": "南昌师范学院",
+    "summary": "南昌师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university": {
+    "name": "山东大学",
+    "summary": "山东大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ocean-university-of-china": {
+    "name": "中国海洋大学",
+    "summary": "中国海洋大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-science-and-technology": {
+    "name": "山东科技大学",
+    "summary": "山东科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-petroleum": {
+    "name": "中国石油大学（华东）",
+    "summary": "中国石油大学（华东）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qingdao-university-of-science-and-technology": {
+    "name": "青岛科技大学",
+    "summary": "青岛科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-jinan": {
+    "name": "济南大学",
+    "summary": "济南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qingdao-university-of-technology": {
+    "name": "青岛理工大学",
+    "summary": "青岛理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-jianzhu-university": {
+    "name": "山东建筑大学",
+    "summary": "山东建筑大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qilu-university-of-technology": {
+    "name": "齐鲁工业大学",
+    "summary": "齐鲁工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-technology": {
+    "name": "山东理工大学",
+    "summary": "山东理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-agricultural-university": {
+    "name": "山东农业大学",
+    "summary": "山东农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qingdao-agricultural-university": {
+    "name": "青岛农业大学",
+    "summary": "青岛农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-second-medical-university": {
+    "name": "山东第二医科大学",
+    "summary": "山东第二医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-first-medical-university": {
+    "name": "山东第一医科大学",
+    "summary": "山东第一医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-medical-and-pharmaceutical-university": {
+    "name": "山东医药大学",
+    "summary": "山东医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-traditional-chinese-medicine": {
+    "name": "山东中医药大学",
+    "summary": "山东中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jining-medical-college": {
+    "name": "济宁医学院",
+    "summary": "济宁医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-normal-university": {
+    "name": "山东师范大学",
+    "summary": "山东师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qufu-normal-university": {
+    "name": "曲阜师范大学",
+    "summary": "曲阜师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liaocheng-university": {
+    "name": "聊城大学",
+    "summary": "聊城大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dezhou-university": {
+    "name": "德州学院",
+    "summary": "德州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-aeronautics": {
+    "name": "山东航空学院",
+    "summary": "山东航空学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ludong-university": {
+    "name": "鲁东大学",
+    "summary": "鲁东大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "linyi-university": {
+    "name": "临沂大学",
+    "summary": "临沂大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "taishan-college": {
+    "name": "泰山学院",
+    "summary": "泰山学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jining-college": {
+    "name": "济宁学院",
+    "summary": "济宁学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "heze-university": {
+    "name": "菏泽学院",
+    "summary": "菏泽学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-finance-and-economics": {
+    "name": "山东财经大学",
+    "summary": "山东财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-institute-of-physical-education": {
+    "name": "山东体育学院",
+    "summary": "山东体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-arts": {
+    "name": "山东艺术学院",
+    "summary": "山东艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zaozhuang-university": {
+    "name": "枣庄学院",
+    "summary": "枣庄学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-institute-of-arts-and-crafts": {
+    "name": "山东工艺美术学院",
+    "summary": "山东工艺美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qingdao-university": {
+    "name": "青岛大学",
+    "summary": "青岛大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yantai-university": {
+    "name": "烟台大学",
+    "summary": "烟台大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "weifang-university": {
+    "name": "潍坊学院",
+    "summary": "潍坊学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-police-college": {
+    "name": "山东警察学院",
+    "summary": "山东警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-jiaotong-university": {
+    "name": "山东交通学院",
+    "summary": "山东交通学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-institute-of-business": {
+    "name": "山东工商学院",
+    "summary": "山东工商学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-women-s-college": {
+    "name": "山东女子学院",
+    "summary": "山东女子学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-institute-of-petrochemical-technology": {
+    "name": "山东石油化工学院",
+    "summary": "山东石油化工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-university-of-political-science-and-law": {
+    "name": "山东政法学院",
+    "summary": "山东政法学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qilu-normal-university": {
+    "name": "齐鲁师范学院",
+    "summary": "齐鲁师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-youth-university-for-political-sciences": {
+    "name": "山东青年政治学院",
+    "summary": "山东青年政治学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-institute-of-management": {
+    "name": "山东管理学院",
+    "summary": "山东管理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shandong-agricultural-engineering-college": {
+    "name": "山东农业工程学院",
+    "summary": "山东农业工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-health-and-rehabilitation-sciences": {
+    "name": "康复大学",
+    "summary": "康复大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-china-university-of-water-resources-and-electric-power": {
+    "name": "华北水利水电大学",
+    "summary": "华北水利水电大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhengzhou-university": {
+    "name": "郑州大学",
+    "summary": "郑州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-polytechnic-university": {
+    "name": "河南理工大学",
+    "summary": "河南理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhengzhou-university-of-light-industry": {
+    "name": "郑州轻工业大学",
+    "summary": "郑州轻工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-university-of-technology": {
+    "name": "河南工业大学",
+    "summary": "河南工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-university-of-science-and-technology": {
+    "name": "河南科技大学",
+    "summary": "河南科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhongyuan-university-of-technology": {
+    "name": "中原工学院",
+    "summary": "中原工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-agricultural-university": {
+    "name": "河南农业大学",
+    "summary": "河南农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-institute-of-science-and-technology": {
+    "name": "河南科技学院",
+    "summary": "河南科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-college-of-animal-husbandry-economics": {
+    "name": "河南牧业经济学院",
+    "summary": "河南牧业经济学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-university-of-traditional-chinese-medicine": {
+    "name": "河南中医药大学",
+    "summary": "河南中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-medical-university": {
+    "name": "河南医药大学",
+    "summary": "河南医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-university": {
+    "name": "河南大学",
+    "summary": "河南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-normal-university": {
+    "name": "河南师范大学",
+    "summary": "河南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinyang-normal-university": {
+    "name": "信阳师范大学",
+    "summary": "信阳师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhoukou-normal-university": {
+    "name": "周口师范学院",
+    "summary": "周口师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anyang-teachers-college": {
+    "name": "安阳师范学院",
+    "summary": "安阳师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xuchang-university": {
+    "name": "许昌学院",
+    "summary": "许昌学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanyang-normal-university": {
+    "name": "南阳师范学院",
+    "summary": "南阳师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "luoyang-normal-university": {
+    "name": "洛阳师范学院",
+    "summary": "洛阳师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shangqiu-teachers-college": {
+    "name": "商丘师范学院",
+    "summary": "商丘师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-university-of-economics-and-law": {
+    "name": "河南财经政法大学",
+    "summary": "河南财经政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhengzhou-institute-of-aeronautical-industry-management": {
+    "name": "郑州航空工业管理学院",
+    "summary": "郑州航空工业管理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huanghuai-college": {
+    "name": "黄淮学院",
+    "summary": "黄淮学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "pingdingshan-college": {
+    "name": "平顶山学院",
+    "summary": "平顶山学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhengzhou-institute-of-engineering-and-technology": {
+    "name": "郑州工程技术学院",
+    "summary": "郑州工程技术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "luoyang-institute-of-technology": {
+    "name": "洛阳理工学院",
+    "summary": "洛阳理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinxiang-college": {
+    "name": "新乡学院",
+    "summary": "新乡学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinyang-agriculture-and-forestry-college": {
+    "name": "信阳农林学院",
+    "summary": "信阳农林学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-institute-of-technology": {
+    "name": "河南工学院",
+    "summary": "河南工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anyang-institute-of-technology": {
+    "name": "安阳工学院",
+    "summary": "安阳工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-institute-of-engineering": {
+    "name": "河南工程学院",
+    "summary": "河南工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-institute-of-finance": {
+    "name": "河南财政金融学院",
+    "summary": "河南财政金融学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanyang-institute-of-technology": {
+    "name": "南阳理工学院",
+    "summary": "南阳理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-urban-construction-college": {
+    "name": "河南城建学院",
+    "summary": "河南城建学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "henan-police-college": {
+    "name": "河南警察学院",
+    "summary": "河南警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhengzhou-police-university": {
+    "name": "郑州警察学院",
+    "summary": "郑州警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhengzhou-normal-university": {
+    "name": "郑州师范学院",
+    "summary": "郑州师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-university": {
+    "name": "武汉大学",
+    "summary": "武汉大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huazhong-university-of-science-and-technology": {
+    "name": "华中科技大学",
+    "summary": "华中科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-university-of-science-and-technology": {
+    "name": "武汉科技大学",
+    "summary": "武汉科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yangtze-university": {
+    "name": "长江大学",
+    "summary": "长江大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-institute-of-technology": {
+    "name": "武汉工程大学",
+    "summary": "武汉工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-university-of-geosciences-wuhan": {
+    "name": "中国地质大学（武汉）",
+    "summary": "中国地质大学（武汉）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-textile-university": {
+    "name": "武汉纺织大学",
+    "summary": "武汉纺织大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-university-of-light-industry": {
+    "name": "武汉轻工大学",
+    "summary": "武汉轻工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-university-of-technology": {
+    "name": "武汉理工大学",
+    "summary": "武汉理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-of-technology": {
+    "name": "湖北工业大学",
+    "summary": "湖北工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huazhong-agricultural-university": {
+    "name": "华中农业大学",
+    "summary": "华中农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-of-traditional-chinese-medicine": {
+    "name": "湖北中医药大学",
+    "summary": "湖北中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "central-china-normal-university": {
+    "name": "华中师范大学",
+    "summary": "华中师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university": {
+    "name": "湖北大学",
+    "summary": "湖北大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-normal-university": {
+    "name": "湖北师范大学",
+    "summary": "湖北师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huanggang-normal-university": {
+    "name": "黄冈师范学院",
+    "summary": "黄冈师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-for-nationalities": {
+    "name": "湖北民族大学",
+    "summary": "湖北民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hanjiang-teachers-college": {
+    "name": "汉江师范学院",
+    "summary": "汉江师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-of-arts-and-science": {
+    "name": "湖北文理学院",
+    "summary": "湖北文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhongnan-university-of-economics-and-law": {
+    "name": "中南财经政法大学",
+    "summary": "中南财经政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-institute-of-physical-education": {
+    "name": "武汉体育学院",
+    "summary": "武汉体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-academy-of-fine-arts": {
+    "name": "湖北美术学院",
+    "summary": "湖北美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "south-central-minzu-university": {
+    "name": "中南民族大学",
+    "summary": "中南民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-of-automotive-technology": {
+    "name": "湖北汽车工业学院",
+    "summary": "湖北汽车工业学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-engineering-university": {
+    "name": "湖北工程学院",
+    "summary": "湖北工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-polytechnic-university": {
+    "name": "湖北理工学院",
+    "summary": "湖北理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-of-science-and-technology": {
+    "name": "湖北科技学院",
+    "summary": "湖北科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-medical-college": {
+    "name": "湖北医药学院",
+    "summary": "湖北医药学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jianghan-university": {
+    "name": "江汉大学",
+    "summary": "江汉大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-three-gorges-university": {
+    "name": "三峡大学",
+    "summary": "三峡大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-police-officer-academy": {
+    "name": "湖北警官学院",
+    "summary": "湖北警官学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jingchu-institute-of-technology": {
+    "name": "荆楚理工学院",
+    "summary": "荆楚理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-conservatory-of-music": {
+    "name": "武汉音乐学院",
+    "summary": "武汉音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hubei-university-of-economics": {
+    "name": "湖北经济学院",
+    "summary": "湖北经济学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuhan-business-university": {
+    "name": "武汉商学院",
+    "summary": "武汉商学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xiangtan-university": {
+    "name": "湘潭大学",
+    "summary": "湘潭大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jishou-university": {
+    "name": "吉首大学",
+    "summary": "吉首大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university": {
+    "name": "湖南大学",
+    "summary": "湖南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "central-south-university": {
+    "name": "中南大学",
+    "summary": "中南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university-of-science-and-technology": {
+    "name": "湖南科技学院",
+    "summary": "湖南科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changsha-university-of-science-and-technology": {
+    "name": "长沙理工大学",
+    "summary": "长沙理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-agricultural-university": {
+    "name": "湖南农业大学",
+    "summary": "湖南农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "central-south-university-of-forestry-and-technology": {
+    "name": "中南林业科技大学",
+    "summary": "中南林业科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university-of-traditional-chinese-medicine": {
+    "name": "湖南中医药大学",
+    "summary": "湖南中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-normal-university": {
+    "name": "湖南师范大学",
+    "summary": "湖南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shonan-college": {
+    "name": "湘南学院",
+    "summary": "湘南学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hengyang-normal-university": {
+    "name": "衡阳师范学院",
+    "summary": "衡阳师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaoyang-university": {
+    "name": "邵阳学院",
+    "summary": "邵阳学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huaihua-college": {
+    "name": "怀化学院",
+    "summary": "怀化学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university-of-arts-and-science": {
+    "name": "湖南文理学院",
+    "summary": "湖南文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-institute-of-humanities-and-science": {
+    "name": "湖南人文科技学院",
+    "summary": "湖南人文科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university-of-technology-and-business": {
+    "name": "湖南工商大学",
+    "summary": "湖南工商大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanhua-university": {
+    "name": "南华大学",
+    "summary": "南华大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changsha-university": {
+    "name": "长沙学院",
+    "summary": "长沙学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-institute-of-engineering": {
+    "name": "湖南工程学院",
+    "summary": "湖南工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-city-university": {
+    "name": "湖南城市学院",
+    "summary": "湖南城市学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-institute-of-technology": {
+    "name": "湖南工学院",
+    "summary": "湖南工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university-of-finance-and-economics": {
+    "name": "湖南财政经济学院",
+    "summary": "湖南财政经济学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-police-college": {
+    "name": "湖南警察学院",
+    "summary": "湖南警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-university-of-technology": {
+    "name": "湖南工业大学",
+    "summary": "湖南工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-women-s-college": {
+    "name": "湖南女子学院",
+    "summary": "湖南女子学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-first-normal-university": {
+    "name": "湖南第一师范学院",
+    "summary": "湖南第一师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hunan-medical-college": {
+    "name": "湖南医药学院",
+    "summary": "湖南医药学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sun-yat-sen-university": {
+    "name": "中山大学",
+    "summary": "中山大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jinan-university": {
+    "name": "暨南大学",
+    "summary": "暨南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shantou-university": {
+    "name": "汕头大学",
+    "summary": "汕头大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "south-china-university-of-technology": {
+    "name": "华南理工大学",
+    "summary": "华南理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "south-china-agricultural-university": {
+    "name": "华南农业大学",
+    "summary": "华南农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-ocean-university": {
+    "name": "广东海洋大学",
+    "summary": "广东海洋大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangzhou-medical-university": {
+    "name": "广州医科大学",
+    "summary": "广州医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-medical-university": {
+    "name": "广东医科大学",
+    "summary": "广东医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangzhou-university-of-chinese-medicine": {
+    "name": "广州中医药大学",
+    "summary": "广州中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-pharmaceutical-university": {
+    "name": "广东药科大学",
+    "summary": "广东药科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "south-china-normal-university": {
+    "name": "华南师范大学",
+    "summary": "华南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaoguan-university": {
+    "name": "韶关学院",
+    "summary": "韶关学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "huizhou-university": {
+    "name": "惠州学院",
+    "summary": "惠州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hanshan-teachers-college": {
+    "name": "韩山师范学院",
+    "summary": "韩山师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lingnan-normal-university": {
+    "name": "岭南师范学院",
+    "summary": "岭南师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhaoqing-university": {
+    "name": "肇庆学院",
+    "summary": "肇庆学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "jiaying-college": {
+    "name": "嘉应学院",
+    "summary": "嘉应学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangzhou-institute-of-physical-education": {
+    "name": "广州体育学院",
+    "summary": "广州体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangzhou-art-college": {
+    "name": "广州美术学院",
+    "summary": "广州美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinghai-conservatory-of-music": {
+    "name": "星海音乐学院",
+    "summary": "星海音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-technical-normal-university": {
+    "name": "广东技术师范大学",
+    "summary": "广东技术师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenzhen-university": {
+    "name": "深圳大学",
+    "summary": "深圳大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-university-of-finance-and-economics": {
+    "name": "广东财经大学",
+    "summary": "广东财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangzhou-university": {
+    "name": "广州大学",
+    "summary": "广州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangzhou-maritime-college": {
+    "name": "广州航海学院",
+    "summary": "广州航海学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-police-academy": {
+    "name": "广东警官学院",
+    "summary": "广东警官学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhongkai-university-of-agriculture-engineering": {
+    "name": "仲恺农业工程学院",
+    "summary": "仲恺农业工程学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-university-of-finance": {
+    "name": "广东金融学院",
+    "summary": "广东金融学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-petrochemical-college": {
+    "name": "广东石油化工学院",
+    "summary": "广东石油化工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dongguan-university-of-technology": {
+    "name": "东莞理工学院",
+    "summary": "东莞理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-university-of-technology": {
+    "name": "广东工业大学",
+    "summary": "广东工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-university-of-foreign-studies": {
+    "name": "广东外语外贸大学",
+    "summary": "广东外语外贸大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "foshan-university": {
+    "name": "佛山大学",
+    "summary": "佛山大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southern-medical-university": {
+    "name": "南方医科大学",
+    "summary": "南方医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-second-normal-university": {
+    "name": "广东第二师范学院",
+    "summary": "广东第二师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southern-university-of-science-and-technology": {
+    "name": "南方科技大学",
+    "summary": "南方科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenzhen-technology-university": {
+    "name": "深圳技术大学",
+    "summary": "深圳技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beijing-normal-hong-kong-baptist-university": {
+    "name": "北师香港浸会大学",
+    "summary": "北师香港浸会大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-hong-kong-university-of-science-and-technology-guangzhou": {
+    "name": "香港科技大学（广州）",
+    "summary": "香港科技大学（广州）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "the-chinese-university-of-hong-kong-shenzhen": {
+    "name": "香港中文大学（深圳）",
+    "summary": "香港中文大学（深圳）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenzhen-msu-bit-university": {
+    "name": "深圳北理莫斯科大学",
+    "summary": "深圳北理莫斯科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangdong-technion-israel-institute-of-technology": {
+    "name": "广东以色列理工学院",
+    "summary": "广东以色列理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "city-university-of-hong-kong-dongguan": {
+    "name": "香港城市大学（东莞）",
+    "summary": "香港城市大学（东莞）招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shenzhen-university-of-advanced-technology": {
+    "name": "深圳理工大学",
+    "summary": "深圳理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "great-bay-university": {
+    "name": "大湾区大学",
+    "summary": "大湾区大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-university": {
+    "name": "广西大学",
+    "summary": "广西大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-university-of-science-and-technology": {
+    "name": "广西科技大学",
+    "summary": "广西科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guilin-university-of-electronic-technology": {
+    "name": "桂林电子科技大学",
+    "summary": "桂林电子科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guilin-university-of-technology": {
+    "name": "桂林理工大学",
+    "summary": "桂林理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-medical-university": {
+    "name": "广西医科大学",
+    "summary": "广西医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "youjiang-medical-college-for-nationalities": {
+    "name": "右江民族医学院",
+    "summary": "右江民族医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-university-of-traditional-chinese-medicine": {
+    "name": "广西中医药大学",
+    "summary": "广西中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guilin-medical-university": {
+    "name": "桂林医科大学",
+    "summary": "桂林医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-normal-university": {
+    "name": "广西师范大学",
+    "summary": "广西师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "nanning-normal-university": {
+    "name": "南宁师范大学",
+    "summary": "南宁师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-normal-university-for-nationalities": {
+    "name": "广西民族师范学院",
+    "summary": "广西民族师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hechi-college": {
+    "name": "河池学院",
+    "summary": "河池学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yulin-teachers-college": {
+    "name": "玉林师范学院",
+    "summary": "玉林师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-university-of-arts": {
+    "name": "广西艺术学院",
+    "summary": "广西艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-university-for-nationalities": {
+    "name": "广西民族大学",
+    "summary": "广西民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "baise-college": {
+    "name": "百色学院",
+    "summary": "百色学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wuzhou-university": {
+    "name": "梧州学院",
+    "summary": "梧州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-normal-university-of-science-and-technology": {
+    "name": "广西科技师范学院",
+    "summary": "广西科技师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-university-of-finance-and-economics": {
+    "name": "广西财经学院",
+    "summary": "广西财经学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "beibu-gulf-university": {
+    "name": "北部湾大学",
+    "summary": "北部湾大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guilin-institute-of-aerospace-technology": {
+    "name": "桂林航天工业学院",
+    "summary": "桂林航天工业学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guilin-institute-of-tourism": {
+    "name": "桂林旅游学院",
+    "summary": "桂林旅游学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hezhou-university": {
+    "name": "贺州学院",
+    "summary": "贺州学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guangxi-police-college": {
+    "name": "广西警察学院",
+    "summary": "广西警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hainan-university": {
+    "name": "海南大学",
+    "summary": "海南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hainan-institute-of-tropical-oceanography": {
+    "name": "海南热带海洋学院",
+    "summary": "海南热带海洋学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hainan-normal-university": {
+    "name": "海南师范大学",
+    "summary": "海南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hainan-medical-university": {
+    "name": "海南医科大学",
+    "summary": "海南医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qiongtai-teachers-college": {
+    "name": "琼台师范学院",
+    "summary": "琼台师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hainan-bielefeld-university-of-applied-sciences": {
+    "name": "海南比勒费尔德应用科学大学",
+    "summary": "海南比勒费尔德应用科学大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hainan-lausanne-tourism-university": {
+    "name": "海南洛桑旅游大学",
+    "summary": "海南洛桑旅游大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-university": {
+    "name": "重庆大学",
+    "summary": "重庆大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-university-of-posts-and-telecommunications": {
+    "name": "重庆邮电大学",
+    "summary": "重庆邮电大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-jiaotong-university": {
+    "name": "重庆交通大学",
+    "summary": "重庆交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-medical-university": {
+    "name": "重庆医科大学",
+    "summary": "重庆医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-university": {
+    "name": "西南大学",
+    "summary": "西南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-normal-university": {
+    "name": "重庆师范大学",
+    "summary": "重庆师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-university-of-arts-and-science": {
+    "name": "重庆文理学院",
+    "summary": "重庆文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-sanxia-university-of-science-and-technology": {
+    "name": "重庆三峡科技大学",
+    "summary": "重庆三峡科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changjiang-normal-university": {
+    "name": "长江师范学院",
+    "summary": "长江师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-international-studies-university": {
+    "name": "四川外国语大学",
+    "summary": "四川外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-university-of-political-science-and-law": {
+    "name": "西南政法大学",
+    "summary": "西南政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-academy-of-fine-arts": {
+    "name": "四川美术学院",
+    "summary": "四川美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-university-of-science-and-technology": {
+    "name": "重庆科技大学",
+    "summary": "重庆科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-university-of-technology": {
+    "name": "重庆理工大学",
+    "summary": "重庆理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-technology-and-business-university": {
+    "name": "重庆工商大学",
+    "summary": "重庆工商大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chongqing-university-of-education": {
+    "name": "重庆第二师范学院",
+    "summary": "重庆第二师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-university": {
+    "name": "四川大学",
+    "summary": "四川大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-jiaotong-university": {
+    "name": "西南交通大学",
+    "summary": "西南交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "university-of-electronic-science-and-technology-of-china": {
+    "name": "电子科技大学",
+    "summary": "电子科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-petroleum-university": {
+    "name": "西南石油大学",
+    "summary": "西南石油大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-university-of-technology": {
+    "name": "成都理工大学",
+    "summary": "成都理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-university-of-science-and-technology": {
+    "name": "西南科技大学",
+    "summary": "西南科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-university-of-information-technology": {
+    "name": "成都信息工程大学",
+    "summary": "成都信息工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-university-of-light-chemical-technology": {
+    "name": "四川轻化工大学",
+    "summary": "四川轻化工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-hua-university": {
+    "name": "西华大学",
+    "summary": "西华大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "civil-aviation-flight-university-of-china": {
+    "name": "中国民用航空飞行学院",
+    "summary": "中国民用航空飞行学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-agricultural-university": {
+    "name": "四川农业大学",
+    "summary": "四川农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xichang-college": {
+    "name": "西昌学院",
+    "summary": "西昌学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-medical-university": {
+    "name": "西南医科大学",
+    "summary": "西南医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-university-of-traditional-chinese-medicine": {
+    "name": "成都中医药大学",
+    "summary": "成都中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "north-sichuan-medical-college": {
+    "name": "川北医学院",
+    "summary": "川北医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-normal-university": {
+    "name": "四川师范大学",
+    "summary": "四川师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "china-west-normal-university": {
+    "name": "西华师范大学",
+    "summary": "西华师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "mianyang-normal-university": {
+    "name": "绵阳师范学院",
+    "summary": "绵阳师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "neijiang-teachers-college": {
+    "name": "内江师范学院",
+    "summary": "内江师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yibin-college": {
+    "name": "宜宾学院",
+    "summary": "宜宾学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-university-of-arts-and-science": {
+    "name": "四川文理学院",
+    "summary": "四川文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "aba-teachers-college": {
+    "name": "阿坝师范学院",
+    "summary": "阿坝师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "leshan-normal-university": {
+    "name": "乐山师范学院",
+    "summary": "乐山师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwestern-university-of-finance-and-economics": {
+    "name": "西南财经大学",
+    "summary": "西南财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-institute-of-physical-education": {
+    "name": "成都体育学院",
+    "summary": "成都体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-music-college": {
+    "name": "四川音乐学院",
+    "summary": "四川音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-university-for-nationalities": {
+    "name": "西南民族大学",
+    "summary": "西南民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-university": {
+    "name": "成都大学",
+    "summary": "成都大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-institute-of-technology": {
+    "name": "成都工业学院",
+    "summary": "成都工业学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "panzhihua-university": {
+    "name": "攀枝花学院",
+    "summary": "攀枝花学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-institute-of-tourism": {
+    "name": "四川旅游学院",
+    "summary": "四川旅游学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-university-for-nationalities": {
+    "name": "四川民族学院",
+    "summary": "四川民族学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "sichuan-police-college": {
+    "name": "四川警察学院",
+    "summary": "四川警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-medical-college": {
+    "name": "成都医学院",
+    "summary": "成都医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chengdu-normal-university": {
+    "name": "成都师范学院",
+    "summary": "成都师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-university": {
+    "name": "贵州大学",
+    "summary": "贵州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-medical-university": {
+    "name": "贵州医科大学",
+    "summary": "贵州医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zunyi-medical-university": {
+    "name": "遵义医科大学",
+    "summary": "遵义医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-university-of-traditional-chinese-medicine": {
+    "name": "贵州中医药大学",
+    "summary": "贵州中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-normal-university": {
+    "name": "贵州师范大学",
+    "summary": "贵州师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zunyi-normal-university": {
+    "name": "遵义师范学院",
+    "summary": "遵义师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tongren-college": {
+    "name": "铜仁学院",
+    "summary": "铜仁学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xingyi-normal-university-for-nationalities": {
+    "name": "兴义民族师范学院",
+    "summary": "兴义民族师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "anshun-college": {
+    "name": "安顺学院",
+    "summary": "安顺学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-college-of-engineering-applied-technology": {
+    "name": "贵州工程应用技术学院",
+    "summary": "贵州工程应用技术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "carey-college": {
+    "name": "凯里学院",
+    "summary": "凯里学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qiannan-teachers-college-for-nationalities": {
+    "name": "黔南民族师范学院",
+    "summary": "黔南民族师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-university-of-finance-and-economics": {
+    "name": "贵州财经大学",
+    "summary": "贵州财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-university-for-nationalities": {
+    "name": "贵州民族大学",
+    "summary": "贵州民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guiyang-university": {
+    "name": "贵阳学院",
+    "summary": "贵阳学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "liupanshui-teachers-college": {
+    "name": "六盘水师范学院",
+    "summary": "六盘水师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-business-school": {
+    "name": "贵州商学院",
+    "summary": "贵州商学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-police-academy": {
+    "name": "贵州警察学院",
+    "summary": "贵州警察学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-education-university": {
+    "name": "贵州师范学院",
+    "summary": "贵州师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "guizhou-institute-of-technology": {
+    "name": "贵州理工学院",
+    "summary": "贵州理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-university": {
+    "name": "云南大学",
+    "summary": "云南大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "kunming-university-of-science-and-technology": {
+    "name": "昆明理工大学",
+    "summary": "昆明理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-agricultural-university": {
+    "name": "云南农业大学",
+    "summary": "云南农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "southwest-forestry-university": {
+    "name": "西南林业大学",
+    "summary": "西南林业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "kunming-medical-university": {
+    "name": "昆明医科大学",
+    "summary": "昆明医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dali-university": {
+    "name": "大理大学",
+    "summary": "大理大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-university-of-traditional-chinese-medicine": {
+    "name": "云南中医药大学",
+    "summary": "云南中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-normal-university": {
+    "name": "云南师范大学",
+    "summary": "云南师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "zhaotong-college": {
+    "name": "昭通学院",
+    "summary": "昭通学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qujing-normal-university": {
+    "name": "曲靖师范学院",
+    "summary": "曲靖师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "pu-er-college": {
+    "name": "普洱学院",
+    "summary": "普洱学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "baoshan-college": {
+    "name": "保山学院",
+    "summary": "保山学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "honghe-university": {
+    "name": "红河学院",
+    "summary": "红河学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-university-of-finance-and-economics": {
+    "name": "云南财经大学",
+    "summary": "云南财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-academy-of-arts": {
+    "name": "云南艺术学院",
+    "summary": "云南艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-nationalities-university": {
+    "name": "云南民族大学",
+    "summary": "云南民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yuxi-teachers-college": {
+    "name": "玉溪师范学院",
+    "summary": "玉溪师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chuxiong-normal-university": {
+    "name": "楚雄师范学院",
+    "summary": "楚雄师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yunnan-police-officer-academy": {
+    "name": "云南警官学院",
+    "summary": "云南警官学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "kunming-university": {
+    "name": "昆明学院",
+    "summary": "昆明学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "wenshan-college": {
+    "name": "文山学院",
+    "summary": "文山学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "dianxi-normal-university-of-science-and-technology": {
+    "name": "滇西科技师范学院",
+    "summary": "滇西科技师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "west-yunnan-university-of-applied-sciences": {
+    "name": "滇西应用技术大学",
+    "summary": "滇西应用技术大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tibet-university": {
+    "name": "西藏大学",
+    "summary": "西藏大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tibet-nationalities-university": {
+    "name": "西藏民族大学",
+    "summary": "西藏民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tibet-university-of-tibetan-medicine": {
+    "name": "西藏藏医药大学",
+    "summary": "西藏藏医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northwest-university": {
+    "name": "西北大学",
+    "summary": "西北大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-jiaotong-university": {
+    "name": "西安交通大学",
+    "summary": "西安交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northwestern-polytechnical-university": {
+    "name": "西北工业大学",
+    "summary": "西北工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-university-of-technology": {
+    "name": "西安理工大学",
+    "summary": "西安理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xidian-university": {
+    "name": "西安电子科技大学",
+    "summary": "西安电子科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xian-industrial-university": {
+    "name": "西安工业大学",
+    "summary": "西安工业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-university-of-architecture-and-technology": {
+    "name": "西安建筑科技大学",
+    "summary": "西安建筑科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-university-of-science-and-technology": {
+    "name": "西安科技大学",
+    "summary": "西安科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-shiyou-university": {
+    "name": "西安石油大学",
+    "summary": "西安石油大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaanxi-university-of-science-and-technology": {
+    "name": "陕西科技大学",
+    "summary": "陕西科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-polytechnic-university": {
+    "name": "西安工程大学",
+    "summary": "西安工程大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "chang-an-university": {
+    "name": "长安大学",
+    "summary": "长安大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northwest-af-university": {
+    "name": "西北农林科技大学",
+    "summary": "西北农林科技大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaanxi-university-of-traditional-chinese-medicine": {
+    "name": "陕西中医药大学",
+    "summary": "陕西中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaanxi-normal-university": {
+    "name": "陕西师范大学",
+    "summary": "陕西师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yan-an-university": {
+    "name": "延安大学",
+    "summary": "延安大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaanxi-university-of-technology": {
+    "name": "陕西理工大学",
+    "summary": "陕西理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "baoji-university-of-arts-and-science": {
+    "name": "宝鸡文理学院",
+    "summary": "宝鸡文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xianyang-normal-university": {
+    "name": "咸阳师范学院",
+    "summary": "咸阳师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "weinan-teachers-college": {
+    "name": "渭南师范学院",
+    "summary": "渭南师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-international-studies-university": {
+    "name": "西安外国语大学",
+    "summary": "西安外国语大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northwest-university-of-political-science-and-law": {
+    "name": "西北政法大学",
+    "summary": "西北政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-institute-of-physical-education": {
+    "name": "西安体育学院",
+    "summary": "西安体育学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-conservatory-of-music": {
+    "name": "西安音乐学院",
+    "summary": "西安音乐学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-academy-of-fine-arts": {
+    "name": "西安美术学院",
+    "summary": "西安美术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-university-of-arts-and-science": {
+    "name": "西安文理学院",
+    "summary": "西安文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yulin-university": {
+    "name": "榆林大学",
+    "summary": "榆林大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shangluo-college": {
+    "name": "商洛学院",
+    "summary": "商洛学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ankang-college": {
+    "name": "安康学院",
+    "summary": "安康学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-university-of-finance-and-economics": {
+    "name": "西安财经大学",
+    "summary": "西安财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-university-of-posts": {
+    "name": "西安邮电大学",
+    "summary": "西安邮电大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-aeronautical-institute": {
+    "name": "西安航空学院",
+    "summary": "西安航空学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xi-an-medical-college": {
+    "name": "西安医学院",
+    "summary": "西安医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shaanxi-preschool-teachers-college": {
+    "name": "陕西学前师范学院",
+    "summary": "陕西学前师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-university": {
+    "name": "兰州大学",
+    "summary": "兰州大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-university-of-technology": {
+    "name": "兰州理工大学",
+    "summary": "兰州理工大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-jiaotong-university": {
+    "name": "兰州交通大学",
+    "summary": "兰州交通大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gansu-agricultural-university": {
+    "name": "甘肃农业大学",
+    "summary": "甘肃农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gansu-university-of-traditional-chinese-medicine": {
+    "name": "甘肃中医药大学",
+    "summary": "甘肃中医药大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northwest-normal-university": {
+    "name": "西北师范大学",
+    "summary": "西北师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-city-university": {
+    "name": "兰州城市学院",
+    "summary": "兰州城市学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "longdong-college": {
+    "name": "陇东学院",
+    "summary": "陇东学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tianshui-normal-university": {
+    "name": "天水师范大学",
+    "summary": "天水师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "hexi-university": {
+    "name": "河西学院",
+    "summary": "河西学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-university-of-finance-and-economics": {
+    "name": "兰州财经大学",
+    "summary": "兰州财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northwest-university-for-nationalities": {
+    "name": "西北民族大学",
+    "summary": "西北民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gansu-university-of-political-science-and-law": {
+    "name": "甘肃政法大学",
+    "summary": "甘肃政法大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gansu-normal-university-for-nationalities": {
+    "name": "甘肃民族师范学院",
+    "summary": "甘肃民族师范学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-university-of-arts-and-science": {
+    "name": "兰州文理学院",
+    "summary": "兰州文理学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "gansu-medical-college": {
+    "name": "甘肃医学院",
+    "summary": "甘肃医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "lanzhou-institute-of-technology": {
+    "name": "兰州工业学院",
+    "summary": "兰州工业学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qinghai-university": {
+    "name": "青海大学",
+    "summary": "青海大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qinghai-normal-university": {
+    "name": "青海师范大学",
+    "summary": "青海师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "qinghai-university-for-nationalities": {
+    "name": "青海民族大学",
+    "summary": "青海民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningxia-university": {
+    "name": "宁夏大学",
+    "summary": "宁夏大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningxia-medical-university": {
+    "name": "宁夏医科大学",
+    "summary": "宁夏医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "ningxia-normal-university": {
+    "name": "宁夏师范大学",
+    "summary": "宁夏师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "northern-university-for-nationalities": {
+    "name": "北方民族大学",
+    "summary": "北方民族大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-university": {
+    "name": "新疆大学",
+    "summary": "新疆大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "tarim-university": {
+    "name": "塔里木大学",
+    "summary": "塔里木大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-agricultural-university": {
+    "name": "新疆农业大学",
+    "summary": "新疆农业大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "shihezi-university": {
+    "name": "石河子大学",
+    "summary": "石河子大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-medical-university": {
+    "name": "新疆医科大学",
+    "summary": "新疆医科大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-normal-university": {
+    "name": "新疆师范大学",
+    "summary": "新疆师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "kashgar-university": {
+    "name": "喀什大学",
+    "summary": "喀什大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "yili-normal-university": {
+    "name": "伊犁师范大学",
+    "summary": "伊犁师范大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-university-of-finance-and-economics": {
+    "name": "新疆财经大学",
+    "summary": "新疆财经大学招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-art-institute": {
+    "name": "新疆艺术学院",
+    "summary": "新疆艺术学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-institute-of-technology": {
+    "name": "新疆理工学院",
+    "summary": "新疆理工学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "changji-university": {
+    "name": "昌吉学院",
+    "summary": "昌吉学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-second-medical-college": {
+    "name": "新疆第二医学院",
+    "summary": "新疆第二医学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
+  },
+  "xinjiang-university-of-science-and-technology": {
+    "name": "新疆科技学院",
+    "summary": "新疆科技学院招聘教授、讲师、研究员、博士后、行政与教辅职位。"
   }
 }
