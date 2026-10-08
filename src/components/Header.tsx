@@ -366,8 +366,6 @@ export default function Header({
           {signUpLabel}
         </Link>
       ) : null}
-      <LanguageSwitcher />
-      {postJob}
     </>
   );
 
@@ -416,6 +414,8 @@ export default function Header({
               className="col-start-2 row-start-1 flex shrink-0 items-center gap-2 justify-self-end xl:col-start-3"
             >
               {accountActions}
+              <LanguageSwitcher />
+              {postJob}
               <Button
                 ref={menuButtonRef}
                 type="button"
