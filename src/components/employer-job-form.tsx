@@ -53,9 +53,11 @@ import {
   type JobFormViolation,
 } from '@/board/job-form';
 import type { LocationSuggestionVM } from '@/board/location-suggestion';
+import { customAttributeLines } from '@/board/plan-benefits';
 import {
   planFeatureLines,
   planOffersFeaturedChoice,
+  type PostPlan,
 } from '@/board/plan-view-model';
 import { CollectionFieldPicker } from '@/components/collection-field-picker';
 import {
@@ -118,7 +120,6 @@ import type {
   EmployerBillingOption,
   EmployerCheckoutBody,
   EmployerJob,
-  JobPostingPlan,
   RemotePermitTaxonomyEntry,
   UpdateEmployerJobBody,
 } from '@cavuno/board';
@@ -473,7 +474,7 @@ export type EmployerJobFormProps = {
   slug: string;
   locale: string;
   remotePermits: RemotePermitTaxonomyEntry[] | null;
-  plans: JobPostingPlan[];
+  plans: PostPlan[];
   billingOptions: EmployerBillingOption[];
   officeLocationSuggestions: LocationSuggestionState;
   mode: EmployerJobFormMode;
@@ -1860,7 +1861,12 @@ export function EmployerJobForm({
                         const price =
                           plan.prices.find((candidate) => candidate.isActive) ??
                           plan.prices[0];
-                        const features = planFeatureLines(plan);
+                        const features = [
+                          ...planFeatureLines(plan),
+                          ...customAttributeLines({
+                            features: plan.catalogFeatures ?? {},
+                          }),
+                        ];
                         return (
                           <FieldLabel
                             key={plan.id}
