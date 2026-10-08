@@ -122,6 +122,7 @@ import type {
   RemotePermitTaxonomyEntry,
   UpdateEmployerJobBody,
 } from '@cavuno/board';
+import { planDescription, planName } from '@/board/plan-labels';
 
 const REMOTE_OPTIONS = ['remote', 'hybrid', 'on_site'] as const;
 
@@ -1849,12 +1850,12 @@ export function EmployerJobForm({
                               <RadioGroupItem
                                 id={`billing-plan-${plan.id}`}
                                 value={`plan:${plan.id}`}
-                                aria-label={plan.name}
+                                aria-label={planName(plan, locale)}
                               />
                               <FieldContent>
                                 <FieldTitle>
                                   <span className="flex flex-wrap items-center gap-2">
-                                    {plan.name}
+                                    {planName(plan, locale)}
                                     {plan.isRecommended ? (
                                       <Badge variant="secondary">
                                         {m.postJob_recommendedLabel()}
@@ -1864,7 +1865,7 @@ export function EmployerJobForm({
                                 </FieldTitle>
                                 {plan.description ? (
                                   <FieldDescription>
-                                    {plan.description}
+                                    {planDescription(plan, locale)}
                                   </FieldDescription>
                                 ) : null}
                                 {features.length > 0 ? (
