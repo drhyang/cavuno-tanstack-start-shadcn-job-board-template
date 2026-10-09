@@ -138,7 +138,16 @@ const NAMED_FEATURE_KEYS = new Set([
 
 /** Values that mean "the plan does not carry this", so no line is rendered. */
 const EMPTY_VALUES = new Set(['', '0', 'false', 'no', 'none']);
-
+const CUSTOM_ATTRIBUTE_LABELS = new Map<string, () => string>([
+  [
+    'Social Media Promotion',
+    () => m.planAttribute_socialMediaPromotion(),
+  ],
+  [
+    'Job Alert Email Promotion',
+    () => m.planAttribute_jobAlertEmailPromotion(),
+  ],
+]);
 /**
  * Every remaining benefit as a line, in the operator's display order. The API
  * returns no display copy, so the feature's own `name` carries the wording and
@@ -148,7 +157,9 @@ function genericFeatureLines(plan: Pick<Plan, 'features'>): string[] {
   return Object.entries(plan.features ?? {})
     .filter(([key]) => !NAMED_FEATURE_KEYS.has(key))
     .map(([, feature]) => ({
-      name: feature.name,
+      name:
+        CUSTOM_ATTRIBUTE_LABELS.get(feature.name)?.() ??
+        feature.name,
       value: String(feature.value ?? '').trim(),
       order: feature.displayOrder ?? Number.MAX_SAFE_INTEGER,
     }))

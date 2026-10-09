@@ -2027,6 +2027,8 @@
   "plan_free_name": "Free",
   "plan_talentAccessMonthly_description": "Search the talent directory and unlock candidate profiles. 25 profile unlocks and 10 outreach messages every month.",
   "plan_talentAccessMonthly_name": "Talent access — monthly",
+  "planAttribute_jobAlertEmailPromotion": "职位订阅邮件推广",
+  "planAttribute_socialMediaPromotion": "社交媒体推广",
   "plan_oneStandardPost_name": "1 个标准职位",
   "plan_oneStandardPost_description": "1 个标准职位展示",
   "plan_oneFeaturedPost_name": "1 个推广职位",
