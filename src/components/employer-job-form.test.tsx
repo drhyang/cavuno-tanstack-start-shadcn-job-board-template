@@ -39,6 +39,7 @@ import {
 
 import type { JobFormLayoutSource } from '@/board/form-layout';
 import type { JobFormSource } from '@/board/job-form';
+import type { PostPlan } from '@/board/plan-view-model';
 import { m } from '@/paraglide/messages';
 import { containing, normalized } from '@/test/text';
 
@@ -466,7 +467,7 @@ describe('EmployerJobForm', () => {
     };
 
     async function renderDraftEdit(
-      plans: JobPostingPlan[],
+      plans: PostPlan[],
       billingOptions: EmployerBillingOption[] = [],
     ) {
       mocks.updateJob.mockResolvedValue({ ok: true, data: { id: 'job-1' } });
@@ -512,6 +513,23 @@ describe('EmployerJobForm', () => {
         billing: { type: 'new', planId: plan.id },
         isFeatured: true,
       });
+    });
+
+    it("lists the plan's custom attributes from the plan catalogue", async () => {
+      await renderDraftEdit([
+        {
+          ...plan,
+          catalogFeatures: {
+            'custom.newsletter_feature': {
+              value: 'true',
+              name: 'Newsletter feature',
+              dataType: 'boolean',
+            },
+          },
+        },
+      ]);
+
+      expect(screen.getByText(/Newsletter feature/)).toBeVisible();
     });
 
     it('omits isFeatured when the box stays unticked', async () => {
@@ -1080,6 +1098,79 @@ describe('EmployerJobForm', () => {
       screen.queryByText(m.employerCompany_genericError()),
     ).not.toBeInTheDocument();
     expect(mocks.createJob).not.toHaveBeenCalled();
+  });
+});
+
+describe('EmployerJobForm — external-applications-only board', () => {
+  const nativeJob: EmployerJob = {
+    ...draftJob,
+    remoteOption: 'remote',
+    applicationUrl: null,
+  };
+
+  it('offers no on-board option and requires an application URL on create', async () => {
+    mocks.createJob.mockResolvedValue({ ok: true, data: { id: 'job-1' } });
+    const { container } = await renderWithRouter(
+      <EmployerJobForm
+        dependencies={dependencies}
+        slug="acme"
+        locale="en-AU"
+        remotePermits={null}
+        plans={[plan]}
+        billingOptions={[]}
+        officeLocationSuggestions={suggestions}
+        mode={{ kind: 'create' }}
+        job={nativeJob}
+        nativeApplications={false}
+      />,
+    );
+
+    expect(
+      screen.queryByText(m.employerPostJob_applyNativeLabel()),
+    ).not.toBeInTheDocument();
+    const saveDraft = screen.getByRole('button', {
+      name: m.employerCompany_createDraftLabel(),
+    });
+    fireEvent.click(saveDraft);
+    expect(
+      await screen.findAllByText(m.employerPostJob_applyTargetRequiredError()),
+    ).toHaveLength(2);
+    expect(mocks.createJob).not.toHaveBeenCalled();
+
+    fireEvent.change(container.querySelector('#job-application-target')!, {
+      target: { value: 'https://acme.example/apply' },
+    });
+    fireEvent.click(saveDraft);
+
+    await waitFor(() => expect(mocks.createJob).toHaveBeenCalledTimes(1));
+    expect(mocks.createJob.mock.calls[0][0].data.body.applicationUrl).toBe(
+      'https://acme.example/apply',
+    );
+  });
+
+  it('saves an edit of an on-board job without touching its destination', async () => {
+    mocks.updateJob.mockResolvedValue({ ok: true, data: { id: 'job-1' } });
+    const { container } = await renderWithRouter(
+      <EmployerJobForm
+        dependencies={dependencies}
+        slug="acme"
+        locale="en-AU"
+        remotePermits={null}
+        plans={[]}
+        billingOptions={[]}
+        officeLocationSuggestions={suggestions}
+        mode={{ kind: 'edit', jobId: 'job-1', status: 'published' }}
+        job={{ ...nativeJob, status: 'published' }}
+        nativeApplications={false}
+      />,
+    );
+
+    fireEvent.submit(container.querySelector('form')!);
+
+    await waitFor(() => expect(mocks.updateJob).toHaveBeenCalledTimes(1));
+    expect(mocks.updateJob.mock.calls[0][0].data.body).not.toHaveProperty(
+      'applicationUrl',
+    );
   });
 });
 
