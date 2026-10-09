@@ -1,5 +1,4 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { toast } from 'sonner';
 
 import { parseCompanyJobsSearch } from '../lib/company-jobs-search';
 import { m } from '../paraglide/messages';
@@ -9,6 +8,7 @@ import {
   createCompanyJobsLoader,
 } from './-employers.company-jobs';
 
+import { toastActionError, toastActionSuccess } from '@/lib/action-toast';
 import { headTitle } from '@/lib/page-title';
 import type { UrlSearchInput } from '@/lib/pagination';
 
@@ -47,8 +47,15 @@ function CompanyJobsPage() {
             to: '/employers/companies/$slug/jobs/$jobId/edit',
             params: { slug, jobId },
           }),
-        toastError: toast.error,
-        toastSuccess: toast.success,
+        dismissJoined: (slug) =>
+          router.navigate({
+            to: '/employers/companies/$slug',
+            params: { slug },
+            search: ({ joined: _joined, ...rest }) => rest,
+            replace: true,
+          }),
+        toastError: (message) => void toastActionError(message),
+        toastSuccess: (message) => void toastActionSuccess(message),
       }}
     />
   );

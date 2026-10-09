@@ -25,8 +25,10 @@ import {
 } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { DeferredToaster } from '../components/deferred-toaster';
 import { ApplicantPipelineBoard } from '../components/employer/applicant-pipeline-board';
 import { CompanyMembersTable } from '../components/employer/company-members-table';
+import { toastActionSuccess } from '../lib/action-toast';
 import { handleEmployerLoaderErrorUsing } from '../lib/employer-loader-auth';
 import { m } from '../paraglide/messages';
 import { getLocale } from '../paraglide/runtime';
@@ -101,6 +103,7 @@ const jobsActions = {
   unpublishJob: vi.fn<CompanyJobsViewActions['unpublishJob']>(),
   invalidate: vi.fn(),
   navigateToEdit: vi.fn(),
+  dismissJoined: vi.fn(),
   toastError: vi.fn(),
   toastSuccess: vi.fn(),
 } satisfies CompanyJobsViewActions;
@@ -285,6 +288,7 @@ afterEach(() => {
   vi.clearAllMocks();
   jobsActions.invalidate.mockResolvedValue(undefined);
   jobsActions.navigateToEdit.mockResolvedValue(undefined);
+  jobsActions.dismissJoined.mockResolvedValue(undefined);
   membersActions.invalidate.mockResolvedValue(undefined);
   membersActions.navigateToDashboard.mockResolvedValue(undefined);
   membersActions.navigateToMembers.mockResolvedValue(undefined);
@@ -499,6 +503,16 @@ describe('employer company workspace', () => {
     expect(screen.getByRole('alert')).toHaveTextContent(
       m.employerJobs_postedMissingBody(),
     );
+  });
+
+  it('greets a member who just joined from an invite, once', async () => {
+    await renderJobs([draftJob], { search: { joined: '1' } });
+
+    expect(jobsActions.toastSuccess).toHaveBeenCalledTimes(1);
+    expect(jobsActions.toastSuccess).toHaveBeenCalledWith(
+      m.employerCompany_joinedToast({ company: 'Northstar Labs' }),
+    );
+    expect(jobsActions.dismissJoined).toHaveBeenCalledWith('northstar-labs');
   });
 
   it('hides Post a job when the board has no posting SKU', async () => {
@@ -1154,6 +1168,8 @@ describe('employer company workspace', () => {
           timeline: [],
         },
       ],
+      hasMore: false,
+      nextCursor: null,
       seo: {
         boardName: 'Acme Board',
       },
@@ -1489,6 +1505,27 @@ describe('employer company workspace', () => {
   function renderMembers(data: CompanyMembersViewData = membersLoaderData) {
     render(<CompanyMembersPageView data={data} actions={membersActions} />);
   }
+
+  // The root mounts the Toaster on the first click; a greeting raised as the
+  // page loads must still be seen without one.
+  it('shows the joined greeting on page load without a click', async () => {
+    render(
+      <>
+        <DeferredToaster />
+        <CompanyMembersPageView
+          data={{ ...membersLoaderData, joined: true }}
+          actions={{
+            ...membersActions,
+            toastSuccess: (message) => void toastActionSuccess(message),
+          }}
+        />
+      </>,
+    );
+
+    expect(
+      await screen.findByText(m.employerMembers_joinedToast()),
+    ).toBeInTheDocument();
+  });
 
   it('lets admins remove members and surfaces last_admin inline', async () => {
     membersActions.removeCompanyMember.mockResolvedValue({

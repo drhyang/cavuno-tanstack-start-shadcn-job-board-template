@@ -7,7 +7,7 @@ export type LegalPageType =
   | 'impressum';
 
 /** Viewer chrome locales the starter ships legal text for. */
-export type LegalLocale = 'en' | 'de' | 'fr' | 'es' | 'pl' | 'nl' | 'zh-cn' | 'zh-hk';
+export type LegalLocale = 'en' | 'de' | 'fr' | 'es' | 'pl' | 'nl';
 
 /**
  * One legal/about page in one language.

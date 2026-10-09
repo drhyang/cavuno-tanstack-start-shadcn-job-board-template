@@ -94,6 +94,8 @@
       }
     }
   ],
+  "accountRecommended_emailInvitationAction": "启用职位匹配邮件通知",
+  "accountRecommended_emailInvitationTitle": "在收件箱中接收匹配职位",
   "accountRecommended_employerProfileLink": "Go to your profile",
   "accountRecommended_employerText": "Your employer account has no job seeker profile to match jobs against.",
   "accountRecommended_employerTitle": "Job matches are for job seeker accounts",
@@ -496,8 +498,29 @@
   "candidatePaywallLock_ctaLabel": "Unlock access",
   "candidatePaywallLock_description": "Choose a plan to unlock this part of your account.",
   "candidatePaywallLock_matchesTitle": "Job matches need a paid plan",
+  "candidatePaywallLock_recommendedBadge": "推荐",
+  "candidatePaywallLock_noOffersText": "目前没有可用的付费套餐。你仍然可以继续浏览职位。",
+  "candidatePaywallLock_checkoutTerms": "付款前，请在结账页面查看完整的计费条款。",
   "categoryPage_jobsHeading": "个{category}类学术职位",
-  "categoryPage_jobsHeading_admin": "个{category}职位",
+  "categoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} 个{category}类学术职位",
+        "countPlural=*": "{countLabel} 个{category}类学术职位"
+      }
+    }
+  ],
+  "categoryPage_jobsHeading_admin": "{category}职位",
+  "categoryPage_jobsCountHeading_admin": "个{category}职位",
   "categoryPage_notFoundText": "Category not found.",
   "collectionField_maxSelectionsText": "Choose up to {count}.",
   "collectionField_searchPlaceholder": "Search to add…",
@@ -546,8 +569,8 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "{countLabel} 职位",
-        "countPlural=*": "{countLabel} 职位"
+        "countPlural=one": "{countLabel} 个职位",
+        "countPlural=*": "{countLabel} 个职位"
       }
     }
   ],
@@ -657,6 +680,39 @@
   ],
   "companySearch_resultsRegionLabel": "Company results",
   "companySearch_resultsShowingRange": "显示 {count} 中的 {from}–{to} 雇主",
+  "companySearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 家雇主，当前显示 {to} 家",
+        "countPlural=*": "共 {countLabel} 家雇主，当前显示 {to} 家"
+      }
+    }
+  ],
+  "companySearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 家雇主",
+        "countPlural=*": "共 {countLabel} 家雇主"
+      }
+    }
+  ],
   "companySearch_retryLabel": "Retry",
   "companySearch_searchLabel": "Search",
   "companySearch_selectedCompanyRegionLabel": "Selected company",
@@ -753,8 +809,8 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "{countLabel} 职位",
-        "countPlural=*": "{countLabel} 职位"
+        "countPlural=one": "{countLabel} 个职位",
+        "countPlural=*": "{countLabel} 个职位"
       }
     }
   ],
@@ -889,6 +945,7 @@
   "employerCompany_jobsEmptyText": "Post your first job to start hiring.",
   "employerCompany_jobsHeading": "职位 ({count})",
   "employerCompany_metaTitle": "Manage company",
+  "employerCompany_joinedToast": "你已加入 {company}。",
   "employerCompany_nameLabel": "Name",
   "employerCompany_noJobsText": "No jobs yet.",
   "employerCompany_noPlansText": "No plans available to publish with.",
@@ -980,6 +1037,36 @@
   "employerInviteAccept_invalidTitle": "This invite is invalid",
   "employerInviteAccept_signInLabel": "Sign in",
   "employerInviteAccept_title": "Accept invite",
+  "employerInviteJoin_wrongAccountTitle": "此邀请发送给了其他邮箱",
+  "employerInviteJoin_wrongAccountBodyNoEmail": "{company} 的邀请发送到了另一个电子邮箱地址。",
+  "employerInviteJoin_wrongAccountBody": "{company} 的邀请发送到了 {email}。",
+  "employerInviteJoin_unavailableHint": "请邀请你的人重新发送邀请，或查找更新的邀请邮件。",
+  "employerInviteJoin_unavailableBody": "邀请链接有效期为 7 天；发送新邀请后，旧链接将失效。",
+  "employerInviteJoin_signedInAsLabel": "当前登录账号",
+  "employerInviteJoin_signOutLabel": "退出登录",
+  "employerInviteJoin_signOutAndUseLabel": "退出登录并使用 {email}",
+  "employerInviteJoin_signInTitle": "登录以加入 {company}",
+  "employerInviteJoin_signInSubmitLabel": "登录并加入",
+  "employerInviteJoin_signInLink": "登录",
+  "employerInviteJoin_signInBody": "你已经拥有 {board} 账户。",
+  "employerInviteJoin_passwordLabel": "密码",
+  "employerInviteJoin_nameLabel": "你的姓名",
+  "employerInviteJoin_keepSignedInLabel": "保持登录状态",
+  "employerInviteJoin_joinTitle": "加入 {company}",
+  "employerInviteJoin_joinBody": "{board} 邀请你管理 {company}：发布职位并审核申请。",
+  "employerInviteJoin_invalidTitle": "此邀请已失效",
+  "employerInviteJoin_haveAccountText": "已经拥有账户？",
+  "employerInviteJoin_expiredTitle": "此邀请已过期",
+  "employerInviteJoin_emailLockedHint": "此邀请已发送至该邮箱地址。",
+  "employerInviteJoin_emailLabel": "电子邮箱",
+  "employerInviteJoin_differentAccountLink": "使用其他账户",
+  "employerInviteJoin_creatingLabel": "正在创建账户…",
+  "employerInviteJoin_createSubmitLabel": "创建账户并加入",
+  "employerInviteJoin_contactBoardLabel": "联系 {board}",
+  "employerInviteJoin_candidateTitle": "此邮箱已注册为求职者账户",
+  "employerInviteJoin_candidateHint": "请对方使用另一个工作邮箱向你发送邀请，或联系 {board}。",
+  "employerInviteJoin_candidateBodyNoEmail": "此邮箱在 {board} 上注册为求职者账户。",
+  "employerInviteJoin_candidateBody": "{email} 在 {board} 上注册为求职者账户。",
   "employerInviteAccept_wrongEmailBody": "This invite was sent to {email}. Sign in with that address.",
   "employerInviteAccept_wrongEmailTitle": "Sign in with the invited email",
   "employerJob_statusArchived": "Archived",
@@ -1384,6 +1471,8 @@
   "jobSearch_anyWorkplaceLabel": "所有工作方式",
   "jobSearch_applyFiltersLabel": "Apply filters",
   "jobSearch_cancelLabel": "Cancel",
+  "jobSearch_cappedCountLabel": "{count}+",
+  "jobSearch_cappedResultsHint": "Showing matches {from} to {to}. Add filters or try a more specific search to find more.",
   "jobSearch_clearFiltersLabel": "Clear",
   "jobSearch_contextualResultsHeading": "{count} {heading}",
   "jobSearch_detailErrorTitle": "Job details could not be loaded",
@@ -1416,8 +1505,8 @@
         "countPlural"
       ],
       "match": {
-        "countPlural=one": "{countLabel} 个学术职位",
-        "countPlural=*": "{countLabel} 个学术职位"
+        "countPlural=one": "{countLabel} 个职位",
+        "countPlural=*": "{countLabel} 个职位"
       }
     }
   ],
@@ -1437,6 +1526,39 @@
       "match": {
         "countPlural=one": "显示 {countLabel} 中的 {from}–{to} 职位",
         "countPlural=*": "显示 {countLabel} 中的 {from}–{to} 职位"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 个职位，当前显示 {to} 个",
+        "countPlural=*": "共 {countLabel} 个职位，当前显示 {to} 个"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 个职位",
+        "countPlural=*": "共 {countLabel} 个职位"
       }
     }
   ],
@@ -1498,15 +1620,153 @@
   "listing_metaDescription": "Browse {heading} on {boardName}.",
   "listing_metaDescriptionWithCount": "查看 {boardName} 上的 {count} 个{heading}。",
   "locationCategoryPage_jobsHeading": "{place}的{category}职位 ",
+  "locationCategoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{place}有 {countLabel} 个{category}职位",
+        "countPlural=*": "{place}有 {countLabel} 个{category}职位"
+      }
+    }
+  ],
   "locationCombobox_clearAriaLabel": "clear location",
   "locationCombobox_locationAriaLabel": "location",
   "locationCombobox_noMatchText": "No jobs in {location}",
   "locationCombobox_placeholderText": "地点…",
   "locationCombobox_searchingText": "Searching…",
   "locationField_pickRequiredError": "Choose a location from the suggestions.",
-  "locationPage_jobsHeading": "{place} 职位",
+  "locationPage_jobsHeading": "{place}职位",
+  "locationPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{place}有 {countLabel} 个职位",
+        "countPlural=*": "{place}有 {countLabel} 个职位"
+      }
+    }
+  ],
   "locationPage_notFoundText": "Location not found.",
+  "searchRadius_triggerLabel": "距离：{distance}",
+  "searchRadius_menuLabel": "距离",
+  "searchRadius_withinOption": "{distance} 范围内",
+  "searchRadius_exactOption": "仅限该地点",
+  "searchRadius_withinEmpty": "{place}附近 {distance} 范围内没有职位",
+  "searchRadius_withinScopeUncounted": "显示 {place} 附近 {distance} 范围内的职位",
+  "searchRadius_withinScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 个职位，当前显示 {to} 个（{place} 附近 {distance} 范围内）",
+        "countPlural=*": "共 {countLabel} 个职位，当前显示 {to} 个（{place} 附近 {distance} 范围内）"
+      }
+    }
+  ],
+  "searchRadius_withinScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "显示 {countLabel} 个职位（{place} 附近 {distance} 范围内）",
+        "countPlural=*": "显示第 {from}–{to} 个职位（{place} 附近 {distance} 范围内）"
+      }
+    }
+  ],
+  "searchRadius_exactEmpty": "在 {exactPlace} 暂无职位",
+  "searchRadius_exactPlace": "{place}",
+  "searchRadius_exactScopeUncounted": "显示 {exactPlace} 的职位",
+  "searchRadius_exactScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 个职位，当前显示 {to} 个（{exactPlace}）",
+        "countPlural=*": "共 {countLabel} 个职位，当前显示 {to} 个（{exactPlace}）"
+      }
+    }
+  ],
+  "searchRadius_exactScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "显示 {countLabel} 个职位（{exactPlace}）",
+        "countPlural=*": "显示第 {from}–{to} 个职位（{exactPlace}）"
+      }
+    }
+  ],
   "locationSkillPage_jobsHeading": "{place}{skill}职位",
+  "locationSkillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{place}有 {countLabel} 个{skill}职位",
+        "countPlural=*": "{place}有 {countLabel} 个{skill}职位"
+      }
+    }
+  ],
   "logoUpload_changeLogoLabel": "Change logo",
   "logoUpload_uploadErrorText": "Upload failed — try a smaller image.",
   "logoUpload_uploadingLabel": "Uploading…",
@@ -1696,6 +1956,9 @@
   "notFound_pageNotFound": "Page not found.",
   "notificationSettings_applicationEmailsDescription": "Email me about updates to jobs I’ve applied to.",
   "notificationSettings_applicationEmailsTitle": "Application updates",
+  "notificationSettings_employerApplicationEmailsDescription": "当有求职者申请我公司发布的职位时，通过邮件通知我。",
+  "notificationSettings_employerApplicationEmailsTitle": "收到新的申请",
+  "notificationSettings_employerMessageEmailsDescription": "当有求职者向我发送消息时，通过邮件通知我。",
   "notificationSettings_messageEmailsDescription": "Email me when an employer sends me a message.",
   "notificationSettings_messageEmailsTitle": "Messages",
   "notificationSettings_recommendedJobEmailsDescription": "Get a weekly email with jobs that match your profile.",
@@ -1712,6 +1975,9 @@
   "passwordPage_incorrectPasswordError": "Incorrect password.",
   "passwordPage_passwordLabel": "Password",
   "passwordPage_title": "Enter password",
+  "comingSoonGate_enterPassword": "输入密码进入",
+  "comingSoonGate_lede": "我们正在进行最后的完善，请稍后再来。",
+  "comingSoonGate_heading": "{board} 即将上线。",
   "placeTags_removeAriaLabel": "Remove {name}",
   "planComposed_featuredListing": "{days} 天置顶展示",
   "planComposed_featuredName": "Featured listing",
@@ -1897,6 +2163,8 @@
   "previewToolbar_talentVisibility_employersOnly": "Employers only",
   "previewToolbar_talentVisibility_off": "Off",
   "previewToolbar_talentVisibility_public": "Public",
+  "previewToolbar_localPreviewLabel": "开发预览",
+  "previewToolbar_localPreviewSubtitle": "预览广告位，不会实际投放广告。",
   "previewToolbar_title": "Preview",
   "previewToolbar_triggerLabel": "Preview toolbar — switch persona and board settings",
   "previewToolbar_viewingAs": "Viewing as:",
@@ -1928,6 +2196,12 @@
   "profileForm_locationLabel": "Location",
   "profileForm_locationPlaceholder": "Berlin, Germany",
   "profileForm_openToRelocatingLabel": "Open to relocating",
+  "profileForm_openToRelocateDescription": "也可以匹配你所在国家或地区内任何地点的现场职位，并让雇主知道你愿意搬迁。",
+  "profileForm_commuteRadiusKilometresUnit": "km",
+  "profileForm_commuteRadiusMilesUnit": "mi",
+  "profileForm_commuteRadiusRangeError": "请输入介于 {min} 和 {max} 之间的距离。",
+  "profileForm_commuteRadiusDescription": "现场办公和混合办公职位的匹配范围不会超出 {place} 周围的此距离。",
+  "profileForm_commuteRadiusLabel": "你愿意通勤多远？",
   "profileForm_saveLabel": "Save profile",
   "profileForm_savingLabel": "Saving…",
   "profileForm_searchStatusActivelyLooking": "Actively looking",
@@ -2191,6 +2465,23 @@
   "siteHeader_signUpLabel": "注册",
   "siteHeader_skipToContentLabel": "Skip to main content",
   "skillPage_jobsHeading": "{skill} jobs",
+  "skillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} 个{skill}职位",
+        "countPlural=*": "{countLabel} 个{skill}职位"
+      }
+    }
+  ],
   "skillPage_notFoundText": "Skill not found.",
   "skillsSection_addLabel": "Add skill",
   "skillsSection_addSkillLabel": "Skill",
@@ -2291,6 +2582,39 @@
   "talentSearch_resultsHeading": "Candidates",
   "talentSearch_resultsRegionLabel": "Talent results",
   "talentSearch_resultsShowingRange": "Showing {from}–{to} of {count} candidates",
+  "talentSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 位候选人，当前显示 {to} 位",
+        "countPlural=*": "共 {countLabel} 位候选人，当前显示 {to} 位"
+      }
+    }
+  ],
+  "talentSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "共 {countLabel} 位候选人",
+        "countPlural=*": "共 {countLabel} 位候选人"
+      }
+    }
+  ],
   "talentSearch_retryLabel": "Retry",
   "talentSearch_selectedProfileRegionLabel": "Selected profile",
   "talentSearch_skillLabel": "Skill",
@@ -2575,5 +2899,6 @@
   "ui_moreLabel": "More",
   "ui_sidebarDescription": "Displays the mobile sidebar.",
   "ui_sidebarTitle": "Sidebar",
-  "ui_sidebarToggleLabel": "Toggle sidebar"
+  "ui_sidebarToggleLabel": "Toggle sidebar",
+  "candidatePaywallLock_includedLabel": "已包含在此套餐中"
 }

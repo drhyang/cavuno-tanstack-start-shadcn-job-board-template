@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
 
 /**
  * Root: loads the PUBLIC board shell once (identity, features, SEO)
@@ -53,6 +53,7 @@ import {
   CookieConsentProvider,
   CookiePreferencesFooterAction,
 } from '@/components/cookie-consent';
+import { DeferredToaster } from '@/components/deferred-toaster';
 import { FloatingStackProvider } from '@/components/floating-stack';
 import { Box } from '@/components/layout/box';
 import { Container } from '@/components/layout/container';
@@ -107,36 +108,7 @@ const LazyMessagesNavController = lazy(() =>
   })),
 );
 
-const LazyToaster = lazy(() =>
-  import('@/components/ui/sonner').then(({ Toaster }) => ({
-    default: Toaster,
-  })),
-);
 const PSEUDO_LOCALES = new Set(['en-XA', 'ar-XB']);
-
-function DeferredToaster() {
-  const [requested, setRequested] = useState(false);
-
-  useEffect(() => {
-    const request = () => setRequested(true);
-    window.addEventListener('pointerdown', request, {
-      once: true,
-      passive: true,
-      capture: true,
-    });
-    window.addEventListener('keydown', request, { once: true, capture: true });
-    return () => {
-      window.removeEventListener('pointerdown', request, { capture: true });
-      window.removeEventListener('keydown', request, { capture: true });
-    };
-  }, []);
-
-  return requested ? (
-    <Suspense fallback={null}>
-      <LazyToaster />
-    </Suspense>
-  ) : null;
-}
 
 const LazyPreviewToolbar = lazy(() =>
   import('@/components/preview/preview-toolbar').then(({ PreviewToolbar }) => ({
@@ -232,6 +204,11 @@ function RootLayout() {
   const isEmbed = useRouterState({
     select: (s) => s.location.pathname.startsWith('/embed'),
   });
+  // The coming-soon gate is captured as a standalone static page at publish
+  // (see src/routes/coming-soon-gate.tsx): no site chrome or session island.
+  const isComingSoonGate = useRouterState({
+    select: (s) => s.location.pathname === '/coming-soon-gate',
+  });
   if (isEmbed) {
     return (
       <MainContentTarget>
@@ -241,6 +218,8 @@ function RootLayout() {
       </MainContentTarget>
     );
   }
+
+  if (isComingSoonGate) return <Outlet />;
 
   return (
     <RootSessionProvider candidatePaywall={board.features.candidatePaywall}>

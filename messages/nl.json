@@ -509,6 +509,21 @@
   "candidatePaywallLock_noOffersText": "Er zijn momenteel geen betaalde opties beschikbaar. Je kunt vacatures blijven bekijken.",
   "candidatePaywallLock_checkoutTerms": "Bekijk alle betalingsvoorwaarden bij het afrekenen voordat je betaalt.",
   "categoryPage_jobsHeading": "Vacatures in {category}",
+  "categoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature in {category}",
+        "countPlural=*": "{countLabel} vacatures in {category}"
+      }
+    }
+  ],
   "categoryPage_notFoundText": "Categorie niet gevonden.",
   "commandDialog_searchPlaceholder": "Zoek een opdracht om uit te voeren…",
   "commandDialog_title": "Opdrachtpalet",
@@ -653,6 +668,35 @@
   ],
   "companySearch_resultsRegionLabel": "Bedrijfsresultaten",
   "companySearch_resultsShowingRange": "{from}–{to} van {count} bedrijven weergegeven",
+  "companySearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} bedrijf weergegeven",
+        "countPlural=*": "{countLabel} bedrijven weergegeven"
+      }
+    }
+  ],
+  "companySearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{to} van {countLabel} bedrijf weergegeven",
+        "countPlural=*": "{to} van {countLabel} bedrijven weergegeven"
+      }
+    }
+  ],
   "companySearch_retryLabel": "Opnieuw proberen",
   "companySearch_searchLabel": "Zoeken",
   "companySearch_selectedCompanyRegionLabel": "Geselecteerd bedrijf",
@@ -860,6 +904,7 @@
   "employerCompany_jobsEmptyText": "Plaats je eerste vacature om kandidaten te werven.",
   "employerCompany_jobsHeading": "Vacatures ({count})",
   "employerCompany_metaTitle": "Bedrijf beheren",
+  "employerCompany_joinedToast": "Je bent lid geworden van {company}.",
   "employerCompany_nameLabel": "Naam",
   "employerCompany_noJobsText": "Nog geen vacatures.",
   "employerCompany_noPlansText": "Er zijn geen plaatsingspakketten beschikbaar om vacatures te publiceren.",
@@ -944,13 +989,37 @@
   "employerEditJob_savingLabel": "Opslaan…",
   "employerEditJob_subtitleText": "Werk hieronder de vacaturegegevens bij.",
   "employerInviteAccept_candidateBody": "Voor deze uitnodiging heb je een werkgeversaccount nodig.",
-  "employerInviteAccept_candidateTitle": "Voor deze uitnodiging heb je een werkgeversaccount nodig",
-  "employerInviteAccept_invalidBody": "Deze uitnodiging is ongeldig of verlopen. Vraag een bedrijfsbeheerder om een nieuwe uitnodiging te sturen.",
-  "employerInviteAccept_invalidTitle": "Deze uitnodiging is ongeldig",
-  "employerInviteAccept_signInLabel": "Inloggen",
   "employerInviteAccept_title": "Uitnodiging accepteren",
-  "employerInviteAccept_wrongEmailBody": "Deze uitnodiging is verstuurd naar {email}. Log in met dat e-mailadres.",
-  "employerInviteAccept_wrongEmailTitle": "Log in met het uitgenodigde e-mailadres",
+  "employerInviteJoin_candidateBody": "{email} is bij {board} geregistreerd als werkzoekende.",
+  "employerInviteJoin_candidateBodyNoEmail": "Dit e-mailadres is bij {board} geregistreerd als werkzoekende.",
+  "employerInviteJoin_candidateHint": "Vraag om een uitnodiging op een ander werk-e-mailadres, of neem contact op met {board}.",
+  "employerInviteJoin_candidateTitle": "Dit e-mailadres is een werkzoekende-account",
+  "employerInviteJoin_contactBoardLabel": "Contact opnemen met {board}",
+  "employerInviteJoin_createSubmitLabel": "Account maken en lid worden",
+  "employerInviteJoin_creatingLabel": "Account wordt gemaakt…",
+  "employerInviteJoin_differentAccountLink": "Ander account gebruiken",
+  "employerInviteJoin_emailLabel": "E-mail",
+  "employerInviteJoin_emailLockedHint": "De uitnodiging is naar dit adres gestuurd.",
+  "employerInviteJoin_expiredTitle": "Deze uitnodiging is verlopen",
+  "employerInviteJoin_haveAccountText": "Heb je al een account?",
+  "employerInviteJoin_invalidTitle": "Deze uitnodiging is niet meer geldig",
+  "employerInviteJoin_joinBody": "{board} heeft je uitgenodigd om {company} te beheren: vacatures plaatsen en sollicitanten beoordelen.",
+  "employerInviteJoin_joinTitle": "Word lid van {company}",
+  "employerInviteJoin_keepSignedInLabel": "Ingelogd blijven",
+  "employerInviteJoin_nameLabel": "Je naam",
+  "employerInviteJoin_passwordLabel": "Wachtwoord",
+  "employerInviteJoin_signInBody": "Je hebt al een account bij {board}.",
+  "employerInviteJoin_signInLink": "Inloggen",
+  "employerInviteJoin_signInSubmitLabel": "Inloggen en lid worden",
+  "employerInviteJoin_signInTitle": "Log in om lid te worden van {company}",
+  "employerInviteJoin_signOutAndUseLabel": "Uitloggen en {email} gebruiken",
+  "employerInviteJoin_signOutLabel": "Uitloggen",
+  "employerInviteJoin_signedInAsLabel": "Ingelogd als",
+  "employerInviteJoin_unavailableBody": "Uitnodigingslinks zijn 7 dagen geldig en werken niet meer zodra er een nieuwe is verstuurd.",
+  "employerInviteJoin_unavailableHint": "Vraag degene die je heeft uitgenodigd om hem opnieuw te sturen, of zoek naar een nieuwere uitnodigingsmail.",
+  "employerInviteJoin_wrongAccountBody": "De uitnodiging van {company} is naar {email} gestuurd.",
+  "employerInviteJoin_wrongAccountBodyNoEmail": "De uitnodiging van {company} is naar een ander e-mailadres gestuurd.",
+  "employerInviteJoin_wrongAccountTitle": "Deze uitnodiging is voor een ander e-mailadres",
   "employerJob_statusArchived": "Gearchiveerd",
   "employerJob_statusDraft": "Concept",
   "employerJob_statusExpired": "Verlopen",
@@ -1339,6 +1408,8 @@
   "jobSearch_anyWorkplaceLabel": "Alle werkplekken",
   "jobSearch_applyFiltersLabel": "Filters toepassen",
   "jobSearch_cancelLabel": "Annuleren",
+  "jobSearch_cappedCountLabel": "{count}+",
+  "jobSearch_cappedResultsHint": "Resultaten {from} tot en met {to} worden getoond. Voeg filters toe of probeer een specifiekere zoekopdracht om meer te vinden.",
   "jobSearch_clearFiltersLabel": "Wissen",
   "jobSearch_contextualResultsHeading": "{count} {heading}",
   "jobSearch_detailErrorTitle": "De vacaturegegevens konden niet worden geladen",
@@ -1388,6 +1459,35 @@
       "match": {
         "countPlural=one": "{from}–{to} van {countLabel} vacature weergegeven",
         "countPlural=*": "{from}–{to} van {countLabel} vacatures weergegeven"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature weergegeven",
+        "countPlural=*": "{countLabel} vacatures weergegeven"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{to} van {countLabel} vacature weergegeven",
+        "countPlural=*": "{to} van {countLabel} vacatures weergegeven"
       }
     }
   ],
@@ -1449,14 +1549,138 @@
   "listing_metaDescription": "Bekijk {heading} op {boardName}.",
   "listing_metaDescriptionWithCount": "Bekijk {count} {heading} op {boardName}.",
   "locationCategoryPage_jobsHeading": "Vacatures in {category} in {place}",
+  "locationCategoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature in {category} in {place}",
+        "countPlural=*": "{countLabel} vacatures in {category} in {place}"
+      }
+    }
+  ],
   "locationCombobox_clearAriaLabel": "Locatie wissen",
   "locationCombobox_locationAriaLabel": "locatie",
   "locationCombobox_noMatchText": "Geen vacatures in {location}",
   "locationCombobox_placeholderText": "Locatie…",
   "locationCombobox_searchingText": "Zoeken…",
   "locationPage_jobsHeading": "Vacatures in {place}",
+  "locationPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature in {place}",
+        "countPlural=*": "{countLabel} vacatures in {place}"
+      }
+    }
+  ],
   "locationPage_notFoundText": "Locatie niet gevonden.",
+  "searchRadius_exactScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature {exactPlace}",
+        "countPlural=*": "{from}–{to} vacatures {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{to} van {countLabel} vacature {exactPlace}",
+        "countPlural=*": "{to} van {countLabel} vacatures {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScopeUncounted": "Je ziet vacatures {exactPlace}",
+  "searchRadius_exactPlace": "in {place}",
+  "searchRadius_exactEmpty": "Geen vacatures {exactPlace}",
+  "searchRadius_withinScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature binnen {distance} van {place}",
+        "countPlural=*": "{from}–{to} vacatures binnen {distance} van {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{to} van {countLabel} vacature binnen {distance} van {place}",
+        "countPlural=*": "{to} van {countLabel} vacatures binnen {distance} van {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScopeUncounted": "Je ziet vacatures binnen {distance} van {place}",
+  "searchRadius_withinEmpty": "Geen vacatures binnen {distance} van {place}",
+  "searchRadius_exactOption": "Alleen exacte locatie",
+  "searchRadius_withinOption": "Binnen {distance}",
+  "searchRadius_menuLabel": "Afstand",
+  "searchRadius_triggerLabel": "Afstand: {distance}",
   "locationSkillPage_jobsHeading": "Vacatures voor {skill} in {place}",
+  "locationSkillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature voor {skill} in {place}",
+        "countPlural=*": "{countLabel} vacatures voor {skill} in {place}"
+      }
+    }
+  ],
   "logoUpload_changeLogoLabel": "Logo wijzigen",
   "logoUpload_uploadErrorText": "Uploaden mislukt. Probeer een kleinere afbeelding.",
   "logoUpload_uploadingLabel": "Uploaden…",
@@ -1655,6 +1879,9 @@
   "passwordPage_incorrectPasswordError": "Onjuist wachtwoord.",
   "passwordPage_passwordLabel": "Wachtwoord",
   "passwordPage_title": "Voer wachtwoord in",
+  "comingSoonGate_heading": "{board} komt binnenkort.",
+  "comingSoonGate_lede": "We leggen de laatste hand eraan. Kom snel terug.",
+  "comingSoonGate_enterPassword": "Openen met wachtwoord",
   "placeTags_removeAriaLabel": "{name} verwijderen",
   "collectionField_searchPlaceholder": "Zoek om toe te voegen…",
   "collectionField_maxSelectionsText": "Kies er maximaal {count}.",
@@ -1857,6 +2084,12 @@
   "locationField_pickRequiredError": "Kies een locatie uit de suggesties.",
   "profileForm_locationPlaceholder": "Berlijn, Duitsland",
   "profileForm_openToRelocatingLabel": "Bereid om te verhuizen",
+  "profileForm_commuteRadiusLabel": "Hoe ver wil je reizen naar je werk?",
+  "profileForm_commuteRadiusDescription": "Passende vacatures op locatie en hybride vacatures blijven binnen deze afstand van {place}.",
+  "profileForm_commuteRadiusRangeError": "Vul een afstand in tussen {min} en {max}.",
+  "profileForm_commuteRadiusMilesUnit": "mi",
+  "profileForm_commuteRadiusKilometresUnit": "km",
+  "profileForm_openToRelocateDescription": "Krijg ook passende vacatures op locatie overal in je land en laat werkgevers weten dat je bereid bent om te verhuizen.",
   "profileForm_saveLabel": "Profiel opslaan",
   "profileForm_savingLabel": "Opslaan…",
   "profileForm_searchStatusActivelyLooking": "Actief op zoek",
@@ -2114,6 +2347,21 @@
   "siteHeader_signUpLabel": "Registreren",
   "siteHeader_skipToContentLabel": "Naar de hoofdinhoud",
   "skillPage_jobsHeading": "Vacatures voor {skill}",
+  "skillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} vacature voor {skill}",
+        "countPlural=*": "{countLabel} vacatures voor {skill}"
+      }
+    }
+  ],
   "skillPage_notFoundText": "Vaardigheid niet gevonden.",
   "skillsSection_addLabel": "Vaardigheid toevoegen",
   "skillsSection_addSkillLabel": "Vaardigheid",
@@ -2214,6 +2462,35 @@
   "talentSearch_resultsHeading": "Kandidaten",
   "talentSearch_resultsRegionLabel": "Gevonden kandidaten",
   "talentSearch_resultsShowingRange": "{from}–{to} van {count} kandidaten",
+  "talentSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} kandidaat",
+        "countPlural=*": "{countLabel} kandidaten"
+      }
+    }
+  ],
+  "talentSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{to} van {countLabel} kandidaat",
+        "countPlural=*": "{to} van {countLabel} kandidaten"
+      }
+    }
+  ],
   "talentSearch_retryLabel": "Opnieuw proberen",
   "talentSearch_selectedProfileRegionLabel": "Geselecteerd profiel",
   "talentSearch_skillLabel": "Vaardigheid",

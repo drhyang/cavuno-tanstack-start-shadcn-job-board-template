@@ -37,13 +37,30 @@ import { readPublicOrigin } from '../lib/public-origin';
 import { m } from '../paraglide/messages';
 import { getLocale } from '../paraglide/runtime';
 import { gatedRead } from './board-access';
+import { zhLocationName } from './location-zh';
+import {
+  combinationInPlaceCountCache,
+  listingCacheKey,
+  placeRadiusGeoCache,
+} from './listing-place-cache';
 
 import {
   customFieldLabel,
   customFieldOptionLabel,
 } from '@/board/custom-field-labels';
-import { catalogJobCount } from '@/board/job-catalog-count';
+import {
+  catalogJobCount,
+  displayedJobCount,
+  isRelevanceCountCapped,
+} from '@/board/job-catalog-count';
 import { toJobsLocationHierarchyCrumbs } from '@/board/jobs-location-hierarchy';
+import {
+  isSearchRadiusViewNoindex,
+  placeJobCount,
+  placeRadiusGeo,
+  placeSearchRadius,
+  SEARCH_RADIUS_EXACT,
+} from '@/board/search-radius';
 import { breadcrumbsCopy } from '@/copy-groups/breadcrumbs';
 import { jobSearchCopy } from '@/copy-groups/job-search';
 import {
@@ -57,6 +74,7 @@ import {
   jobsIndexPageTitle,
   listingMetaDescription,
   listingPageTitle,
+  type CountedHeading,
 } from '@/lib/listing-description';
 import type {
   EmploymentType,
@@ -67,8 +85,6 @@ import type {
   Seniority,
   TaxonomyResolution,
 } from '@cavuno/board';
-
-import { zhLocationName } from './location-zh';
 
 type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
@@ -175,6 +191,104 @@ function trailJsonLd(trail: { name: string; href?: string }[]) {
   );
 }
 
+/**
+ * A location page with a chosen distance (`within`, the exact place included)
+ * is a filtered view of the plain location page, which stays the canonical
+ * URL and shows the default distance; a place with no jobs of its own lists
+ * only nearby jobs. Keep either out of the index while its job links are
+ * still followed (see `isSearchRadiusViewNoindex`).
+ */
+function noindexSearchRadiusView<T extends { meta: object[] }>(
+  head: T,
+  noindex: boolean,
+): T {
+  if (!noindex) return head;
+  return {
+    ...head,
+    meta: [...head.meta, { name: 'robots', content: 'noindex, follow' }],
+  };
+}
+
+/**
+ * The `radius` (km) a location listing asks for: the URL's `within`, or the
+ * market default for a city or locality with a point; none (exact) for
+ * `within=0`, a region or a country. The API keeps an omitted radius exact,
+ * so the place's level and unit decide the kilometres: `within=0` needs
+ * neither, a place this isolate resolved before reuses its cached geo, and
+ * only a cold slug waits for `placeRead` before the job list starts.
+ */
+async function listingRadiusKm(
+  locationSlug: string,
+  placeRead: Promise<TaxonomyResolution | null>,
+  within: number | undefined,
+): Promise<number | undefined> {
+  if (within === SEARCH_RADIUS_EXACT) return undefined;
+  const key = listingCacheKey(locationSlug);
+  const cached = placeRadiusGeoCache.get(key);
+  if (cached !== undefined) {
+    return placeSearchRadius({ geo: cached }, within)?.selected?.km;
+  }
+  const readAt = Date.now();
+  const place = await placeRead;
+  if (place) placeRadiusGeoCache.set(key, placeRadiusGeo(place.geo), readAt);
+  return placeSearchRadius(place, within)?.selected?.km;
+}
+
+/**
+ * The plain URL's own view: first page, no filter, sort, query or chosen
+ * distance. Other views canonicalize to it, so only it decides indexing.
+ */
+function isPlainListingView(
+  data: JobsListingFiltersInput & { within?: number },
+): boolean {
+  return (
+    data.offset === 0 &&
+    data.within === undefined &&
+    !data.q &&
+    !data.remoteOption &&
+    !data.employmentType &&
+    !data.customEmploymentType &&
+    !data.seniority?.length &&
+    !data.sort
+  );
+}
+
+/**
+ * A location combination's own jobs in the place (`within=0`), which its
+ * default-distance view's noindex turns on, as the sitemap does: with none
+ * in the place the listing shows only nearby jobs. Read (one row, total
+ * only) only for the plain view of a widened place, and reused per place and
+ * facet for a few minutes; `null` otherwise or when the read fails, which
+ * keeps the page indexable.
+ */
+async function combinationInPlaceJobCount(
+  data: JobsListingFiltersInput & { locationSlug: string; within?: number },
+  facet: { category: string } | { skill: string },
+  radius: number | undefined,
+  headers: Record<string, string>,
+): Promise<number | null> {
+  if (radius === undefined || !isPlainListingView(data)) return null;
+  const key = listingCacheKey(
+    data.locationSlug,
+    'category' in facet ? `category:${facet.category}` : `skill:${facet.skill}`,
+  );
+  const cached = combinationInPlaceCountCache.get(key);
+  if (cached !== undefined) return cached;
+  try {
+    const readAt = Date.now();
+    const exact = await getBoard().jobs.list(
+      { location: data.locationSlug, ...facet, offset: 0, limit: 1 },
+      { headers },
+    );
+    const count = catalogJobCount(exact.count, exact.gatedCount);
+    if (count === undefined) return null;
+    combinationInPlaceCountCache.set(key, count, readAt);
+    return count;
+  } catch {
+    return null;
+  }
+}
+
 /** The board's job custom fields as "All filters" controls. */
 async function jobCustomFilterFields() {
   const boardContext = await readBoardContext();
@@ -234,21 +348,34 @@ export const getJobsIndexPage = createServerFn({ method: 'GET' })
         fieldsRead,
       ]);
       const page = rawList;
+      // A text-query (or category/skill) listing ranked by relevance stops
+      // counting at the ranking limit; see `isRelevanceCountCapped`.
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: Boolean(data.q),
+        sort: data.sort,
+        count: page.count,
+      });
+      const count = displayedJobCount(page.count, page.gatedCount, countCapped);
       const relatedSearches =
         'relatedSearches' in page ? page.relatedSearches : undefined;
       const heading = jobSearchCopy().headingJobs;
+      const countedHeading: CountedHeading = (counted) =>
+        m.jobSearch_resultsCount(counted);
       const head = listingHead({
         title: jobsIndexPageTitle({
           boardName: seo.boardName,
           language: seo.language,
-          count: catalogJobCount(page.count, page.gatedCount),
+          count,
+          countCapped,
         }),
         origin: seo.origin,
         path: localizePath('/jobs'),
         description: listingMetaDescription({
           heading: heading,
+          countedHeading,
           boardName: seo.boardName,
-          count: catalogJobCount(page.count, page.gatedCount),
+          count,
+          countCapped,
         }),
       });
       const crumbs = breadcrumbsCopy();
@@ -269,6 +396,7 @@ export const getJobsIndexPage = createServerFn({ method: 'GET' })
         head,
         jsonLd,
         customFilterFields,
+        countCapped,
       };
     }),
   );
@@ -310,6 +438,12 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: true,
+        sort: data.sort,
+        count: list.count,
+      });
+      const count = displayedJobCount(list.count, list.gatedCount, countCapped);
       const categoryName =
         (m as unknown as Record<string, () => string>)[
           `taxonomy.${category.canonicalSlug}`
@@ -317,24 +451,33 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
       const heading =
         data.categorySlug === 'management-admin-and-support'
           ? m.categoryPage_jobsHeading_admin({
-            category: categoryName,
-          })
+              category: categoryName,
+            })
           : m.categoryPage_jobsHeading({
-            category: categoryName,
-          });
+              category: categoryName,
+            });
+      const countedHeading: CountedHeading = (counted) =>
+        m.categoryPage_jobsCountHeading({
+          ...counted,
+          category: categoryName,
+        });
       const head = listingHead({
         title: listingPageTitle({
           heading: heading,
+          countedHeading,
           boardName: seo.boardName,
           language: seo.language,
-          count: catalogJobCount(list.count, list.gatedCount),
+          count,
+          countCapped,
         }),
         origin: seo.origin,
         path: localizePath(jobsCategoryPath(data.categorySlug)),
         description: listingMetaDescription({
           heading: heading,
+          countedHeading,
           boardName: seo.boardName,
-          count: catalogJobCount(list.count, list.gatedCount),
+          count,
+          countCapped,
         }),
       });
       const crumbs = breadcrumbsCopy();
@@ -357,6 +500,7 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
         relatedSearches: list.relatedSearches,
         head,
         jsonLd,
+        countCapped,
       };
     }),
   );
@@ -390,23 +534,34 @@ export const getJobsSkillPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: true,
+        sort: data.sort,
+        count: list.count,
+      });
+      const count = displayedJobCount(list.count, list.gatedCount, countCapped);
       const heading = m.skillPage_jobsHeading({ skill: skill.displayName });
+      const countedHeading: CountedHeading = (counted) =>
+        m.skillPage_jobsCountHeading({ ...counted, skill: skill.displayName });
       const head = listingHead({
         title: listingPageTitle({
           heading: heading,
+          countedHeading,
           boardName: seo.boardName,
           language: seo.language,
-          count: catalogJobCount(list.count, list.gatedCount),
+          count,
+          countCapped,
         }),
         origin: seo.origin,
         path: localizePath(jobsSkillPath(data.skillSlug)),
         description: listingMetaDescription({
           heading: heading,
+          countedHeading,
           boardName: seo.boardName,
-          count: catalogJobCount(list.count, list.gatedCount),
+          count,
+          countCapped,
         }),
       });
-      head.meta = [...(head.meta ?? []), { name: 'robots', content: 'noindex' }];
       const crumbs = breadcrumbsCopy();
       const jsonLd = asJsonObjects(
         listingJsonLd({
@@ -427,6 +582,7 @@ export const getJobsSkillPage = createServerFn({ method: 'GET' })
         relatedSearches: list.relatedSearches,
         head,
         jsonLd,
+        countCapped,
       };
     }),
   );
@@ -477,17 +633,29 @@ export const getJobsLocationsIndexPage = createServerFn({ method: 'GET' })
  */
 export const getJobsLocationPage = createServerFn({ method: 'GET' })
   .validator(
-    (input: JobsListingFiltersInput & { locationSlug: string }) => input,
+    (
+      input: JobsListingFiltersInput & {
+        locationSlug: string;
+        /** Search distance in the place's unit; see `@/board/search-radius`. */
+        within?: number;
+      },
+    ) => input,
   )
   .middleware([boardAccessMiddleware])
   .handler(({ data, context }) =>
     gatedRead(context, async (headers) => {
       const board = getBoard();
       const filters = listFilters(data);
+      const placeRead = resolveOrNull(
+        board.taxonomy.places.resolve(data.locationSlug, { headers }),
+      );
+      const radius = await listingRadiusKm(
+        data.locationSlug,
+        placeRead,
+        data.within,
+      );
       const [place, listResult, seo, placeTree] = await Promise.all([
-        resolveOrNull(
-          board.taxonomy.places.resolve(data.locationSlug, { headers }),
-        ),
+        placeRead,
         data.q
           ? settled(
               board.jobs.search(
@@ -495,6 +663,7 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
                   query: data.q,
                   filters: {
                     location: data.locationSlug,
+                    radius,
                     remoteOption: filters.remoteOption,
                     employmentType: filters.employmentType,
                     customEmploymentType: filters.customEmploymentType,
@@ -510,7 +679,11 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
             )
           : settled(
               board.jobs.list(
-                { ...filters, location: data.locationSlug },
+                {
+                  ...filters,
+                  location: data.locationSlug,
+                  radius,
+                },
                 { headers },
               ),
             ),
@@ -525,10 +698,22 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: Boolean(data.q),
+        sort: data.sort,
+        count: list.count,
+      });
+      const count = displayedJobCount(list.count, list.gatedCount, countCapped);
       const relatedSearches =
         'relatedSearches' in list ? list.relatedSearches : undefined;
+      const searchRadius = placeSearchRadius(place, data.within);
       const metaPlaceName = zhLocationName(place.canonicalSlug, place.displayName);
       const heading = m.locationPage_jobsHeading({ place: metaPlaceName });
+      const countedHeading: CountedHeading = (counted) =>
+        m.locationPage_jobsCountHeading({
+          ...counted,
+          place: metaPlaceName,
+        });
       // Hosted parity: Home > Jobs > country > … > current place (terminal).
       const crumbs = breadcrumbsCopy();
       const breadcrumbTrail = [
@@ -536,21 +721,31 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
         { name: crumbs.jobs, href: BOARD_PATHS.jobs },
         ...toJobsLocationHierarchyCrumbs(placeTree?.data ?? [], place),
       ];
-      const head = listingHead({
-        title: listingPageTitle({
-          heading: heading,
-          boardName: seo.boardName,
-          language: seo.language,
-          count: catalogJobCount(list.count, list.gatedCount),
+      const head = noindexSearchRadiusView(
+        listingHead({
+          title: listingPageTitle({
+            heading: heading,
+            countedHeading,
+            boardName: seo.boardName,
+            language: seo.language,
+            count,
+            countCapped,
+          }),
+          origin: seo.origin,
+          path: localizePath(`/jobs/locations/${data.locationSlug}`),
+          description: listingMetaDescription({
+            heading: heading,
+            countedHeading,
+            boardName: seo.boardName,
+            count,
+            countCapped,
+          }),
         }),
-        origin: seo.origin,
-        path: localizePath(`/jobs/locations/${data.locationSlug}`),
-        description: listingMetaDescription({
-          heading: heading,
-          boardName: seo.boardName,
-          count: catalogJobCount(list.count, list.gatedCount),
-        }),
-      });
+        isSearchRadiusViewNoindex(
+          searchRadius,
+          placeJobCount(placeTree?.data, place),
+        ),
+      );
       const jsonLd = asJsonObjects(
         listingJsonLd({
           origin: seo.origin,
@@ -564,8 +759,10 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
         list,
         seo,
         relatedSearches,
+        searchRadius,
         head,
         jsonLd,
+        countCapped,
         breadcrumbTrail,
       };
     }),
@@ -585,6 +782,8 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
       input: JobsListingFiltersInput & {
         locationSlug: string;
         categorySlug: string;
+        /** Search distance in the place's unit; see `@/board/search-radius`. */
+        within?: number;
       },
     ) => input,
   )
@@ -593,28 +792,42 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
     gatedRead(context, async (headers) => {
       const board = getBoard();
       const filters = listFilters(data);
-      const [place, category, listResult, seo, placeTree] = await Promise.all([
-        resolveOrNull(
-          board.taxonomy.places.resolve(data.locationSlug, { headers }),
-        ),
-        resolveOrNull(
-          board.taxonomy.categories.resolve(data.categorySlug, { headers }),
-        ),
-        settled(
-          board.jobs.list(
-            {
-              ...filters,
-              location: data.locationSlug,
-              category: data.categorySlug,
-            },
-            { headers },
+      const placeRead = resolveOrNull(
+        board.taxonomy.places.resolve(data.locationSlug, { headers }),
+      );
+      const radius = await listingRadiusKm(
+        data.locationSlug,
+        placeRead,
+        data.within,
+      );
+      const [place, category, listResult, seo, placeTree, inPlaceJobCount] =
+        await Promise.all([
+          placeRead,
+          resolveOrNull(
+            board.taxonomy.categories.resolve(data.categorySlug, { headers }),
           ),
-        ),
-        seoBase(),
-        // Breadcrumb enrichment only: the place directory carries the
-        // ancestor chain; on failure the trail degrades to the place itself.
-        board.taxonomy.places.list(undefined, { headers }).catch(() => null),
-      ]);
+          settled(
+            board.jobs.list(
+              {
+                ...filters,
+                location: data.locationSlug,
+                radius,
+                category: data.categorySlug,
+              },
+              { headers },
+            ),
+          ),
+          seoBase(),
+          // Breadcrumb enrichment only: the place directory carries the
+          // ancestor chain; on failure the trail degrades to the place itself.
+          board.taxonomy.places.list(undefined, { headers }).catch(() => null),
+          combinationInPlaceJobCount(
+            data,
+            { category: data.categorySlug },
+            radius,
+            headers,
+          ),
+        ]);
       if (!place || !category) return { kind: 'not_found' as const };
       if (place.redirectTo || category.redirectTo) {
         return {
@@ -625,6 +838,13 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: true,
+        sort: data.sort,
+        count: list.count,
+      });
+      const count = displayedJobCount(list.count, list.gatedCount, countCapped);
+      const searchRadius = placeSearchRadius(place, data.within);
       const categoryName =
         (m as unknown as Record<string, () => string>)[
           `taxonomy.${category.canonicalSlug}`
@@ -634,6 +854,12 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
         category: categoryName,
         place: metaPlaceName,
       });
+      const countedHeading: CountedHeading = (counted) =>
+        m.locationCategoryPage_jobsCountHeading({
+          ...counted,
+          category: categoryName,
+          place: metaPlaceName,
+        });
       // Hosted parity: Home > Jobs > country > … > place (linked) > category,
       // with facet-relaxation links — ancestors keep the category scope (same
       // jobs, wider area) while the current place links its bare listing.
@@ -648,23 +874,30 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
         }),
         { name: category.displayName },
       ];
-      const head = listingHead({
-        title: listingPageTitle({
-          heading: heading,
-          boardName: seo.boardName,
-          language: seo.language,
-          count: catalogJobCount(list.count, list.gatedCount),
+      const head = noindexSearchRadiusView(
+        listingHead({
+          title: listingPageTitle({
+            heading: heading,
+            countedHeading,
+            boardName: seo.boardName,
+            language: seo.language,
+            count,
+            countCapped,
+          }),
+          origin: seo.origin,
+          path: localizePath(
+            `/jobs/locations/${data.locationSlug}/${data.categorySlug}`,
+          ),
+          description: listingMetaDescription({
+            heading: heading,
+            countedHeading,
+            boardName: seo.boardName,
+            count,
+            countCapped,
+          }),
         }),
-        origin: seo.origin,
-        path: localizePath(
-          `/jobs/locations/${data.locationSlug}/${data.categorySlug}`,
-        ),
-        description: listingMetaDescription({
-          heading: heading,
-          boardName: seo.boardName,
-          count: catalogJobCount(list.count, list.gatedCount),
-        }),
-      });
+        isSearchRadiusViewNoindex(searchRadius, inPlaceJobCount),
+      );
       const jsonLd = asJsonObjects(
         listingJsonLd({
           origin: seo.origin,
@@ -679,8 +912,10 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
         list,
         seo,
         relatedSearches: list.relatedSearches,
+        searchRadius,
         head,
         jsonLd,
+        countCapped,
         breadcrumbTrail,
       };
     }),
@@ -693,6 +928,8 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
       input: JobsListingFiltersInput & {
         locationSlug: string;
         skillSlug: string;
+        /** Search distance in the place's unit; see `@/board/search-radius`. */
+        within?: number;
       },
     ) => input,
   )
@@ -704,28 +941,42 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
       // Both resolves join the listing/SEO batch (see the sibling
       // location+category page). An alias slug still 308s — it just also
       // fetched a listing it discards, which is the rare path.
-      const [place, skill, listResult, seo, placeTree] = await Promise.all([
-        resolveOrNull(
-          board.taxonomy.places.resolve(data.locationSlug, { headers }),
-        ),
-        resolveOrNull(
-          board.taxonomy.skills.resolve(data.skillSlug, { headers }),
-        ),
-        settled(
-          board.jobs.list(
-            {
-              ...filters,
-              location: data.locationSlug,
-              skill: data.skillSlug,
-            },
-            { headers },
+      const placeRead = resolveOrNull(
+        board.taxonomy.places.resolve(data.locationSlug, { headers }),
+      );
+      const radius = await listingRadiusKm(
+        data.locationSlug,
+        placeRead,
+        data.within,
+      );
+      const [place, skill, listResult, seo, placeTree, inPlaceJobCount] =
+        await Promise.all([
+          placeRead,
+          resolveOrNull(
+            board.taxonomy.skills.resolve(data.skillSlug, { headers }),
           ),
-        ),
-        seoBase(),
-        // Breadcrumb enrichment only: the place directory carries the
-        // ancestor chain; on failure the trail degrades to the place itself.
-        board.taxonomy.places.list(undefined, { headers }).catch(() => null),
-      ]);
+          settled(
+            board.jobs.list(
+              {
+                ...filters,
+                location: data.locationSlug,
+                radius,
+                skill: data.skillSlug,
+              },
+              { headers },
+            ),
+          ),
+          seoBase(),
+          // Breadcrumb enrichment only: the place directory carries the
+          // ancestor chain; on failure the trail degrades to the place itself.
+          board.taxonomy.places.list(undefined, { headers }).catch(() => null),
+          combinationInPlaceJobCount(
+            data,
+            { skill: data.skillSlug },
+            radius,
+            headers,
+          ),
+        ]);
       if (!place || !skill) return { kind: 'not_found' as const };
       if (place.redirectTo || skill.redirectTo) {
         return {
@@ -736,11 +987,24 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
       }
       if (!listResult.ok) throw listResult.error;
       const list = listResult.value;
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: true,
+        sort: data.sort,
+        count: list.count,
+      });
+      const count = displayedJobCount(list.count, list.gatedCount, countCapped);
+      const searchRadius = placeSearchRadius(place, data.within);
       const metaPlaceName = zhLocationName(place.canonicalSlug, place.displayName);
       const heading = m.locationSkillPage_jobsHeading({
         skill: skill.displayName,
         place: metaPlaceName,
       });
+      const countedHeading: CountedHeading = (counted) =>
+        m.locationSkillPage_jobsCountHeading({
+          ...counted,
+          skill: skill.displayName,
+          place: metaPlaceName,
+        });
       // Hosted parity: Home > Jobs > country > … > place (linked) > skill,
       // with the same facet-relaxation trail — ancestors keep the skill
       // scope, the current place links its bare listing.
@@ -755,24 +1019,30 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
         }),
         { name: skill.displayName },
       ];
-      const head = listingHead({
-        title: listingPageTitle({
-          heading: heading,
-          boardName: seo.boardName,
-          language: seo.language,
-          count: catalogJobCount(list.count, list.gatedCount),
+      const head = noindexSearchRadiusView(
+        listingHead({
+          title: listingPageTitle({
+            heading: heading,
+            countedHeading,
+            boardName: seo.boardName,
+            language: seo.language,
+            count,
+            countCapped,
+          }),
+          origin: seo.origin,
+          path: localizePath(
+            `/jobs/locations/${data.locationSlug}/skills/${data.skillSlug}`,
+          ),
+          description: listingMetaDescription({
+            heading: heading,
+            countedHeading,
+            boardName: seo.boardName,
+            count,
+            countCapped,
+          }),
         }),
-        origin: seo.origin,
-        path: localizePath(
-          `/jobs/locations/${data.locationSlug}/skills/${data.skillSlug}`,
-        ),
-        description: listingMetaDescription({
-          heading: heading,
-          boardName: seo.boardName,
-          count: catalogJobCount(list.count, list.gatedCount),
-        }),
-      });
-      head.meta = [...(head.meta ?? []), { name: 'robots', content: 'noindex' }];
+        isSearchRadiusViewNoindex(searchRadius, inPlaceJobCount),
+      );
       const jsonLd = asJsonObjects(
         listingJsonLd({
           origin: seo.origin,
@@ -787,8 +1057,10 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
         list,
         seo,
         relatedSearches: list.relatedSearches,
+        searchRadius,
         head,
         jsonLd,
+        countCapped,
         breadcrumbTrail,
       };
     }),

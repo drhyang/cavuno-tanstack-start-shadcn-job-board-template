@@ -8,6 +8,7 @@ import {
   type JobPostingFormInput,
 } from '../lib/post-form';
 import { gatedRead } from './board-access';
+import { withCatalogFeatures } from './post-plans';
 
 import type { JobPostingResult } from '@cavuno/board';
 
@@ -15,9 +16,16 @@ import type { JobPostingResult } from '@cavuno/board';
 export const getPostPlans = createServerFn({ method: 'GET' })
   .middleware([boardAccessMiddleware])
   .handler(({ context }) =>
-    gatedRead(context, (h) =>
-      getBoard().jobPosting.plans(undefined, { headers: h }),
-    ),
+    gatedRead(context, async (h) => {
+      const postingPlans = getBoard().jobPosting.plans(undefined, {
+        headers: h,
+      });
+      const data = await withCatalogFeatures(
+        postingPlans.then((result) => result.data),
+        h,
+      );
+      return { ...(await postingPlans), data };
+    }),
   );
 
 /** The flat form fields the wizard collects. */

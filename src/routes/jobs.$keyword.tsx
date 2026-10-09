@@ -34,25 +34,40 @@ export const Route = createFileRoute('/jobs/$keyword')({
 });
 
 function CategoryPage() {
-  const { category, list, relatedSearches } = Route.useLoaderData();
+  const { category, list, relatedSearches, countCapped } =
+    Route.useLoaderData();
   const search = Route.useSearch();
+
   const categoryName =
     (m as unknown as Record<string, () => string>)[
       `taxonomy.${category.canonicalSlug}`
     ]?.() ?? category.displayName;
+
   return (
     <ProgrammaticJobsView
       heading={
         category.canonicalSlug === 'management-admin-and-support'
           ? m.categoryPage_jobsHeading_admin({
-            category: categoryName,
-          })
+              category: categoryName,
+            })
           : m.categoryPage_jobsHeading({
-            category: categoryName,
-        })
+              category: categoryName,
+            })
+      }
+      countedHeading={(counted) =>
+ 	 category.canonicalSlug === 'management-admin-and-support'
+    	   ? m.categoryPage_jobsCountHeading_admin({
+              ...counted,
+              category: category.displayName,
+	   })
+	   : m.categoryPage_jobsCountHeading({
+             ...counted,
+             category: category.displayName,
+             })
       }
       count={list.count}
       gatedCount={list.gatedCount}
+      countCapped={countCapped}
       jobs={list.data}
       page={search.page ?? 1}
       pageSize={PROGRAMMATIC_JOBS_PAGE_SIZE}

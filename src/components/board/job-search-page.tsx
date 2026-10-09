@@ -16,7 +16,11 @@ import {
   JobsFilterControls,
   type JobsCustomFilters,
 } from '@/components/board/jobs-filter-controls';
-import { JobsResultsBar } from '@/components/board/jobs-results-bar';
+import {
+  JobsCappedResultsHint,
+  JobsResultsBar,
+  type ResultsRange,
+} from '@/components/board/jobs-results-bar';
 import {
   useListingAdRails,
   type AdPlacement,
@@ -47,6 +51,7 @@ import { useSearchSelection } from '@/hooks/use-search-selection';
 import { ADS_OFF, type BoardAdsConfig } from '@/lib/board-ads';
 import type { CustomFieldSearch } from '@/lib/custom-field-filters';
 import type { JobsFilters } from '@/lib/jobs-search';
+import type { CountedHeading } from '@/lib/listing-description';
 import { localizePath } from '@/lib/localized-path';
 import { clampPage, listingPageHref } from '@/lib/pagination';
 import type { RelatedSearch } from '@cavuno/board';
@@ -101,6 +106,7 @@ export function JobSearchPage({
   jobs,
   count,
   gatedCount,
+  countCapped,
   page: requestedPage,
   pageSize,
   filters,
@@ -108,6 +114,8 @@ export function JobSearchPage({
   jobForm,
   language,
   heading,
+  countedHeading,
+  resultsScope,
   relatedSearches,
   onFiltersChange,
   onPageChange,
@@ -125,6 +133,8 @@ export function JobSearchPage({
   count?: number;
   /** Honest count of paywalled results withheld from this viewer. */
   gatedCount?: number;
+  /** `count` is the Board API's ranking limit; see `JobsResultsBar`. */
+  countCapped?: boolean;
   page: number;
   pageSize: number;
   filters: JobsFilters;
@@ -134,6 +144,10 @@ export function JobSearchPage({
   jobForm?: JobFormSource | null;
   language: string;
   heading?: string;
+  /** See `JobsResultsBar` `countedHeading`. */
+  countedHeading?: CountedHeading;
+  /** Replaces the results range line; see `JobsResultsBar` `scope`. */
+  resultsScope?: (range: ResultsRange | null) => React.ReactNode;
   relatedSearches?: RelatedSearch[];
   onFiltersChange: (next: JobsFilters & CustomFieldSearch) => void;
   onPageChange: (page: number) => void;
@@ -175,7 +189,10 @@ export function JobSearchPage({
       page={page}
       pageSize={pageSize}
       heading={heading}
+      countedHeading={countedHeading}
       language={language}
+      scope={resultsScope}
+      countCapped={countCapped}
     />
   );
   return (
@@ -262,6 +279,14 @@ export function JobSearchPage({
                       ))}
                     </ListingAdResults>
                   </InPlaceListingSelect>
+
+                  <JobsCappedResultsHint
+                    visibleCount={count}
+                    page={page}
+                    pageSize={pageSize}
+                    countCapped={countCapped}
+                    language={language}
+                  />
 
                   <PreviewUnlockAlert
                     gatedCount={gatedCount}

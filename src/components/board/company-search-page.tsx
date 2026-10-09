@@ -21,7 +21,10 @@ import {
 import { ListingPagination } from '@/components/board/listing-pagination';
 import { Box } from '@/components/layout/box';
 import { Page } from '@/components/layout/page';
+import { InPlaceListingSelect } from '@/components/master-detail-link';
 import {
+  SearchResultDetail,
+  SearchResultsLayout,
   SearchResultsList,
   SearchResultsToolbar,
 } from '@/components/search-results/search-results';
@@ -35,9 +38,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@/components/ui/empty';
+import { useSearchSelection } from '@/hooks/use-search-selection';
 import { ADS_OFF, type BoardAdsConfig } from '@/lib/board-ads';
 import { entityCount } from '@/lib/entity-count';
 import { clampPage, listingPageHref } from '@/lib/pagination';
+import { resultsShowingLine, type ResultsSpan } from '@/lib/results-showing';
 import { chromeEntity } from '@/lib/site-chrome';
 
 export function CompanySearchPage({
@@ -52,6 +57,10 @@ export function CompanySearchPage({
   markets,
   customFilters,
   onPageChange,
+  selectedCompany,
+  onSelectedCompanyReplace,
+  onSelectedCompanyPush,
+  detail,
   startAd,
   endAd,
   ads = ADS_OFF,
@@ -65,6 +74,7 @@ export function CompanySearchPage({
   query?: string;
   searchUnavailable?: boolean;
   markets: Array<{ slug: string; name: string }>;
+  /** Public company profile fields for the "All filters" sheet; omit for none. */
   customFilters?: CompanyCustomFilters;
   onPageChange: (page: number) => void;
   selectedCompany?: string;
@@ -75,24 +85,40 @@ export function CompanySearchPage({
   endAd?: AdPlacement;
   ads?: BoardAdsConfig;
 }) {
+  // The loader served the last API-reachable page for anything deeper, so
+  // the range label, the active page and Next/Previous must agree with it.
   const page = clampPage(requestedPage, pageSize);
   const rails = useListingAdRails(ads, startAd, endAd);
   const currentHref = useLocation({ select: (location) => location.href });
   const hasCustomFilters = Boolean(customFilters?.active.length);
   const hasActiveSearch = Boolean(query || breadcrumb || hasCustomFilters);
   const companyVms = companies;
+  const companySlugs = companyVms.map((company) => company.slug);
+  const selection = useSearchSelection({
+    selectedId: selectedCompany,
+    resultIds: companySlugs,
+    page,
+    onReplace: onSelectedCompanyReplace,
+    onPush: onSelectedCompanyPush,
+  });
   const locale = getLocale();
   const resultCountLabel = entityCount(count, locale, m.count_companies, {
     singular: chromeEntity().companySingular,
     plural: chromeEntity().companyPlural,
   });
+  // Both browse and free-text search are offset-paginated with a total `count`,
+  // so the description line always renders the exact "Showing X–Y of N" range —
+  // the same honest range as the jobs results header.
   const resultDescription =
     count > 0
-      ? m.companySearch_resultsShowingRange({
-          from: ((page - 1) * pageSize + 1).toLocaleString(locale),
-          to: Math.min(page * pageSize, count).toLocaleString(locale),
-          count: count.toLocaleString(locale),
-        })
+      ? companiesResultsShowingLine(
+          {
+            from: (page - 1) * pageSize + 1,
+            to: Math.min(page * pageSize, count),
+            count,
+          },
+          locale,
+        )
       : null;
   const resultsBar = (
     <div data-slot="company-results-bar" className="pb-3">
@@ -104,35 +130,12 @@ export function CompanySearchPage({
       ) : null}
     </div>
   );
-
-  const marketsSidebar =
-    markets.length > 0 ? (
-      <aside
-        className="hidden min-w-0 lg:sticky lg:top-20 lg:mt-20 lg:block lg:w-[340px] lg:shrink-0 lg:self-start"
-        aria-label={m.companiesIndex_browseByMarketHeading()}
-      >
-          <div className="border-border rounded-lg border p-5">
-          <h2 className="mb-3 text-sm font-semibold">
-            {m.companiesIndex_browseByMarketHeading()}
-          </h2>
-          <div className="flex flex-wrap gap-1.5">
-            {markets.map((market) => (
-              <Badge
-                key={market.slug}
-                variant="outline"
-                render={<Link to={companyMarketPath(market.slug)} />}
-              >
-                {market.name}
-              </Badge>
-            ))}
-          </div>
-          </div>
-      </aside>
-    ) : null;
-
   return (
-    <Page width="wide">
-      <main data-layout="company-search-page">
+    <Page width="wide" fill>
+      <main
+        data-layout="company-search-page"
+        className="md:flex md:h-full md:min-h-0 md:flex-col"
+      >
         {customFilters?.fields.length ? (
           <Box border="bottom">
             <SearchResultsToolbar startAd={rails.startAd} endAd={rails.endAd}>
@@ -140,18 +143,16 @@ export function CompanySearchPage({
             </SearchResultsToolbar>
           </Box>
         ) : null}
-        <div className="mx-auto w-full max-w-[calc(var(--layout-width)+4rem)] px-4 py-8 md:px-8">
-          {/*
-            Single-pane layout: wide company list on the left, narrow markets
-            sidebar on the right. The page scrolls as a whole; the sidebar is
-            sticky so it stays in view while the list scrolls past. Kept
-            inline so the upstream SearchResultsLayout file stays untouched.
-          */}
-          <div className="flex flex-col gap-6 lg:flex-row lg:gap-12">
-            {/* Left column: company list. Scrolls with the page. */}
-            <div className="min-w-0 flex-1">
-              {companyVms.length === 0 ? (
-                <div className="space-y-4">
+        <div
+          data-slot="company-search-viewport"
+          className="min-w-0 overflow-x-clip md:flex md:min-h-0 md:flex-1 md:overflow-hidden"
+        >
+          {companyVms.length === 0 ? (
+            <SearchResultsLayout
+              startAd={rails.startAd}
+              endAd={rails.endAd}
+              list={
+                <div className="space-y-4 px-4 pt-4 pb-4 md:col-span-2 md:px-0">
                   {searchUnavailable ? null : (
                     <div className="space-y-4">{resultsBar}</div>
                   )}
@@ -184,39 +185,103 @@ export function CompanySearchPage({
                     ) : null}
                   </Empty>
                 </div>
-              ) : (
+              }
+              detail={null}
+            />
+          ) : (
+            <SearchResultsLayout
+              startAd={rails.startAd}
+              endAd={rails.endAd}
+              list={
                 <SearchResultsList
+                  ref={selection.listRef}
                   label={m.companySearch_resultsRegionLabel()}
                   scrollRestorationId="companies-search-results"
-                  className="md:h-auto md:min-h-0 md:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 >
                   <div className="space-y-4">{resultsBar}</div>
-                  <ListingAdResults ads={ads}>
-                    {companyVms.map((vm) => (
-                      <div key={vm.id}>
-                        <CompanySearchResult vm={vm} />
-                      </div>
-                    ))}
-                  </ListingAdResults>
+
+                  <InPlaceListingSelect onSelect={selection.onResultActivate}>
+                    <ListingAdResults ads={ads}>
+                      {companyVms.map((vm, index) => {
+                        const companySlug = companySlugs[index]!;
+                        return (
+                          <div key={vm.id} data-result-id={companySlug}>
+                            <CompanySearchResult
+                              vm={vm}
+                              selected={companySlug === selection.selectedId}
+                            />
+                          </div>
+                        );
+                      })}
+                    </ListingAdResults>
+                  </InPlaceListingSelect>
+
                   <ListingPagination
                     compact
                     page={page}
                     count={count}
                     pageSize={pageSize}
                     hrefForPage={(nextPage) =>
-                      listingPageHref(currentHref, nextPage)
+                      listingPageHref(currentHref, nextPage, [
+                        'selectedCompany',
+                      ])
                     }
                     onPageChange={onPageChange}
                   />
-                </SearchResultsList>
-              )}
-            </div>
 
-            {/* Right column: markets sidebar. Sticky while page scrolls. */}
-            {marketsSidebar}
-          </div>
+                  {markets.length > 0 ? (
+                    <section
+                      aria-label={m.companiesIndex_browseByMarketHeading()}
+                      className="border-border space-y-3 border-t pt-4"
+                    >
+                      <h2 className="text-sm font-semibold">
+                        {m.companiesIndex_browseByMarketHeading()}
+                      </h2>
+                      <div className="flex flex-wrap gap-1.5">
+                        {markets.map((market) => (
+                          <Badge
+                            key={market.slug}
+                            variant="outline"
+                            render={
+                              <Link to={companyMarketPath(market.slug)} />
+                            }
+                          >
+                            {market.name}
+                          </Badge>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
+                </SearchResultsList>
+              }
+              detail={
+                <SearchResultDetail
+                  ref={selection.detailRef}
+                  label={m.companySearch_selectedCompanyRegionLabel()}
+                  scrollRestorationId="companies-selected-detail"
+                >
+                  {detail}
+                </SearchResultDetail>
+              }
+            />
+          )}
         </div>
       </main>
     </Page>
   );
+}
+
+/** The "Showing …" line under a companies results heading. */
+export function companiesResultsShowingLine(
+  span: ResultsSpan,
+  locale: string,
+): string {
+  return resultsShowingLine(span, locale, {
+    single: ({ count, countLabel }) =>
+      m.companySearch_resultsShowingCount({ count, countLabel }),
+    lastPage: ({ to, count, countLabel }) =>
+      m.companySearch_resultsShowingLast({ to, count, countLabel }),
+    range: ({ from, to, countLabel }) =>
+      m.companySearch_resultsShowingRange({ from, to, count: countLabel }),
+  });
 }

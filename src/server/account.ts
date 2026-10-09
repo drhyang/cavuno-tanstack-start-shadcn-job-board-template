@@ -36,13 +36,30 @@ import type {
   UpdateExperienceBody,
 } from '@cavuno/board';
 
-/** Additive profile field until the starter's pinned SDK publishes it. */
-type UpdateCandidateProfileWithCountryBody = UpdateCandidateProfileBody & {
-  countryCode?: string | null;
-};
-
 /** `PATCH /me/profile` refusal: another candidate on the board has the handle. */
 const CANDIDATE_HANDLE_TAKEN = 'candidate_handle_taken';
+
+/** `PATCH /me/profile` refusals of the picked home place (`locationId`). */
+const LOCATION_ERROR_CODES = new Set([
+  'locations_invalid_id',
+  'locations_unavailable',
+]);
+
+type ValidationDetails = { issues?: { path?: unknown[] }[] };
+/** Whether a validation refusal names the commute distance. */
+function rejectsCommuteRadius<T>(details: T): boolean {
+  if (details === null || details === undefined || Object(details) !== details)
+    return false;
+  // SAFETY: Board API error details are object records; a
+  // `validation_bad_request` documents `issues` as entries with a `path`,
+  // and both are re-checked before use.
+  const { issues } = details as ValidationDetails;
+  if (!Array.isArray(issues)) return false;
+  return issues.some(
+    (issue) =>
+      Array.isArray(issue?.path) && issue.path[0] === 'commuteRadiusKm',
+  );
+}
 
 /** Bearer + board-access grant for one gated `/me/*` call. */
 function authedHeaders(context: SessionContext & BoardAccessContext) {
@@ -133,30 +150,38 @@ export const getRecommendedJobs = createServerFn({ method: 'GET' })
   );
 
 export const updateProfile = createServerFn({ method: 'POST' })
-  .validator((input: UpdateCandidateProfileWithCountryBody) => input)
+  .validator((input: UpdateCandidateProfileBody) => input)
   .middleware([requireSessionMiddleware, boardAccessMiddleware])
   .handler(async ({ data, context }) => {
     const headers = authedHeaders(context);
     await requireVerifiedBoardUser(headers);
     try {
-      // The field is already part of Cavuno's additive HTTP contract. The
-      // current starter SDK predates its generated type, so keep the one
-      // narrow compatibility cast at the server boundary rather than
-      // dropping it.
-      // SAFETY: `data` was accepted as UpdateCandidateProfileWithCountryBody,
-      // which is UpdateCandidateProfileBody plus an additive countryCode field.
-      await getBoard().me.profile.update(
-        data as UpdateCandidateProfileBody,
-        undefined,
-        {
-          headers,
-        },
-      );
+      await getBoard().me.profile.update(data, undefined, { headers });
     } catch (error) {
       // The BoardApiError does not survive the server-fn RPC boundary, so a
       // taken handle comes back as a result the form can show on the field.
       if (isBoardApiError(error) && error.code === CANDIDATE_HANDLE_TAKEN) {
         return { ok: false as const, code: CANDIDATE_HANDLE_TAKEN };
+      }
+      // The picked home place and the commute distance are refused per
+      // field, so the form can show them inline.
+      if (isBoardApiError(error) && LOCATION_ERROR_CODES.has(error.code)) {
+        return {
+          ok: false as const,
+          code: error.code,
+          field: 'location' as const,
+        };
+      }
+      if (
+        isBoardApiError(error) &&
+        error.code === 'validation_bad_request' &&
+        rejectsCommuteRadius(error.details)
+      ) {
+        return {
+          ok: false as const,
+          code: error.code,
+          field: 'commuteRadius' as const,
+        };
       }
       throw error;
     }

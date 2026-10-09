@@ -509,6 +509,21 @@
   "candidatePaywallLock_noOffersText": "No hay planes de pago disponibles ahora. Puedes seguir buscando empleos.",
   "candidatePaywallLock_checkoutTerms": "Revisa las condiciones de facturación completas en el pago antes de pagar.",
   "categoryPage_jobsHeading": "Ofertas de {category}",
+  "categoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {category}",
+        "countPlural=*": "{countLabel} ofertas de {category}"
+      }
+    }
+  ],
   "categoryPage_notFoundText": "Categoría no encontrada.",
   "commandDialog_searchPlaceholder": "Busca un comando para ejecutar...",
   "commandDialog_title": "Paleta de comandos",
@@ -653,6 +668,35 @@
   ],
   "companySearch_resultsRegionLabel": "Resultados de empresas",
   "companySearch_resultsShowingRange": "Mostrando {from}–{to} de {count} empresas",
+  "companySearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} empresa",
+        "countPlural=*": "Mostrando {countLabel} empresas"
+      }
+    }
+  ],
+  "companySearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} empresa",
+        "countPlural=*": "Mostrando {to} de {countLabel} empresas"
+      }
+    }
+  ],
   "companySearch_retryLabel": "Reintentar",
   "companySearch_searchLabel": "Buscar",
   "companySearch_selectedCompanyRegionLabel": "Empresa seleccionada",
@@ -860,6 +904,7 @@
   "employerCompany_jobsEmptyText": "Publica tu primera oferta para empezar a contratar.",
   "employerCompany_jobsHeading": "Ofertas ({count})",
   "employerCompany_metaTitle": "Gestionar empresa",
+  "employerCompany_joinedToast": "Te has unido a {company}.",
   "employerCompany_nameLabel": "Nombre",
   "employerCompany_noJobsText": "Aún no hay ofertas.",
   "employerCompany_noPlansText": "No hay planes disponibles para publicar.",
@@ -944,13 +989,37 @@
   "employerEditJob_savingLabel": "Guardando…",
   "employerEditJob_subtitleText": "Actualiza los detalles del puesto a continuación.",
   "employerInviteAccept_candidateBody": "Esta invitación requiere una cuenta de empresa.",
-  "employerInviteAccept_candidateTitle": "Esta invitación requiere una cuenta de empresa",
-  "employerInviteAccept_invalidBody": "Esta invitación no es válida o ha caducado. Pide a un administrador de la empresa que te envíe una nueva.",
-  "employerInviteAccept_invalidTitle": "Esta invitación no es válida",
-  "employerInviteAccept_signInLabel": "Iniciar sesión",
   "employerInviteAccept_title": "Aceptar invitación",
-  "employerInviteAccept_wrongEmailBody": "Esta invitación se envió a {email}. Inicia sesión con esa dirección.",
-  "employerInviteAccept_wrongEmailTitle": "Inicia sesión con el correo invitado",
+  "employerInviteJoin_candidateBody": "{email} está registrado en {board} como candidato.",
+  "employerInviteJoin_candidateBodyNoEmail": "Este correo está registrado en {board} como candidato.",
+  "employerInviteJoin_candidateHint": "Pide que te inviten con otro correo de trabajo o contacta con {board}.",
+  "employerInviteJoin_candidateTitle": "Este correo es una cuenta de candidato",
+  "employerInviteJoin_contactBoardLabel": "Contactar con {board}",
+  "employerInviteJoin_createSubmitLabel": "Crear cuenta y unirme",
+  "employerInviteJoin_creatingLabel": "Creando cuenta…",
+  "employerInviteJoin_differentAccountLink": "Usar otra cuenta",
+  "employerInviteJoin_emailLabel": "Correo electrónico",
+  "employerInviteJoin_emailLockedHint": "La invitación se envió a esta dirección.",
+  "employerInviteJoin_expiredTitle": "Esta invitación ha caducado",
+  "employerInviteJoin_haveAccountText": "¿Ya tienes una cuenta?",
+  "employerInviteJoin_invalidTitle": "Esta invitación ya no es válida",
+  "employerInviteJoin_joinBody": "{board} te ha invitado a gestionar {company}: publicar empleos y revisar candidaturas.",
+  "employerInviteJoin_joinTitle": "Únete a {company}",
+  "employerInviteJoin_keepSignedInLabel": "Mantener la sesión",
+  "employerInviteJoin_nameLabel": "Tu nombre",
+  "employerInviteJoin_passwordLabel": "Contraseña",
+  "employerInviteJoin_signInBody": "Ya tienes una cuenta en {board}.",
+  "employerInviteJoin_signInLink": "Inicia sesión",
+  "employerInviteJoin_signInSubmitLabel": "Iniciar sesión y unirme",
+  "employerInviteJoin_signInTitle": "Inicia sesión para unirte a {company}",
+  "employerInviteJoin_signOutAndUseLabel": "Cerrar sesión y usar {email}",
+  "employerInviteJoin_signOutLabel": "Cerrar sesión",
+  "employerInviteJoin_signedInAsLabel": "Sesión iniciada como",
+  "employerInviteJoin_unavailableBody": "Los enlaces de invitación duran 7 días y dejan de funcionar cuando se envía uno nuevo.",
+  "employerInviteJoin_unavailableHint": "Pide a quien te invitó que la reenvíe o busca un correo de invitación más reciente.",
+  "employerInviteJoin_wrongAccountBody": "La invitación de {company} se envió a {email}.",
+  "employerInviteJoin_wrongAccountBodyNoEmail": "La invitación de {company} se envió a otra dirección de correo.",
+  "employerInviteJoin_wrongAccountTitle": "Esta invitación es para otro correo",
   "employerJob_statusArchived": "Archivada",
   "employerJob_statusDraft": "Borrador",
   "employerJob_statusExpired": "Caducada",
@@ -1339,6 +1408,8 @@
   "jobSearch_anyWorkplaceLabel": "Cualquier modalidad",
   "jobSearch_applyFiltersLabel": "Aplicar filtros",
   "jobSearch_cancelLabel": "Cancelar",
+  "jobSearch_cappedCountLabel": "{count}+",
+  "jobSearch_cappedResultsHint": "Mostrando coincidencias de {from} a {to}. Añade filtros o prueba una búsqueda más específica para encontrar más.",
   "jobSearch_clearFiltersLabel": "Limpiar",
   "jobSearch_contextualResultsHeading": "{count} {heading}",
   "jobSearch_detailErrorTitle": "No se han podido cargar los datos de la oferta",
@@ -1388,6 +1459,35 @@
       "match": {
         "countPlural=one": "Mostrando {from}–{to} de {countLabel} oferta",
         "countPlural=*": "Mostrando {from}–{to} de {countLabel} ofertas"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} oferta",
+        "countPlural=*": "Mostrando {countLabel} ofertas"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} oferta",
+        "countPlural=*": "Mostrando {to} de {countLabel} ofertas"
       }
     }
   ],
@@ -1449,14 +1549,138 @@
   "listing_metaDescription": "Explora {heading} en {boardName}.",
   "listing_metaDescriptionWithCount": "Explora {count} {heading} en {boardName}.",
   "locationCategoryPage_jobsHeading": "Ofertas de {category} en {place}",
+  "locationCategoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {category} en {place}",
+        "countPlural=*": "{countLabel} ofertas de {category} en {place}"
+      }
+    }
+  ],
   "locationCombobox_clearAriaLabel": "borrar la ubicación",
   "locationCombobox_locationAriaLabel": "ubicación",
   "locationCombobox_noMatchText": "No hay empleos en {location}",
   "locationCombobox_placeholderText": "Ubicación…",
   "locationCombobox_searchingText": "Buscando…",
   "locationPage_jobsHeading": "Ofertas en {place}",
+  "locationPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta en {place}",
+        "countPlural=*": "{countLabel} ofertas en {place}"
+      }
+    }
+  ],
   "locationPage_notFoundText": "Ubicación no encontrada.",
+  "searchRadius_exactScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} oferta {exactPlace}",
+        "countPlural=*": "Mostrando {from}–{to} ofertas {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} oferta {exactPlace}",
+        "countPlural=*": "Mostrando {to} de {countLabel} ofertas {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScopeUncounted": "Mostrando ofertas {exactPlace}",
+  "searchRadius_exactPlace": "en {place}",
+  "searchRadius_exactEmpty": "No hay ofertas {exactPlace}",
+  "searchRadius_withinScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} oferta a menos de {distance} de {place}",
+        "countPlural=*": "Mostrando {from}–{to} ofertas a menos de {distance} de {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} oferta a menos de {distance} de {place}",
+        "countPlural=*": "Mostrando {to} de {countLabel} ofertas a menos de {distance} de {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScopeUncounted": "Mostrando ofertas a menos de {distance} de {place}",
+  "searchRadius_withinEmpty": "No hay ofertas a menos de {distance} de {place}",
+  "searchRadius_exactOption": "Solo la ubicación exacta",
+  "searchRadius_withinOption": "A menos de {distance}",
+  "searchRadius_menuLabel": "Distancia",
+  "searchRadius_triggerLabel": "Distancia: {distance}",
   "locationSkillPage_jobsHeading": "Ofertas de {skill} en {place}",
+  "locationSkillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {skill} en {place}",
+        "countPlural=*": "{countLabel} ofertas de {skill} en {place}"
+      }
+    }
+  ],
   "logoUpload_changeLogoLabel": "Cambiar logotipo",
   "logoUpload_uploadErrorText": "Error al subir: prueba con una imagen más pequeña.",
   "logoUpload_uploadingLabel": "Subiendo…",
@@ -1655,6 +1879,9 @@
   "passwordPage_incorrectPasswordError": "Contraseña incorrecta.",
   "passwordPage_passwordLabel": "Contraseña",
   "passwordPage_title": "Introduce la contraseña",
+  "comingSoonGate_heading": "{board} llega pronto.",
+  "comingSoonGate_lede": "Estamos dando los últimos retoques. Vuelve pronto.",
+  "comingSoonGate_enterPassword": "Entrar con contraseña",
   "placeTags_removeAriaLabel": "Eliminar {name}",
   "collectionField_searchPlaceholder": "Busca para añadir…",
   "collectionField_maxSelectionsText": "Elige hasta {count}.",
@@ -1857,6 +2084,12 @@
   "locationField_pickRequiredError": "Elige una ubicación de las sugerencias.",
   "profileForm_locationPlaceholder": "Berlín, Alemania",
   "profileForm_openToRelocatingLabel": "Disponibilidad para mudarse",
+  "profileForm_commuteRadiusLabel": "¿Qué distancia estás dispuesto a recorrer para ir al trabajo?",
+  "profileForm_commuteRadiusDescription": "Las ofertas presenciales e híbridas recomendadas estarán dentro de esta distancia de {place}.",
+  "profileForm_commuteRadiusRangeError": "Introduce una distancia entre {min} y {max}.",
+  "profileForm_commuteRadiusMilesUnit": "mi",
+  "profileForm_commuteRadiusKilometresUnit": "km",
+  "profileForm_openToRelocateDescription": "Recibe también ofertas presenciales en cualquier lugar de tu país e indica a las empresas que estás dispuesto a mudarte.",
   "profileForm_saveLabel": "Guardar perfil",
   "profileForm_savingLabel": "Guardando…",
   "profileForm_searchStatusActivelyLooking": "Buscando activamente",
@@ -2114,6 +2347,21 @@
   "siteHeader_signUpLabel": "Registrarse",
   "siteHeader_skipToContentLabel": "Saltar al contenido principal",
   "skillPage_jobsHeading": "Ofertas de {skill}",
+  "skillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "{countLabel} oferta de {skill}",
+        "countPlural=*": "{countLabel} ofertas de {skill}"
+      }
+    }
+  ],
   "skillPage_notFoundText": "Competencia no encontrada.",
   "skillsSection_addLabel": "Añadir competencia",
   "skillsSection_addSkillLabel": "Competencia",
@@ -2214,6 +2462,35 @@
   "talentSearch_resultsHeading": "Candidatos",
   "talentSearch_resultsRegionLabel": "Resultados de talento",
   "talentSearch_resultsShowingRange": "Mostrando {from}–{to} de {count} candidatos",
+  "talentSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {countLabel} candidato",
+        "countPlural=*": "Mostrando {countLabel} candidatos"
+      }
+    }
+  ],
+  "talentSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": ["countPlural"],
+      "match": {
+        "countPlural=one": "Mostrando {to} de {countLabel} candidato",
+        "countPlural=*": "Mostrando {to} de {countLabel} candidatos"
+      }
+    }
+  ],
   "talentSearch_retryLabel": "Reintentar",
   "talentSearch_selectedProfileRegionLabel": "Perfil seleccionado",
   "talentSearch_skillLabel": "Competencia",

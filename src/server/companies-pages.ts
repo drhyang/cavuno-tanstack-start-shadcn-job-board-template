@@ -1,5 +1,4 @@
 import { isBoardApiError, isNotFound } from '@cavuno/board';
-import { zhCompanyName, zhCompanySummary } from './company-zh';
 /**
  * Route-family-owned server boundary for companies listing + profile pages.
  *
@@ -40,11 +39,13 @@ import { getLocale } from '../paraglide/runtime';
 import { gatedRead } from './board-access';
 import { profileCustomFilters } from './profile-filter-fields';
 
+import { isRelevanceCountCapped } from '@/board/job-catalog-count';
 import { breadcrumbsCopy } from '@/copy-groups/breadcrumbs';
 import type { CustomFieldSearch } from '@/lib/custom-field-filters';
 import { searchNumber } from '@/lib/pagination';
 import { composeSalaryFaqs } from '@/lib/salary-faq';
 import { selfUrl } from '@/lib/self-url';
+import { zhCompanyName, zhCompanySummary } from './company-zh';
 
 type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
@@ -560,7 +561,14 @@ export const getCompanyJobsPage = createServerFn({ method: 'GET' })
           ]),
         ].filter((entry) => entry !== null),
       );
-      return { company, page, seo, hasSalaries, head, jsonLd };
+      // A keyword search here is relevance-ranked (no sort), so its count
+      // can stop at the ranking limit; see `isRelevanceCountCapped`.
+      const countCapped = isRelevanceCountCapped({
+        hasTextQuery: Boolean(data.q),
+        sort: undefined,
+        count: page.count,
+      });
+      return { company, page, seo, hasSalaries, head, jsonLd, countCapped };
     }),
   );
 

@@ -23,7 +23,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "every {countLabel} month",
         "countPlural=*": "every {countLabel} months"
@@ -37,7 +39,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "every {countLabel} year",
         "countPlural=*": "every {countLabel} years"
@@ -97,7 +101,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "1 job matches your profile and preferences.",
         "countPlural=*": "{countLabel} jobs match your profile and preferences."
@@ -121,7 +127,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "You have saved 1 job.",
         "countPlural=*": "You have saved {countLabel} jobs."
@@ -508,8 +516,26 @@
   "candidatePaywallLock_recommendedBadge": "Recommended",
   "candidatePaywallLock_noOffersText": "No paid plans are available right now. You can keep browsing jobs.",
   "candidatePaywallLock_checkoutTerms": "Review the full billing terms in checkout before paying.",
-  "categoryPage_jobsHeading": "academic jobs in {category}",
-  "categoryPage_jobsHeading_admin": "{category} Job",
+  "categoryPage_jobsHeading": "Academic Jobs in {category}",
+  "categoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} {category} job",
+        "countPlural=*": "{countLabel} {category} jobs"
+      }
+    }
+  ],
+  "categoryPage_jobsHeading_admin": "{category} Jobs",
+  "categoryPage_jobsCountHeading_admin": "{category} Jobs",
   "categoryPage_notFoundText": "Category not found.",
   "commandDialog_searchPlaceholder": "Search for a command to run...",
   "commandDialog_title": "Command Palette",
@@ -534,7 +560,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} open job",
         "countPlural=*": "{countLabel} open jobs"
@@ -549,7 +577,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} Open job",
         "countPlural=*": "{countLabel} Open jobs"
@@ -565,7 +595,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "View all {countLabel} job",
         "countPlural=*": "View all {countLabel} jobs"
@@ -599,7 +631,9 @@
         "input categoryCount",
         "local categoryCountPlural = categoryCount: plural"
       ],
-      "selectors": ["categoryCountPlural"],
+      "selectors": [
+        "categoryCountPlural"
+      ],
       "match": {
         "categoryCountPlural=one": "Breakdown across {categoryCount} job category.",
         "categoryCountPlural=*": "Breakdown across {categoryCount} job categories."
@@ -616,7 +650,9 @@
         "input jobCount",
         "local jobCountPlural = jobCount: plural"
       ],
-      "selectors": ["jobCountPlural"],
+      "selectors": [
+        "jobCountPlural"
+      ],
       "match": {
         "jobCountPlural=one": "{company} pays {range} per year on average across {jobCount} job posting.",
         "jobCountPlural=*": "{company} pays {range} per year on average across {jobCount} job postings."
@@ -645,7 +681,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} company",
         "countPlural=*": "{countLabel} companies"
@@ -654,6 +692,39 @@
   ],
   "companySearch_resultsRegionLabel": "Company results",
   "companySearch_resultsShowingRange": "Showing {from}–{to} of {count} companies",
+  "companySearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {to} of {countLabel} company",
+        "countPlural=*": "Showing {to} of {countLabel} companies"
+      }
+    }
+  ],
+  "companySearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {countLabel} company",
+        "countPlural=*": "Showing {countLabel} companies"
+      }
+    }
+  ],
   "companySearch_retryLabel": "Retry",
   "companySearch_searchLabel": "Search",
   "companySearch_selectedCompanyRegionLabel": "Selected company",
@@ -685,7 +756,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} candidate",
         "countPlural=*": "{countLabel} candidates"
@@ -699,7 +772,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} company",
         "countPlural=*": "{countLabel} companies"
@@ -713,7 +788,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} job",
         "countPlural=*": "{countLabel} jobs"
@@ -727,7 +804,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} post",
         "countPlural=*": "{countLabel} posts"
@@ -787,7 +866,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} applicant",
         "countPlural=*": "{countLabel} applicants"
@@ -847,7 +928,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "1 featured slot left on this plan",
         "countPlural=*": "{countLabel} featured slots left on this plan"
@@ -861,6 +944,7 @@
   "employerCompany_jobsEmptyText": "Post your first job to start hiring.",
   "employerCompany_jobsHeading": "Jobs ({count})",
   "employerCompany_metaTitle": "Manage company",
+  "employerCompany_joinedToast": "You’ve joined {company}.",
   "employerCompany_nameLabel": "Name",
   "employerCompany_noJobsText": "No jobs yet.",
   "employerCompany_noPlansText": "No plans available to publish with.",
@@ -926,7 +1010,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} other member",
         "countPlural=*": "{countLabel} other members"
@@ -950,6 +1036,36 @@
   "employerInviteAccept_invalidTitle": "This invite is invalid",
   "employerInviteAccept_signInLabel": "Sign in",
   "employerInviteAccept_title": "Accept invite",
+  "employerInviteJoin_wrongAccountTitle": "This invite is for another email",
+  "employerInviteJoin_wrongAccountBodyNoEmail": "The {company} invite was sent to a different email address.",
+  "employerInviteJoin_wrongAccountBody": "The {company} invite was sent to {email}.",
+  "employerInviteJoin_unavailableHint": "Ask whoever invited you to resend it, or look for a newer invite email.",
+  "employerInviteJoin_unavailableBody": "Invite links last 7 days and stop working when a new one is sent.",
+  "employerInviteJoin_signedInAsLabel": "Signed in as",
+  "employerInviteJoin_signOutLabel": "Sign out",
+  "employerInviteJoin_signOutAndUseLabel": "Sign out and use {email}",
+  "employerInviteJoin_signInTitle": "Sign in to join {company}",
+  "employerInviteJoin_signInSubmitLabel": "Sign in and join",
+  "employerInviteJoin_signInLink": "Sign in",
+  "employerInviteJoin_signInBody": "You already have a {board} account.",
+  "employerInviteJoin_passwordLabel": "Password",
+  "employerInviteJoin_nameLabel": "Your name",
+  "employerInviteJoin_keepSignedInLabel": "Keep me signed in",
+  "employerInviteJoin_joinTitle": "Join {company}",
+  "employerInviteJoin_joinBody": "{board} invited you to manage {company}: post jobs and review applicants.",
+  "employerInviteJoin_invalidTitle": "This invite is no longer valid",
+  "employerInviteJoin_haveAccountText": "Already have an account?",
+  "employerInviteJoin_expiredTitle": "This invite has expired",
+  "employerInviteJoin_emailLockedHint": "The invite was sent to this address.",
+  "employerInviteJoin_emailLabel": "Email",
+  "employerInviteJoin_differentAccountLink": "Use a different account",
+  "employerInviteJoin_creatingLabel": "Creating account…",
+  "employerInviteJoin_createSubmitLabel": "Create account and join",
+  "employerInviteJoin_contactBoardLabel": "Contact {board}",
+  "employerInviteJoin_candidateTitle": "This email is a job-seeker account",
+  "employerInviteJoin_candidateHint": "Ask to be invited with another work email, or contact {board}.",
+  "employerInviteJoin_candidateBodyNoEmail": "This email is registered on {board} as a job seeker.",
+  "employerInviteJoin_candidateBody": "{email} is registered on {board} as a job seeker.",
   "employerInviteAccept_wrongEmailBody": "This invite was sent to {email}. Sign in with that address.",
   "employerInviteAccept_wrongEmailTitle": "Sign in with the invited email",
   "employerJob_statusArchived": "Archived",
@@ -966,7 +1082,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "You have 1 active job.",
         "countPlural=*": "You have {countLabel} active jobs."
@@ -1010,7 +1128,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} active job",
         "countPlural=*": "{countLabel} active jobs"
@@ -1024,7 +1144,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} featured",
         "countPlural=*": "{countLabel} featured"
@@ -1039,7 +1161,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} message",
         "countPlural=*": "{countLabel} messages"
@@ -1053,7 +1177,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} profile unlock",
         "countPlural=*": "{countLabel} profile unlocks"
@@ -1088,7 +1214,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "You have 1 team member.",
         "countPlural=*": "You have {countLabel} team members."
@@ -1342,6 +1470,8 @@
   "jobSearch_anyWorkplaceLabel": "Any workplace",
   "jobSearch_applyFiltersLabel": "Apply filters",
   "jobSearch_cancelLabel": "Cancel",
+  "jobSearch_cappedCountLabel": "{count}+",
+  "jobSearch_cappedResultsHint": "Showing matches {from} to {to}. Add filters or try a more specific search to find more.",
   "jobSearch_clearFiltersLabel": "Clear",
   "jobSearch_contextualResultsHeading": "{count} {heading}",
   "jobSearch_detailErrorTitle": "Job details could not be loaded",
@@ -1370,7 +1500,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} Academic Job",
         "countPlural=*": "{countLabel} Academic Jobs"
@@ -1387,10 +1519,45 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "Showing {from}–{to} of {countLabel} job",
         "countPlural=*": "Showing {from}–{to} of {countLabel} jobs"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {to} of {countLabel} job",
+        "countPlural=*": "Showing {to} of {countLabel} jobs"
+      }
+    }
+  ],
+  "jobSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {countLabel} job",
+        "countPlural=*": "Showing {countLabel} jobs"
       }
     }
   ],
@@ -1452,14 +1619,152 @@
   "listing_metaDescription": "Browse {heading} on {boardName}.",
   "listing_metaDescriptionWithCount": "Browse {count} {heading} on {boardName}.",
   "locationCategoryPage_jobsHeading": "{category} jobs in {place}",
+  "locationCategoryPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input category",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} {category} job in {place}",
+        "countPlural=*": "{countLabel} {category} jobs in {place}"
+      }
+    }
+  ],
   "locationCombobox_clearAriaLabel": "clear location",
   "locationCombobox_locationAriaLabel": "location",
   "locationCombobox_noMatchText": "No jobs in {location}",
   "locationCombobox_placeholderText": "Location…",
   "locationCombobox_searchingText": "Searching…",
   "locationPage_jobsHeading": "Jobs in {place}",
+  "locationPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} job in {place}",
+        "countPlural=*": "{countLabel} jobs in {place}"
+      }
+    }
+  ],
   "locationPage_notFoundText": "Location not found.",
+  "searchRadius_triggerLabel": "Distance: {distance}",
+  "searchRadius_menuLabel": "Distance",
+  "searchRadius_withinOption": "Within {distance}",
+  "searchRadius_exactOption": "Exact location only",
+  "searchRadius_withinEmpty": "No jobs within {distance} of {place}",
+  "searchRadius_withinScopeUncounted": "Showing jobs within {distance} of {place}",
+  "searchRadius_withinScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {to} of {countLabel} job within {distance} of {place}",
+        "countPlural=*": "Showing {to} of {countLabel} jobs within {distance} of {place}"
+      }
+    }
+  ],
+  "searchRadius_withinScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input distance",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {countLabel} job within {distance} of {place}",
+        "countPlural=*": "Showing {from}–{to} jobs within {distance} of {place}"
+      }
+    }
+  ],
+  "searchRadius_exactEmpty": "No jobs in {exactPlace}",
+  "searchRadius_exactPlace": "{place}",
+  "searchRadius_exactScopeUncounted": "Showing jobs in {exactPlace}",
+  "searchRadius_exactScopeLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {to} of {countLabel} job in {exactPlace}",
+        "countPlural=*": "Showing {to} of {countLabel} jobs in {exactPlace}"
+      }
+    }
+  ],
+  "searchRadius_exactScope": [
+    {
+      "declarations": [
+        "input from",
+        "input to",
+        "input count",
+        "input countLabel",
+        "input exactPlace",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {countLabel} job in {exactPlace}",
+        "countPlural=*": "Showing {from}–{to} jobs in {exactPlace}"
+      }
+    }
+  ],
   "locationSkillPage_jobsHeading": "{skill} jobs in {place}",
+  "locationSkillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "input place",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} {skill} job in {place}",
+        "countPlural=*": "{countLabel} {skill} jobs in {place}"
+      }
+    }
+  ],
   "logoUpload_changeLogoLabel": "Change logo",
   "logoUpload_uploadErrorText": "Upload failed — try a smaller image.",
   "logoUpload_uploadingLabel": "Uploading…",
@@ -1499,7 +1804,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} of them can be featured.",
         "countPlural=*": "{countLabel} of them can be featured."
@@ -1516,7 +1823,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} of them can be featured at a time.",
         "countPlural=*": "{countLabel} of them can be featured at a time."
@@ -1530,7 +1839,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} one-time post",
         "countPlural=*": "{countLabel} one-time posts"
@@ -1544,7 +1855,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} job live at once",
         "countPlural=*": "{countLabel} jobs live at once"
@@ -1568,7 +1881,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} member",
         "countPlural=*": "{countLabel} members"
@@ -1658,6 +1973,9 @@
   "passwordPage_incorrectPasswordError": "Incorrect password.",
   "passwordPage_passwordLabel": "Password",
   "passwordPage_title": "Enter password",
+  "comingSoonGate_enterPassword": "Enter using password",
+  "comingSoonGate_lede": "We're putting the finishing touches on it. Check back soon.",
+  "comingSoonGate_heading": "{board} is coming soon.",
   "placeTags_removeAriaLabel": "Remove {name}",
   "collectionField_searchPlaceholder": "Search to add…",
   "collectionField_maxSelectionsText": "Choose up to {count}.",
@@ -1675,7 +1993,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "Includes 1 featured post",
         "countPlural=*": "Includes {countLabel} featured posts"
@@ -1691,7 +2011,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "1 active job at a time",
         "countPlural=*": "Up to {countLabel} active jobs"
@@ -1874,6 +2196,12 @@
   "locationField_pickRequiredError": "Choose a location from the suggestions.",
   "profileForm_locationPlaceholder": "Berlin, Germany",
   "profileForm_openToRelocatingLabel": "Open to relocating",
+  "profileForm_openToRelocateDescription": "Also match on-site jobs anywhere in your country, and let employers know you're willing to move.",
+  "profileForm_commuteRadiusKilometresUnit": "km",
+  "profileForm_commuteRadiusMilesUnit": "mi",
+  "profileForm_commuteRadiusRangeError": "Enter a distance between {min} and {max}.",
+  "profileForm_commuteRadiusDescription": "On-site and hybrid job matches stay within this distance of {place}.",
+  "profileForm_commuteRadiusLabel": "How far are you willing to commute?",
   "profileForm_saveLabel": "Save profile",
   "profileForm_savingLabel": "Saving…",
   "profileForm_searchStatusActivelyLooking": "Actively looking",
@@ -1975,7 +2303,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{skill} salaries across {countLabel} location.",
         "countPlural=*": "{skill} salaries across {countLabel} locations."
@@ -2001,7 +2331,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{title} salaries across {countLabel} location.",
         "countPlural=*": "{title} salaries across {countLabel} locations."
@@ -2027,7 +2359,9 @@
         "input jobCountLabel",
         "local jobCountPlural = jobCount: plural"
       ],
-      "selectors": ["jobCountPlural"],
+      "selectors": [
+        "jobCountPlural"
+      ],
       "match": {
         "jobCountPlural=one": "{jobCountLabel} job posting",
         "jobCountPlural=*": "{jobCountLabel} job postings"
@@ -2131,6 +2465,23 @@
   "siteHeader_signUpLabel": "Sign up",
   "siteHeader_skipToContentLabel": "Skip to main content",
   "skillPage_jobsHeading": "{skill} jobs",
+  "skillPage_jobsCountHeading": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "input skill",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "{countLabel} {skill} job",
+        "countPlural=*": "{countLabel} {skill} jobs"
+      }
+    }
+  ],
   "skillPage_notFoundText": "Skill not found.",
   "skillsSection_addLabel": "Add skill",
   "skillsSection_addSkillLabel": "Skill",
@@ -2231,6 +2582,39 @@
   "talentSearch_resultsHeading": "Candidates",
   "talentSearch_resultsRegionLabel": "Talent results",
   "talentSearch_resultsShowingRange": "Showing {from}–{to} of {count} candidates",
+  "talentSearch_resultsShowingLast": [
+    {
+      "declarations": [
+        "input to",
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {to} of {countLabel} candidate",
+        "countPlural=*": "Showing {to} of {countLabel} candidates"
+      }
+    }
+  ],
+  "talentSearch_resultsShowingCount": [
+    {
+      "declarations": [
+        "input count",
+        "input countLabel",
+        "local countPlural = count: plural"
+      ],
+      "selectors": [
+        "countPlural"
+      ],
+      "match": {
+        "countPlural=one": "Showing {countLabel} candidate",
+        "countPlural=*": "Showing {countLabel} candidates"
+      }
+    }
+  ],
   "talentSearch_retryLabel": "Retry",
   "talentSearch_selectedProfileRegionLabel": "Selected profile",
   "talentSearch_skillLabel": "Skill",
@@ -2250,7 +2634,9 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": ["countPlural"],
+      "selectors": [
+        "countPlural"
+      ],
       "match": {
         "countPlural=one": "{countLabel} unlock remaining.",
         "countPlural=*": "{countLabel} unlocks remaining."
@@ -2291,7 +2677,7 @@
   "ui_sidebarTitle": "Sidebar",
   "ui_sidebarToggleLabel": "Toggle sidebar",
   "candidatePaywallLock_includedLabel": "Included in this plan",
-    "taxonomy": {
+  "taxonomy": {
     "architecture-and-design": "Architecture and Design",
     "architecture": "Architecture",
     "construction-management": "Construction Management",
