@@ -243,7 +243,7 @@ export function JobDetail({
           // parser/renderer.
           <>
             <Prose html={vm.descriptionHtml} />
-            <p className="text-sm">
+            <p className="typeset typeset-content" dir="auto">
               Please state that you found this job on Jobs.ac.cn in your application.
             </p>
           </>
