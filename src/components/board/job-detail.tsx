@@ -244,7 +244,7 @@ export function JobDetail({
           <>
             <Prose html={vm.descriptionHtml} />
             <p className="typeset typeset-content" dir="auto">
-              Please state that you found this job on Jobs.ac.cn in your application.
+              Please state that you found this job on <strong>Jobs.ac.cn</strong> in your application.
             </p>
           </>
         ) : (
