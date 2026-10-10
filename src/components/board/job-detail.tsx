@@ -246,6 +246,16 @@ export function JobDetail({
           <p className="text-muted-foreground">{vm.noDescriptionText}</p>
         )}
 
+          <>
+            <Prose html={vm.descriptionHtml} />
+              <p className="text-sm">
+                Please state that you found this job on Jobs.ac.cn in your application.
+              </p>
+          </>
+      ) : (
+          <p className="text-muted-foreground">{vm.noDescriptionText}</p>
+      )}
+
         <JobFacts facts={vm.facts} />
 
         <TaxonomySection
