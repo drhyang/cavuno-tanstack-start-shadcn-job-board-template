@@ -426,10 +426,15 @@ export function JobSearchResultDetail({
       ) : (
         <div className="max-w-full min-w-0 space-y-8 p-5 md:p-6">
           {vm.descriptionHtml ? (
+          <>
             <Prose
               html={vm.descriptionHtml}
               className="max-w-full min-w-0 [overflow-wrap:anywhere]"
             />
+            <p className="typeset typeset-content" dir="auto">
+              Please state that you found this job on <strong>Jobs.ac.cn</strong> in your application.
+            </p>
+          </>
           ) : (
             <p className="text-muted-foreground">{vm.noDescriptionText}</p>
           )}
