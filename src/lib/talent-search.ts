@@ -1,4 +1,8 @@
 import {
+  SEARCH_RADIUS_EXACT,
+  parseSearchRadiusWithin,
+} from '@/board/search-radius';
+import {
   parseCustomFieldSearch,
   pickCustomFieldSearch,
   type CustomFieldSearch,
@@ -38,6 +42,12 @@ export interface TalentSearch extends CustomFieldSearch {
   languages?: string;
   openToRelocate?: 'true' | 'false';
   place?: string;
+  /**
+   * Search distance around a city or locality `place`, in the place's unit
+   * (`0`: the place itself; absent: the market default). Not part of a saved
+   * list's filters.
+   */
+  within?: number;
   sort?: 'relevance' | 'newest';
   seniority?: string;
   permitCountry?: string;
@@ -89,6 +99,7 @@ export function parseTalentSearch(search: UrlSearchInput): TalentSearch {
     languages: stringSearchValue(search.languages),
     openToRelocate: relocateValue(search.openToRelocate),
     place: stringSearchValue(search.place),
+    within: parseSearchRadiusWithin(search.within),
     sort: sortValue(search.sort),
     seniority: stringSearchValue(search.seniority),
     permitCountry: stringSearchValue(search.permitCountry),
@@ -104,16 +115,20 @@ export function parseTalentSearch(search: UrlSearchInput): TalentSearch {
 /**
  * The `/talent` search a header keyword/place submission opens. The active
  * directory filters, `cf.*` profile-field filters included, carry over; the
- * page and a sourced-job view reset.
+ * page and a sourced-job view reset, and so does the distance when the place
+ * changes (its unit and default belong to the old place).
  */
 export function talentSearchFromHeader(
   current: UrlSearchInput,
   submission: { query: string | undefined; place: string | undefined },
 ): TalentSearch {
+  const previous = parseTalentSearch(current);
+  const samePlace = previous.place === submission.place?.trim();
   return parseTalentSearch({
-    ...parseTalentSearch(current),
+    ...previous,
     q: submission.query,
     place: submission.place,
+    within: samePlace ? previous.within : undefined,
     page: undefined,
     sourced: undefined,
   });
@@ -130,6 +145,7 @@ export function talentListingLoaderDeps(
     languages: search.languages,
     openToRelocate: search.openToRelocate,
     place: search.place,
+    within: search.place ? search.within : undefined,
     sort: search.sort,
     seniority: search.seniority,
     permitCountry: search.permitCountry,
@@ -169,7 +185,11 @@ export function talentSearchToListFilters(
   return filters;
 }
 
-/** Hydrate a saved list back into `/talent` search params. */
+/**
+ * Hydrate a saved list back into `/talent` search params. Lists store no
+ * search distance, so a list's place opens as the place itself, as it was
+ * saved, not widened to the market default.
+ */
 export function listFiltersToTalentSearch(
   filters: TalentListFilters,
 ): TalentListingSearch {
@@ -185,6 +205,7 @@ export function listFiltersToTalentSearch(
           ? 'true'
           : 'false',
     place: filters.place,
+    within: filters.place ? SEARCH_RADIUS_EXACT : undefined,
     sort: filters.sort,
     seniority: filters.seniority,
     permitCountry: filters.permitCountry,
