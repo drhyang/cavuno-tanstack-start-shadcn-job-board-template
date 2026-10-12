@@ -11,6 +11,7 @@ import {
   type EmployerCheckoutBody,
   type EmployerCompanySearchQuery,
   type SendWorkEmailBody,
+  type TalentListMember,
   type UpdateCompanyMemberRoleBody,
   type UpdateEmployerCompanyBody,
   type UpdateEmployerJobBody,
@@ -42,6 +43,7 @@ import {
   type SessionContext,
 } from '../lib/session-middleware';
 import { gatedRead } from './board-access';
+import { listingRadiusKm } from './listing-place-cache';
 import { withCatalogFeatures } from './post-plans';
 
 import {
@@ -49,7 +51,10 @@ import {
   type JobFormViolation,
 } from '@/board/job-form';
 import { searchString } from '@/lib/pagination';
-import type { TalentListFilters } from '@/lib/talent-search';
+import type {
+  SavedPeopleFilters,
+  TalentListFilters,
+} from '@/lib/talent-search';
 
 export type ActionResult<T> =
   | { ok: true; data: T }
@@ -687,16 +692,6 @@ export const getPipeline = createServerFn({ method: 'GET' })
     ),
   );
 
-export type SourcedRailItem = {
-  id: string;
-  sourcedAt: number;
-  candidate: {
-    id: string;
-    displayName: string | null;
-    headline: string | null;
-  };
-};
-
 export const listEmployerJobs = createServerFn({ method: 'GET' })
   .validator((input: { slug: string }) => input)
   .middleware([verifiedBoardUserMiddleware])
@@ -705,19 +700,6 @@ export const listEmployerJobs = createServerFn({ method: 'GET' })
       getBoard().me.companies.jobs.list(data.slug, undefined, {
         headers: authedHeaders(context),
       }),
-    ),
-  );
-
-export const listSourcedCandidates = createServerFn({ method: 'GET' })
-  .validator((input: { slug: string; job: string }) => input)
-  .middleware([verifiedBoardUserMiddleware])
-  .handler(({ data, context }) =>
-    gatedRead(context, () =>
-      getBoard().me.companies.sourcedCandidates.list(
-        data.slug,
-        { job: data.job },
-        { headers: authedHeaders(context) },
-      ),
     ),
   );
 
@@ -749,6 +731,8 @@ export type TalentListRecord = {
   createdBy: string;
   createdAt: number;
   updatedAt: number;
+  /** People saved to this list (at most 500). */
+  memberCount: number;
 };
 
 export const listTalentLists = createServerFn({ method: 'GET' })
@@ -835,6 +819,123 @@ export const deleteTalentList = createServerFn({ method: 'POST' })
         .me.companies.talentLists.remove(data.slug, data.listId, {
           headers: authedHeaders(context),
         })
+        .then(() => null),
+    ),
+  );
+
+// ── Saved people on a talent list (ADR-0142) ────────────────────────────────
+
+export type SavedPeoplePage = {
+  data: TalentListMember[];
+  /** Saved people the filters (and stage) keep. */
+  count: number;
+  /** Every visible saved person, before filters. */
+  total: number;
+};
+
+/**
+ * One page of the people saved to a list, filtered like `/talent`. `stage`
+ * (comma-separated application stages, on a list linked to a job) keeps
+ * those whose application on that job sits at one of them.
+ */
+export type SavedPeopleRequest = {
+  slug: string;
+  listId: string;
+  query: SavedPeopleFilters;
+  offset: number;
+  limit: number;
+  stage?: string;
+};
+
+export const listSavedPeople = createServerFn({ method: 'GET' })
+  .validator((input: SavedPeopleRequest) => input)
+  .middleware([verifiedBoardUserMiddleware])
+  .handler(({ data, context }) =>
+    gatedRead(context, async (): Promise<SavedPeoplePage> => {
+      const headers = authedHeaders(context);
+      const { within, ...query } = data.query;
+      // The search distance widens a city or locality place like `/talent`.
+      const radius = query.place
+        ? await listingRadiusKm(
+            query.place,
+            getBoard()
+              .taxonomy.places.resolve(query.place, { headers })
+              .catch(() => null),
+            within,
+          )
+        : undefined;
+      const page = await getBoard().me.companies.talentLists.members.list(
+        data.slug,
+        data.listId,
+        {
+          ...query,
+          radius,
+          stage: data.stage,
+          offset: data.offset,
+          limit: data.limit,
+        },
+        { headers },
+      );
+      return {
+        data: page.data,
+        count: page.count ?? page.data.length,
+        total: page.total,
+      };
+    }),
+  );
+
+/** The lists of the company one candidate is saved to. */
+export const listTalentListMemberships = createServerFn({ method: 'GET' })
+  .validator((input: { slug: string; candidate: string }) => input)
+  .middleware([verifiedBoardUserMiddleware])
+  .handler(({ data, context }) =>
+    gatedRead(context, () =>
+      getBoard().me.companies.talentLists.memberships(
+        data.slug,
+        { candidate: data.candidate },
+        { headers: authedHeaders(context) },
+      ),
+    ),
+  );
+
+/**
+ * Save a person to a list. Idempotent; a list linked to a job also
+ * shortlists them onto that job server-side. A full list is
+ * `talent_list_full` (409).
+ */
+export const addTalentListMember = createServerFn({ method: 'POST' })
+  .validator(
+    (input: { slug: string; listId: string; candidateBoardUserId: string }) =>
+      input,
+  )
+  .middleware([verifiedBoardUserMiddleware])
+  .handler(({ data, context }) =>
+    run(() =>
+      getBoard().me.companies.talentLists.members.add(
+        data.slug,
+        data.listId,
+        { candidateBoardUserId: data.candidateBoardUserId },
+        { headers: authedHeaders(context) },
+      ),
+    ),
+  );
+
+/** Remove a person from a list. Never touches a job pipeline. */
+export const removeTalentListMember = createServerFn({ method: 'POST' })
+  .validator(
+    (input: { slug: string; listId: string; candidateBoardUserId: string }) =>
+      input,
+  )
+  .middleware([verifiedBoardUserMiddleware])
+  .handler(({ data, context }) =>
+    run(() =>
+      getBoard()
+        .me.companies.talentLists.members.remove(
+          data.slug,
+          data.listId,
+          data.candidateBoardUserId,
+          { headers: authedHeaders(context) },
+        )
         .then(() => null),
     ),
   );

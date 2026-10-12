@@ -3,17 +3,19 @@ import {
   cloneElement,
   isValidElement,
   useEffect,
+  useMemo,
   useState,
   type ReactElement,
   type ReactNode,
 } from 'react';
 
-import { Link, useLocation } from '@tanstack/react-router';
-import { Users } from 'lucide-react';
+import { Link, useLocation, useNavigate } from '@tanstack/react-router';
+import { Bookmark, Users } from 'lucide-react';
 
 import { m } from '../../paraglide/messages';
 import { ListingAdResults } from './listing-ad-results';
 
+import { stageFilterTokens, visibleStages } from '@/board/pipeline-stages';
 import { getTalentSearchLabels } from '@/board/talent-search-labels';
 import {
   talentCardSelectionKey,
@@ -33,7 +35,11 @@ import { TalentFilters } from '@/components/board/talent-filters';
 import { TalentListJobLink } from '@/components/board/talent-list-job-link';
 import { TalentListsPicker } from '@/components/board/talent-lists-picker';
 import type { StartTalentConversation } from '@/components/board/talent-message-action';
-import { TalentSaveToJob } from '@/components/board/talent-save-to-job';
+import {
+  TalentSaveToJob,
+  type TalentListMembershipChange,
+} from '@/components/board/talent-save-to-job';
+import { TalentSavedViewControls } from '@/components/board/talent-saved-view';
 import { TalentSearchResult } from '@/components/board/talent-search-result';
 import { Box } from '@/components/layout/box';
 import { Page } from '@/components/layout/page';
@@ -45,7 +51,7 @@ import {
   SearchResultsList,
   SearchResultsToolbar,
 } from '@/components/search-results/search-results';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Empty,
   EmptyContent,
@@ -54,6 +60,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@/components/ui/empty';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useSearchSelection } from '@/hooks/use-search-selection';
 import { ADS_OFF, type BoardAdsConfig } from '@/lib/board-ads';
 import {
@@ -63,21 +70,31 @@ import {
 } from '@/lib/custom-field-filters';
 import { clampPage, listingPageHref } from '@/lib/pagination';
 import { resultsShowingLine, type ResultsSpan } from '@/lib/results-showing';
-import type { TalentSearch } from '@/lib/talent-search';
 import {
+  listFiltersToTalentSearch,
+  narrowsSavedPeople,
+  savedPeopleFilters,
   talentListFiltersEqual,
   talentSearchToListFilters,
+  type TalentSearch,
 } from '@/lib/talent-search';
 import {
   getEmployerTalentWorkspace,
   getPipeline,
-  listSourcedCandidates,
+  listSavedPeople,
+  listTalentListMemberships,
   updateTalentList,
+  type SavedPeoplePage,
+  type SavedPeopleRequest,
   type TalentListRecord,
 } from '@/server/employers';
 import type { TalentPlaceRadius } from '@/server/talent-pages';
 import { isReactComponent } from '@/utils/is-react-component';
-import type { TalentDirectoryEntry } from '@cavuno/board';
+import type { EmployerPipeline } from '@cavuno/board';
+
+type SavedResult =
+  | { key: string; listId: string; status: 'ready'; result: SavedPeoplePage }
+  | { key: string; listId: string; status: 'error' };
 
 export function TalentSearchPage({
   candidates,
@@ -138,43 +155,58 @@ export function TalentSearchPage({
   // the range label, the active page and Next/Previous must agree with it.
   const page = clampPage(requestedPage, pageSize);
   const rails = useListingAdRails(ads, startAd, endAd);
-  const { employerCompanies } = useRootSession();
+  const navigate = useNavigate({ from: '/talent/' });
+  const { employerCompanies, ready: sessionReady, user } = useRootSession();
+  /** Whether the viewer's employer companies are known (none, or loaded). */
+  const employerKnown =
+    sessionReady && (!user?.emailVerified || employerCompanies !== null);
+  const employerSlug = (employerCompanies ?? []).find(
+    (row) => row.status === 'approved' && row.company.slug,
+  )?.company.slug;
   const [workspace, setWorkspace] = useState<{
     slug: string;
     jobs: Array<{ id: string; title: string }>;
   }>();
+  const [workspaceFailed, setWorkspaceFailed] = useState(false);
   const [lists, setLists] = useState<TalentListRecord[]>([]);
-  const [sourcedMembership, setSourcedMembership] = useState<{
-    jobId?: string;
-    ids: Set<string>;
-  }>({ ids: new Set() });
-  const [sourcedVms, setSourcedVms] = useState<TalentCardVM[] | null>(null);
+  /** The lists each candidate is saved to, by board-user id, once read. */
+  const [memberships, setMemberships] = useState<
+    Record<string, readonly string[]>
+  >({});
+  /** Candidates whose memberships could not be read (retried on reopen). */
+  const [membershipsFailed, setMembershipsFailed] = useState<readonly string[]>(
+    [],
+  );
+  const [savedResult, setSavedResult] = useState<SavedResult | null>(null);
+  const [savedReload, setSavedReload] = useState(0);
+  const [linkedPipeline, setLinkedPipeline] = useState<{
+    jobId: string;
+    pipeline: Pick<EmployerPipeline, 'stages'>;
+  } | null>(null);
   const selectedList = lists.find((list) => list.id === search.list);
-  const viewingSourced = Boolean(search.sourced);
-  const boundJobId = selectedList?.jobId ?? search.sourced;
+  const boundJobId = selectedList?.jobId ?? undefined;
   useEffect(() => {
-    const membership = (employerCompanies ?? []).find(
-      (row) => row.status === 'approved' && row.company.slug,
-    );
-    const slug = membership?.company.slug;
-    if (!slug) return;
+    if (!employerSlug) return;
     let cancelled = false;
-    void getEmployerTalentWorkspace({ data: { slug } })
+    void getEmployerTalentWorkspace({ data: { slug: employerSlug } })
       .then((result) => {
         if (cancelled) return;
         const jobs = (result.jobs.data ?? [])
           .filter((job) => job.status === 'published')
           .map((job) => ({ id: job.id, title: job.title }));
-        setWorkspace({ slug, jobs });
+        setWorkspace({ slug: employerSlug, jobs });
         setLists(result.lists.data ?? []);
       })
-      .catch(() => undefined);
+      .catch(() => {
+        if (!cancelled) setWorkspaceFailed(true);
+      });
     return () => {
       cancelled = true;
     };
-  }, [employerCompanies]);
+  }, [employerSlug]);
   useEffect(() => {
-    if (!workspace || !selectedList) return;
+    // The Saved view narrows what is shown; it never rewrites the search.
+    if (!workspace || !selectedList || search.saved) return;
     const nextFilters = talentSearchToListFilters(search);
     if (talentListFiltersEqual(nextFilters, selectedList.filters)) return;
     let cancelled = false;
@@ -198,63 +230,228 @@ export function TalentSearchPage({
       cancelled = true;
     };
   }, [search, selectedList, workspace]);
+
+  // ── Saved view: the open list's saved people, filtered like /talent ──────
+  const savedRequested = Boolean(search.saved && search.list);
+  /** The open lists are known (or never will be: no employer, or failed). */
+  const listsSettled =
+    employerKnown && (!employerSlug || Boolean(workspace) || workspaceFailed);
+  const savedView = savedRequested && Boolean(selectedList);
+  /** `?saved=1` while the lists that could resolve it still load. */
+  const savedListPending = savedRequested && !listsSettled;
+  const savedMode = savedView || savedListPending;
   useEffect(() => {
-    const jobId = search.sourced ?? boundJobId;
-    if (!workspace || !jobId) {
-      setSourcedMembership({ ids: new Set() });
-      setSourcedVms(null);
-      return;
-    }
-    let cancelled = false;
-    void Promise.all([
-      listSourcedCandidates({
-        data: { slug: workspace.slug, job: jobId },
+    // A Saved view of a list this viewer cannot open is just the directory.
+    if (!savedRequested || !listsSettled || selectedList) return;
+    void navigate({
+      replace: true,
+      search: (previous) => ({
+        ...previous,
+        saved: undefined,
+        stage: undefined,
       }),
-      getPipeline({ data: { slug: workspace.slug, job: jobId } }).catch(
-        () => null,
-      ),
-    ])
-      .then(([sourced, pipeline]) => {
+    });
+  }, [savedRequested, listsSettled, selectedList, navigate]);
+  const linkedJobForStages = savedView ? selectedList?.jobId : null;
+  useEffect(() => {
+    if (!workspace || !linkedJobForStages) return;
+    let cancelled = false;
+    void getPipeline({
+      data: { slug: workspace.slug, job: linkedJobForStages },
+    })
+      .then((pipeline) => {
         if (cancelled) return;
-        const rows = sourced.data ?? [];
-        const pipelineIds = (pipeline?.applicants ?? []).flatMap((row) =>
-          row.candidateBoardUserId ? [row.candidateBoardUserId] : [],
-        );
-        const fetchedIds = [
-          ...rows.map((row) => row.candidate.id),
-          ...pipelineIds,
-        ];
-        setSourcedMembership((current) => {
-          const ids = new Set(fetchedIds);
-          if (current.jobId === jobId) {
-            for (const id of current.ids) ids.add(id);
-          }
-          return { jobId, ids };
-        });
-        if (!search.sourced) {
-          setSourcedVms(null);
-          return;
-        }
-        const labels = getTalentSearchLabels();
-        setSourcedVms(
-          rows.map((row) =>
-            // SAFETY: TLS-04 sourced GET returns TalentDirectoryEntry cards;
-            // SourcedRailItem only names the kanban fields of that payload.
-            toTalentCardVM(row.candidate as TalentDirectoryEntry, labels, {
-              profileUnlocks,
-            }),
-          ),
-        );
+        setLinkedPipeline({ jobId: linkedJobForStages, pipeline });
       })
       .catch(() => {
-        if (cancelled) return;
-        setSourcedMembership({ ids: new Set() });
-        setSourcedVms(search.sourced ? [] : null);
+        // No stages to offer; a `?stage=` is then cleared below.
+        if (!cancelled) {
+          setLinkedPipeline({
+            jobId: linkedJobForStages,
+            pipeline: { stages: [] },
+          });
+        }
       });
     return () => {
       cancelled = true;
     };
-  }, [boundJobId, profileUnlocks, search.sourced, workspace]);
+  }, [linkedJobForStages, workspace]);
+  const stagesLoaded =
+    !linkedJobForStages || linkedPipeline?.jobId === linkedJobForStages;
+  const pipeline =
+    linkedJobForStages && stagesLoaded && linkedPipeline
+      ? linkedPipeline.pipeline
+      : { stages: [] };
+  const stages = visibleStages(pipeline);
+  const stage = stages.some((row) => row.id === search.stage)
+    ? search.stage
+    : undefined;
+  const staleStage =
+    savedView && stagesLoaded && Boolean(search.stage) && !stage;
+  useEffect(() => {
+    if (!staleStage) return;
+    void navigate({
+      replace: true,
+      search: (previous) => ({ ...previous, stage: undefined }),
+    });
+  }, [staleStage, navigate]);
+  const savedRequestKey =
+    savedView && workspace && selectedList && (!search.stage || stagesLoaded)
+      ? JSON.stringify({
+          slug: workspace.slug,
+          listId: selectedList.id,
+          query: savedPeopleFilters(search),
+          offset: (page - 1) * pageSize,
+          limit: pageSize,
+          // Every application stage the chosen column shows.
+          stage: stage
+            ? stageFilterTokens(pipeline, stage)?.join(',')
+            : undefined,
+          reload: savedReload,
+        } satisfies SavedPeopleRequest & { reload: number })
+      : null;
+  useEffect(() => {
+    if (!savedRequestKey) return;
+    // SAFETY: the key is JSON.stringify of a SavedPeopleRequest built just above.
+    const { reload: _reload, ...request } = JSON.parse(
+      savedRequestKey,
+    ) as SavedPeopleRequest & { reload: number };
+    let cancelled = false;
+    void listSavedPeople({ data: request })
+      .then((result) => {
+        if (!cancelled) {
+          setSavedResult({
+            key: savedRequestKey,
+            listId: request.listId,
+            status: 'ready',
+            result,
+          });
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setSavedResult({
+          key: savedRequestKey,
+          listId: request.listId,
+          status: 'error',
+        });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [savedRequestKey]);
+  // While the next page loads, keep the last one on screen rather than
+  // flashing an empty state.
+  const savedShown =
+    savedResult &&
+    savedResult.listId === selectedList?.id &&
+    (savedResult.status === 'ready' || savedResult.key === savedRequestKey)
+      ? savedResult
+      : null;
+  const savedPage = savedShown?.status === 'ready' ? savedShown.result : null;
+  /** A page past the last one (people removed, or an old link). */
+  const savedLastPage =
+    savedView &&
+    savedShown?.key === savedRequestKey &&
+    savedPage &&
+    savedPage.count > 0 &&
+    savedPage.data.length === 0 &&
+    Math.ceil(savedPage.count / pageSize) < page
+      ? Math.ceil(savedPage.count / pageSize)
+      : null;
+  useEffect(() => {
+    if (savedLastPage === null) return;
+    void navigate({
+      replace: true,
+      search: (previous) => ({
+        ...previous,
+        page: savedLastPage > 1 ? savedLastPage : undefined,
+        selectedTalent: undefined,
+      }),
+    });
+  }, [savedLastPage, navigate]);
+  const savedLoading =
+    savedListPending ||
+    savedLastPage !== null ||
+    (savedView && savedResult?.key !== savedRequestKey);
+
+  function showSaved(nextSaved: boolean) {
+    if (!selectedList) return;
+    if (nextSaved) {
+      void navigate({
+        search: (previous) => ({
+          ...previous,
+          saved: true,
+          page: undefined,
+          selectedTalent: undefined,
+        }),
+      });
+      return;
+    }
+    // Back to everyone the saved search finds, with its own filters.
+    void navigate({
+      search: {
+        ...listFiltersToTalentSearch(selectedList.filters),
+        list: selectedList.id,
+      },
+    });
+  }
+
+  function showAllSaved() {
+    if (!selectedList) return;
+    void navigate({ search: { list: selectedList.id, saved: true } });
+  }
+
+  function changeMembership(
+    candidateBoardUserId: string,
+    change: TalentListMembershipChange,
+  ) {
+    setMemberships((current) => {
+      const ids = new Set(current[candidateBoardUserId] ?? []);
+      if (change.saved) ids.add(change.listId);
+      else ids.delete(change.listId);
+      return { ...current, [candidateBoardUserId]: [...ids] };
+    });
+    const delta = change.saved ? (change.created === false ? 0 : 1) : -1;
+    if (delta !== 0) {
+      setLists((current) =>
+        current.map((list) =>
+          list.id === change.listId
+            ? { ...list, memberCount: Math.max(0, list.memberCount + delta) }
+            : list,
+        ),
+      );
+    }
+    if (savedView && change.listId === selectedList?.id) {
+      setSavedReload((current) => current + 1);
+    }
+  }
+
+  function loadMemberships(candidateBoardUserId: string) {
+    if (!workspace || memberships[candidateBoardUserId]) return;
+    setMembershipsFailed((current) =>
+      current.filter((id) => id !== candidateBoardUserId),
+    );
+    void listTalentListMemberships({
+      data: { slug: workspace.slug, candidate: candidateBoardUserId },
+    })
+      .then((result) =>
+        setMemberships((current) =>
+          current[candidateBoardUserId]
+            ? current
+            : {
+                ...current,
+                [candidateBoardUserId]: (result.data ?? []).map(
+                  (row) => row.listId,
+                ),
+              },
+        ),
+      )
+      .catch(() =>
+        setMembershipsFailed((current) => [...current, candidateBoardUserId]),
+      );
+  }
+
   const currentHref = useLocation({ select: (location) => location.href });
   const hasActiveSearch = Boolean(
     q ||
@@ -270,38 +467,40 @@ export function TalentSearchPage({
     resolveCustomFieldFilters(
       customFilterFields ?? [],
       pickCustomFieldSearch(search),
-    ).length > 0 ||
-    viewingSourced,
+    ).length > 0,
   );
-  const candidateVms = viewingSourced ? (sourcedVms ?? []) : candidates;
+  const savedVms = useMemo(
+    () =>
+      (savedPage?.data ?? []).map((member) =>
+        toTalentCardVM(member.candidate, getTalentSearchLabels(), {
+          profileUnlocks,
+        }),
+      ),
+    [savedPage, profileUnlocks],
+  );
+  const candidateVms = savedMode ? savedVms : candidates;
   function saveControl(
     candidateBoardUserId: string,
     presentation: 'icon' | 'default',
   ) {
-    if (!workspace || workspace.jobs.length === 0) return null;
+    if (!workspace) return null;
     return (
       <TalentSaveToJob
+        key={candidateBoardUserId}
         presentation={presentation}
         slug={workspace.slug}
         jobs={workspace.jobs}
         lists={lists}
         candidateBoardUserId={candidateBoardUserId}
-        boundJobId={boundJobId}
-        alreadySaved={
-          sourcedMembership.jobId === boundJobId &&
-          sourcedMembership.ids.has(candidateBoardUserId)
+        memberListIds={memberships[candidateBoardUserId]}
+        membershipsFailed={membershipsFailed.includes(candidateBoardUserId)}
+        savedHint={savedView}
+        currentFilters={talentSearchToListFilters(search)}
+        onOpen={() => loadMemberships(candidateBoardUserId)}
+        onMembershipChange={(change) =>
+          changeMembership(candidateBoardUserId, change)
         }
-        onSaved={() => {
-          if (!boundJobId) return;
-          setSourcedMembership((current) => {
-            if (current.jobId === boundJobId) {
-              const ids = new Set(current.ids);
-              ids.add(candidateBoardUserId);
-              return { jobId: boundJobId, ids };
-            }
-            return { jobId: boundJobId, ids: new Set([candidateBoardUserId]) };
-          });
-        }}
+        onListCreated={(list) => setLists((current) => [...current, list])}
       />
     );
   }
@@ -339,20 +538,21 @@ export function TalentSearchPage({
   // The talent directory is offset-paginated with a total `count`, so the
   // description line under the heading reports the exact "Showing X–Y of N"
   // range — the same honest range as Jobs and the companies browse index.
-  const resultCount = viewingSourced ? candidateVms.length : count;
-  const resultPage = viewingSourced ? 1 : page;
-  const resultPageSize = viewingSourced
-    ? Math.max(candidateVms.length, 1)
-    : pageSize;
+  const resultCount = savedMode ? (savedPage?.count ?? 0) : count;
+  const resultPage = page;
+  const resultPageSize = pageSize;
   const resultRange = {
     from: resultCount > 0 ? (resultPage - 1) * resultPageSize + 1 : 0,
     to: Math.min(resultPage * resultPageSize, resultCount),
     count: resultCount,
   };
-  // A sourced-job view lists saved candidates, not the place search, so it
-  // keeps the plain range line.
+  const hiddenSaved =
+    savedPage && narrowsSavedPeople(search)
+      ? Math.max(0, savedPage.total - savedPage.count)
+      : 0;
+  // The Saved view searches the same distance, so it keeps the control too.
   const radiusScope =
-    placeRadius && onWithinChange && !viewingSourced ? (
+    placeRadius && onWithinChange ? (
       <SearchRadiusScope
         place={placeRadius.placeName}
         unit={placeRadius.radius.unit}
@@ -374,6 +574,22 @@ export function TalentSearchPage({
         (resultDescription ? (
           <p className="text-muted-foreground text-xs">{resultDescription}</p>
         ) : null)}
+      {hiddenSaved > 0 && resultCount > 0 ? (
+        <p className="text-muted-foreground text-xs">
+          {m.talentSaved_hiddenByFilters({
+            hidden: hiddenSaved,
+            hiddenLabel: hiddenSaved.toLocaleString(language),
+          })}{' '}
+          <Button
+            type="button"
+            variant="link"
+            size="inline"
+            onClick={showAllSaved}
+          >
+            {m.talentSaved_showAllAction()}
+          </Button>
+        </p>
+      ) : null}
     </div>
   );
 
@@ -400,6 +616,28 @@ export function TalentSearchPage({
                   />
                 ) : null
               }
+              savedView={
+                selectedList ? (
+                  <TalentSavedViewControls
+                    saved={savedView}
+                    savedCount={selectedList.memberCount}
+                    language={language}
+                    stages={stages}
+                    stage={stage}
+                    onSavedChange={showSaved}
+                    onStageChange={(stage) =>
+                      void navigate({
+                        search: (previous) => ({
+                          ...previous,
+                          stage,
+                          page: undefined,
+                          selectedTalent: undefined,
+                        }),
+                      })
+                    }
+                  />
+                ) : null
+              }
               linkJob={
                 workspace && selectedList ? (
                   <TalentListJobLink
@@ -407,11 +645,20 @@ export function TalentSearchPage({
                     listId={selectedList.id}
                     jobId={selectedList.jobId}
                     jobs={workspace.jobs}
-                    onUpdated={(list) =>
+                    onUpdated={(list) => {
                       setLists((current) =>
                         current.map((row) => (row.id === list.id ? list : row)),
-                      )
-                    }
+                      );
+                      // A stage belongs to the previously linked job.
+                      if (search.stage && list.jobId !== selectedList.jobId) {
+                        void navigate({
+                          search: (previous) => ({
+                            ...previous,
+                            stage: undefined,
+                          }),
+                        });
+                      }
+                    }}
                   />
                 ) : null
               }
@@ -430,26 +677,49 @@ export function TalentSearchPage({
               list={
                 <div className="space-y-4 px-4 pt-4 pb-4 md:col-span-2 md:px-0">
                   {resultsBar}
-                  <Empty className="min-h-[calc(100dvh-16rem)] border-0">
-                    <EmptyHeader>
-                      <EmptyMedia variant="icon">
-                        <Users aria-hidden="true" />
-                      </EmptyMedia>
-                      <EmptyTitle>{m.talentDirectory_title()}</EmptyTitle>
-                      <EmptyDescription>
-                        {hasActiveSearch
-                          ? m.talentSearch_noMatchText()
-                          : m.talentDirectory_emptyText()}
-                      </EmptyDescription>
-                    </EmptyHeader>
-                    {hasActiveSearch ? (
-                      <EmptyContent>
-                        <Link to="/talent" className={buttonVariants()}>
-                          {m.jobSearch_resetFiltersAction()}
-                        </Link>
-                      </EmptyContent>
-                    ) : null}
-                  </Empty>
+                  {savedMode &&
+                  ((!savedShown && savedLoading) || savedLastPage !== null) ? (
+                    <SavedPeoplePending />
+                  ) : (
+                    <Empty className="min-h-[calc(100dvh-16rem)] border-0">
+                      {savedMode ? (
+                        <SavedPeopleEmpty
+                          state={
+                            savedShown?.status === 'error' || !savedPage
+                              ? 'error'
+                              : savedPage.total === 0
+                                ? 'none'
+                                : 'filtered'
+                          }
+                          onShowAll={showAllSaved}
+                          onRetry={() =>
+                            setSavedReload((current) => current + 1)
+                          }
+                        />
+                      ) : (
+                        <>
+                          <EmptyHeader>
+                            <EmptyMedia variant="icon">
+                              <Users aria-hidden="true" />
+                            </EmptyMedia>
+                            <EmptyTitle>{m.talentDirectory_title()}</EmptyTitle>
+                            <EmptyDescription>
+                              {hasActiveSearch
+                                ? m.talentSearch_noMatchText()
+                                : m.talentDirectory_emptyText()}
+                            </EmptyDescription>
+                          </EmptyHeader>
+                          {hasActiveSearch ? (
+                            <EmptyContent>
+                              <Link to="/talent" className={buttonVariants()}>
+                                {m.jobSearch_resetFiltersAction()}
+                              </Link>
+                            </EmptyContent>
+                          ) : null}
+                        </>
+                      )}
+                    </Empty>
+                  )}
                 </div>
               }
               detail={null}
@@ -461,6 +731,7 @@ export function TalentSearchPage({
               list={
                 <SearchResultsList
                   ref={selection.listRef}
+                  aria-busy={savedMode && savedLoading ? true : undefined}
                   label={m.talentSearch_resultsRegionLabel()}
                   scrollRestorationId="talent-search-results"
                 >
@@ -489,11 +760,11 @@ export function TalentSearchPage({
                     </ListingAdResults>
                   </InPlaceListingSelect>
 
-                  {viewingSourced ? null : (
+                  {savedMode && !savedPage ? null : (
                     <ListingPagination
                       compact
                       page={page}
-                      count={count}
+                      count={resultCount}
                       pageSize={pageSize}
                       hrefForPage={(nextPage) =>
                         listingPageHref(currentHref, nextPage, [
@@ -519,6 +790,70 @@ export function TalentSearchPage({
         </div>
       </main>
     </Page>
+  );
+}
+
+/** First load of a Saved view: card-shaped placeholders, no live content. */
+function SavedPeoplePending() {
+  return (
+    <div role="status" className="space-y-3">
+      <span className="sr-only">{m.talentSaved_loadingLabel()}</span>
+      {[0, 1, 2].map((row) => (
+        <Skeleton
+          key={row}
+          className="h-24 w-full motion-reduce:animate-none"
+        />
+      ))}
+    </div>
+  );
+}
+
+function SavedPeopleEmpty({
+  state,
+  onShowAll,
+  onRetry,
+}: {
+  /** Nobody saved yet, filters hide everyone saved, or the read failed. */
+  state: 'none' | 'filtered' | 'error';
+  onShowAll: () => void;
+  onRetry: () => void;
+}) {
+  return (
+    <>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Bookmark aria-hidden="true" />
+        </EmptyMedia>
+        {state === 'error' ? (
+          <EmptyTitle>{m.talentSaved_errorText()}</EmptyTitle>
+        ) : (
+          <>
+            <EmptyTitle>
+              {state === 'none'
+                ? m.talentSaved_emptyTitle()
+                : m.talentSaved_noMatchTitle()}
+            </EmptyTitle>
+            <EmptyDescription>
+              {state === 'none'
+                ? m.talentSaved_emptyText()
+                : m.talentSaved_noMatchText()}
+            </EmptyDescription>
+          </>
+        )}
+      </EmptyHeader>
+      {state === 'none' ? null : (
+        <EmptyContent>
+          <Button
+            type="button"
+            onClick={state === 'filtered' ? onShowAll : onRetry}
+          >
+            {state === 'filtered'
+              ? m.talentSaved_showAllAction()
+              : m.talentSearch_retryLabel()}
+          </Button>
+        </EmptyContent>
+      )}
+    </>
   );
 }
 
