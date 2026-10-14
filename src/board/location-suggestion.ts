@@ -1,6 +1,6 @@
 import { placeLinkSlug } from './place-link';
 
-import type { PublicLocation, PublicPlace } from '@cavuno/board';
+import type { PublicLocation, PublicPlace, TalentPlace } from '@cavuno/board';
 
 export interface LocationSuggestionVM {
   id: string;
@@ -50,6 +50,28 @@ export function toLocationSuggestionVM(
     id: place.id,
     slug,
     name: place.displayName,
+    contextLabel: contextLabel(place.countryCode, locale),
+    countryCode: place.countryCode,
+    regionCode: place.regionCode,
+  };
+}
+
+/**
+ * A place as a `/talent` location option: one the board's directory
+ * candidates live in, or a job place when that list is unavailable. Its value
+ * is the English `slug`, the talent directory's `place` filter; never a job
+ * location page slug.
+ */
+export function toTalentPlaceSuggestionVM(
+  place: TalentPlace | PublicPlace,
+  locale: string,
+): LocationSuggestionVM | null {
+  if (!place.slug) return null;
+
+  return {
+    id: place.id,
+    slug: place.slug,
+    name: place.displayName ?? place.name,
     contextLabel: contextLabel(place.countryCode, locale),
     countryCode: place.countryCode,
     regionCode: place.regionCode,
