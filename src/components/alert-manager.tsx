@@ -72,6 +72,8 @@ export type AlertPlaceOption = {
   id: string;
   slug: string | null;
   name: string;
+  /** Board-language name; alerts stay keyed by `id`. */
+  displayName: string;
 };
 
 /** Resolved place-id → display-name map from the board places directory. */
@@ -155,7 +157,7 @@ function AlertForm({
       places.map((place) => ({
         id: place.id,
         slug: place.slug ?? place.id,
-        name: place.name,
+        name: place.displayName,
         contextLabel: null,
         countryCode: null,
         regionCode: null,
@@ -165,10 +167,19 @@ function AlertForm({
   const placeSuggestions = useMemo(() => {
     const query = placeQuery.trim().toLowerCase();
     if (!query) return placeChoices;
-    return placeChoices.filter((place) =>
-      place.name.toLowerCase().includes(query),
+    // Match the board-language name and the English one, so "The Hague"
+    // still finds Den Haag on a Dutch board.
+    const matching = new Set(
+      places
+        .filter(
+          (place) =>
+            place.displayName.toLowerCase().includes(query) ||
+            place.name.toLowerCase().includes(query),
+        )
+        .map((place) => place.id),
     );
-  }, [placeChoices, placeQuery]);
+    return placeChoices.filter((place) => matching.has(place.id));
+  }, [places, placeChoices, placeQuery]);
 
   // The location filter reveals once the alert names a workplace type (or
   // already carries places) — "remote in Germany", "on-site in Munich".
@@ -340,7 +351,8 @@ export function AlertManagerView({
   dependencies: AlertManagerDependencies;
 }) {
   const placeNames: PlaceNameMap = useMemo(
-    () => Object.fromEntries(places.map((place) => [place.id, place.name])),
+    () =>
+      Object.fromEntries(places.map((place) => [place.id, place.displayName])),
     [places],
   );
   const [editing, setEditing] = useState<string | null>(null);
