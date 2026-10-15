@@ -19,15 +19,26 @@
  *      anonymous body. (Needs a Workers compatibility date with `cache`
  *      support; ours is 2025-09-02.)
  *
- * All TTLs live here, in one place. Do not scatter `cacheTtl` literals across
+ * Content reads carry no `cacheTtl`: the Board API's own shared-cache policy
+ * (`Cloudflare-CDN-Cache-Control`: 5 min fresh, then up to 1 h
+ * stale-while-revalidate / stale-if-error) sets how long the edge keeps them.
+ * A `cacheTtl` would replace that policy with a fixed TTL and no stale window,
+ * and would also store responses origin marks `private` or `no-store`.
+ * `cacheEverything` stays because Cloudflare does not cache JSON by default.
+ *
+ * Errors are never edge-cached: `cacheTtlByStatus` pins 400-599 to `-1`
+ * ("any negative value instructs Cloudflare not to cache at all"). Without it,
+ * a header-less 404 gets Cloudflare's default 3 min edge TTL, so a job
+ * published just after a miss would 404 at the edge for minutes. Only the
+ * listed statuses are overridden; 2xx keep following origin's headers.
+ *
+ * The one explicit TTL lives here. Do not scatter `cacheTtl` literals across
  * the server functions.
  */
 import type { BoardRequest } from '@cavuno/board';
 
 /** Read-cache TTLs, in seconds — the single source of truth. */
 export const READ_CACHE_TTL = {
-  /** Public content lists + details (jobs, companies, blog, salaries, taxonomy). */
-  content: 60,
   /** Board-global reads that rarely change (board context/SEO, employer plans). */
   boardGlobal: 300,
 } as const;
@@ -36,9 +47,19 @@ type BoardGlobalCacheOptions = {
   cf: { cacheTtl: number; cacheEverything: true };
 };
 
+/**
+ * Per-status edge TTLs for anonymous reads: never store a 4xx/5xx. A negative
+ * value means "do not cache"; statuses not listed keep following origin.
+ */
+export const EDGE_NEVER_CACHE_ERRORS = { '400-599': -1 } as const;
+
 /** Workers augments `RequestInit` with a `cf` object; the SDK passes it through. */
 type WorkersRequestInit = RequestInit & {
-  cf?: { cacheTtl?: number; cacheEverything?: boolean };
+  cf?: {
+    cacheTtl?: number;
+    cacheEverything?: boolean;
+    cacheTtlByStatus?: Record<string, number>;
+  };
 };
 
 /**
@@ -54,7 +75,8 @@ export function boardGlobalReadCache(): BoardGlobalCacheOptions {
 
 /**
  * The client `onRequest` hook: attach the edge-cache directive that matches the
- * request's identity. Anonymous GETs become edge-cacheable; anything carrying a
+ * request's identity. Anonymous GETs become edge-cacheable for as long as the
+ * Board API's cache headers allow; anything carrying a
  * bearer, grant, or capability header, and every mutation, bypasses the cache
  * entirely. Starter job-detail reads intentionally use the capability to ask
  * Cavuno for a different Apply shape, so they must never share a URL-keyed
@@ -82,11 +104,12 @@ export function applyReadCache(req: BoardRequest): BoardRequest {
 
   if (method === 'GET' && !viewerSpecific) {
     // Respect an explicit board-global TTL a call site already tagged;
-    // otherwise apply the default short content TTL.
+    // otherwise make the read cacheable, let origin's headers set the 2xx
+    // TTL, and keep error responses out of the edge cache.
     if (!init.cf?.cacheEverything) {
       init.cf = {
-        cacheTtl: READ_CACHE_TTL.content,
         cacheEverything: true,
+        cacheTtlByStatus: { ...EDGE_NEVER_CACHE_ERRORS },
       };
     }
   } else {
