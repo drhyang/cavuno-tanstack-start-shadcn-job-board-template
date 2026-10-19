@@ -41,6 +41,7 @@ import {
   listingCacheKey,
   jobsRadiusParams,
   listingRadiusKm,
+  type JobsRadiusParams,
 } from './listing-place-cache';
 import {
   noindexFollow,
@@ -81,8 +82,10 @@ import type {
   JobSort,
   JobsListQuery,
   JobsSearchBody,
+  PublicPlace,
   RemoteOption,
   Seniority,
+  TaxonomyResolution,
 } from '@cavuno/board';
 
 type JsonPrimitive = string | number | boolean | null;
@@ -192,6 +195,8 @@ async function combinationInPlaceJobCount(
   headers: Record<string, string>,
 ): Promise<number | null> {
   if (!isPlainListingView(data)) return null;
+  // Noindexed regardless (`combinationNoindexCount`): skip the read.
+  if (isSuggestedPlaceSlug(data.locationSlug)) return null;
   // Only a widened listing (a city or locality) has an in-place count to
   // compare against.
   if ((await radiusKmRead) === undefined) return null;
@@ -214,6 +219,52 @@ async function combinationInPlaceJobCount(
   } catch {
     return null;
   }
+}
+
+/**
+ * A slug from `places.suggest` (`marrickville-new-south-wales-au-r5701701`):
+ * board place slugs never end in a country code and an OSM id. Such a place
+ * has no jobs of its own, so its pages are never indexed, even when the place
+ * directory read that would say so fails.
+ */
+const SUGGESTED_PLACE_SLUG = /-[a-z]{2}-[nwr]\d+$/u;
+
+function isSuggestedPlaceSlug(slug: string): boolean {
+  return SUGGESTED_PLACE_SLUG.test(slug);
+}
+
+/**
+ * `jobsRadiusParams`, except a suggested place always sends the radius the
+ * control shows: the API's own default for one is sized by the kind of place
+ * (15 km for a suburb), not the market default the control shows.
+ */
+async function listingRadiusParams(
+  locationSlug: string,
+  within: number | undefined,
+  radiusKm: () => Promise<number | undefined>,
+): Promise<JobsRadiusParams> {
+  if (!isSuggestedPlaceSlug(locationSlug)) {
+    return jobsRadiusParams(within, radiusKm);
+  }
+  const radius = await radiusKm();
+  return radius === undefined ? {} : { radius };
+}
+
+/**
+ * The in-place count a combination's noindex reads: none when the place has
+ * no jobs of its own in the board's place directory. A suggested place (any
+ * settlement from `places.suggest`) is never in it, and its exact read
+ * cannot say so: the API widens it to the place's default distance.
+ */
+function combinationNoindexCount(
+  placeTree: { data: readonly Pick<PublicPlace, 'slug' | 'jobCount'>[] } | null,
+  place: Pick<TaxonomyResolution, 'sourceSlug' | 'canonicalSlug'>,
+  inPlaceJobCount: number | null,
+): number | null {
+  return isSuggestedPlaceSlug(place.sourceSlug) ||
+    placeJobCount(placeTree?.data, place) === 0
+    ? 0
+    : inPlaceJobCount;
 }
 
 /** The board's job custom fields as "All filters" controls. */
@@ -559,8 +610,10 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
       const placeTreeRead = board.taxonomy.places
         .list(undefined, { headers })
         .catch(() => null);
-      const radiusParams = await jobsRadiusParams(data.within, () =>
-        listingRadiusKm(data.locationSlug, placeRead, data.within),
+      const radiusParams = await listingRadiusParams(
+        data.locationSlug,
+        data.within,
+        () => listingRadiusKm(data.locationSlug, placeRead, data.within),
       );
       const [place, listResult, seo, placeTree] = await Promise.all([
         placeRead,
@@ -641,7 +694,9 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
         }),
         isSearchRadiusViewNoindex(
           searchRadius,
-          placeJobCount(placeTree?.data, place),
+          isSuggestedPlaceSlug(place.sourceSlug)
+            ? 0
+            : placeJobCount(placeTree?.data, place),
         ),
       );
       const jsonLd = asJsonObjects(
@@ -718,7 +773,8 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
       // fails the page through `placeRead`, so do not also leave a rejection
       // unobserved.
       radiusKmRead.catch(() => undefined);
-      const radiusParams = await jobsRadiusParams(
+      const radiusParams = await listingRadiusParams(
+        data.locationSlug,
         data.within,
         () => radiusKmRead,
       );
@@ -804,7 +860,10 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
             count: catalogJobCount(list.count, list.gatedCount),
           }),
         }),
-        isSearchRadiusViewNoindex(searchRadius, inPlaceJobCount),
+        isSearchRadiusViewNoindex(
+          searchRadius,
+          combinationNoindexCount(placeTree, place, inPlaceJobCount),
+        ),
       );
       const jsonLd = asJsonObjects(
         listingJsonLd({
@@ -877,7 +936,8 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
       // fails the page through `placeRead`, so do not also leave a rejection
       // unobserved.
       radiusKmRead.catch(() => undefined);
-      const radiusParams = await jobsRadiusParams(
+      const radiusParams = await listingRadiusParams(
+        data.locationSlug,
         data.within,
         () => radiusKmRead,
       );
@@ -963,7 +1023,10 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
             count: catalogJobCount(list.count, list.gatedCount),
           }),
         }),
-        isSearchRadiusViewNoindex(searchRadius, inPlaceJobCount),
+        isSearchRadiusViewNoindex(
+          searchRadius,
+          combinationNoindexCount(placeTree, place, inPlaceJobCount),
+        ),
       );
       const jsonLd = asJsonObjects(
         listingJsonLd({
