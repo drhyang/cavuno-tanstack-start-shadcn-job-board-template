@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { m } from '../paraglide/messages';
-import { getLocale } from '../paraglide/runtime';
 import {
   alertManageDependencies,
   type AlertManageDependencies,
@@ -9,6 +8,12 @@ import {
   type ManageSearch,
 } from './-alerts.manage-loader';
 
+import {
+  jobAlertMatch,
+  searchKeywordsText,
+  type AnchorJobPaths,
+} from '@/board/job-alert-match';
+import { AnchorJobTitle } from '@/components/anchor-job-title';
 import { Page, PageContent } from '@/components/layout/page';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -27,26 +32,36 @@ import {
   ItemTitle,
 } from '@/components/ui/item';
 import { enumLabel } from '@/lib/enum-labels';
-import type { JobAlertStoredFilters } from '@cavuno/board';
+import type { JobAlertPreference } from '@cavuno/board';
 
-function filtersSummary(filters: JobAlertStoredFilters): string {
-  const parts = [
-    ...(filters.jobFunctions ?? []),
+function PreferenceSummary({
+  preference,
+  anchorJobPaths,
+}: {
+  preference: JobAlertPreference;
+  anchorJobPaths: AnchorJobPaths;
+}) {
+  const match = jobAlertMatch(preference);
+  // Similar-job alerts name their anchor job; the rest list their filters.
+  if (match.kind === 'similar_job') {
+    const slug = match.anchorJob?.slug;
+    return (
+      <AnchorJobTitle
+        anchorJob={match.anchorJob}
+        path={slug ? anchorJobPaths[slug] : undefined}
+      />
+    );
+  }
+  return [
+    searchKeywordsText(match) ?? m.alertsManage_allJobsText(),
     // Wire enums resolve through the catalog — never string-munged into
     // pseudo-English ('on site') on a localized page.
-    ...(filters.remoteOptions ?? []).map(
-      (option) => enumLabel(option) ?? option.replaceAll('_', ' '),
-    ),
-  ];
-  if (parts.length === 0) return m.alertsManage_allJobsText();
-  try {
-    return new Intl.ListFormat(getLocale(), {
-      style: 'long',
-      type: 'conjunction',
-    }).format(parts);
-  } catch {
-    return parts.join(', ');
-  }
+    (preference.filters.remoteOptions ?? [])
+      .map((option) => enumLabel(option) ?? option.replaceAll('_', ' '))
+      .join(', '),
+  ]
+    .filter(Boolean)
+    .join(' · ');
 }
 
 function ManageNotice({ title, body }: { title: string; body: string }) {
@@ -83,6 +98,7 @@ export function ManagePageView({
   >(null);
   const { subscription, token } = search;
   const state = 'state' in data ? data.state : null;
+  const anchorJobPaths = 'state' in data ? data.anchorJobPaths : {};
 
   const run = async (action: () => Promise<void>) => {
     setPending(true);
@@ -216,7 +232,10 @@ export function ManagePageView({
                       </span>
                     </ItemTitle>
                     <ItemDescription>
-                      {filtersSummary(preference.filters)}
+                      <PreferenceSummary
+                        preference={preference}
+                        anchorJobPaths={anchorJobPaths}
+                      />
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>

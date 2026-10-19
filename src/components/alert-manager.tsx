@@ -10,9 +10,18 @@ import { m } from '../paraglide/messages';
 import { getLocale } from '../paraglide/runtime';
 import { createMyAlert, deleteMyAlert, updateMyAlert } from '../server/account';
 
+import {
+  ALERT_QUERY_MAX_LENGTH,
+  jobAlertMatch,
+  jobFunctionIsKeyword,
+  searchKeywordsText,
+  type AnchorJobPaths,
+  type JobAlertMatch,
+} from '@/board/job-alert-match';
 import type { LocationSuggestionVM } from '@/board/location-suggestion';
+import { AnchorJobTitle } from '@/components/anchor-job-title';
 import { EmptyState } from '@/components/empty-state';
-import { PlaceTagsField } from '@/components/place-tags-field';
+import { PlaceTagsField, RemovableTags } from '@/components/place-tags-field';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -54,9 +63,16 @@ import {
   candidateLoaderError,
   type CandidateLoaderError,
 } from '@/lib/candidate-loader-error';
-import type { Alert, AlertBody } from '@cavuno/board';
+import type { Alert, AlertBody, JobAlertKind } from '@cavuno/board';
 
 const REMOTE_OPTIONS = ['on_site', 'hybrid', 'remote'] as const;
+
+/** An unnamed alert's title, by what it matches. */
+const KIND_TITLE = {
+  similar_job: m.alertManager_similarJobsAlertLabel,
+  search: m.alertManager_searchAlertLabel,
+  filters: m.alertManager_allNewJobsLabel,
+} satisfies Record<JobAlertKind, () => string>;
 
 const REMOTE_LABEL = new Map([
   ['on_site', m.alertManager_remoteOnSite],
@@ -82,22 +98,39 @@ export type PlaceNameMap = Record<string, string>;
 
 interface FormState {
   label: string;
-  jobFunctions: string;
+  keywords: string;
+  /**
+   * Job functions an earlier alert filters on. The form no longer adds
+   * them, but shows them so the subscriber can remove them.
+   */
+  roles: string[];
   remoteOptions: string[];
   places: { id: string; name: string }[];
 }
 
 function toBody(form: FormState, initial: Alert | null): AlertBody {
-  const jobFunctions = form.jobFunctions
-    .split(',')
-    .map((value) => value.trim())
-    .filter(Boolean);
   const filters = initial?.filters;
   const body: AlertBody = {
     frequency: 'weekly',
   };
   const label = form.label.trim();
   if (label) body.label = label;
+  // Keywords are the alert's search `query`. On an update `null` clears them
+  // (omitting would keep the stored ones), so an emptied field sticks.
+  const query = form.keywords.trim();
+  if (query) body.query = query;
+  else if (initial) body.query = null;
+  // An older search alert's keyword job function (not shown as a role) stays
+  // only while it is still the keyword: no stored query and none typed. Once
+  // the keywords field holds the keyword, the job function is dropped.
+  const keepsKeywordFunction =
+    initial !== null &&
+    jobFunctionIsKeyword(initial) &&
+    !initial.filters.query?.trim() &&
+    !query;
+  const jobFunctions = keepsKeywordFunction
+    ? initial.filters.jobFunctions
+    : form.roles;
   if (jobFunctions.length) body.jobFunctions = jobFunctions;
   if (form.remoteOptions.length) body.remoteOptions = form.remoteOptions;
   if (form.places.length) body.placeIds = form.places.map((place) => place.id);
@@ -116,7 +149,9 @@ function toBody(form: FormState, initial: Alert | null): AlertBody {
 function fromAlert(alert: Alert | null, placeNames: PlaceNameMap): FormState {
   return {
     label: alert?.label ?? '',
-    jobFunctions: alert?.filters.jobFunctions.join(', ') ?? '',
+    keywords: alert?.filters.query ?? '',
+    roles:
+      alert && !jobFunctionIsKeyword(alert) ? alert.filters.jobFunctions : [],
     // A new alert starts with every workplace type — matching everything,
     // narrowed by unticking.
     remoteOptions: alert ? alert.filters.remoteOptions : [...REMOTE_OPTIONS],
@@ -218,22 +253,46 @@ function AlertForm({
           />
         </Field>
         <Field>
-          <FieldLabel htmlFor={`${id}-roles`}>
-            {m.alertManager_rolesLabel()}
+          <FieldLabel htmlFor={`${id}-keywords`}>
+            {m.alertManager_keywordsLabel()}
           </FieldLabel>
           <Input
-            id={`${id}-roles`}
-            name="jobFunctions"
-            value={form.jobFunctions}
-            placeholder={m.alertManager_rolesPlaceholder()}
+            id={`${id}-keywords`}
+            name="query"
+            value={form.keywords}
+            maxLength={ALERT_QUERY_MAX_LENGTH}
+            placeholder={m.alertManager_keywordsPlaceholder()}
             onChange={(event) =>
               setForm((prev) => ({
                 ...prev,
-                jobFunctions: event.target.value,
+                keywords: event.target.value,
               }))
             }
           />
+          <FieldDescription>
+            {m.alertManager_keywordsHelperText()}
+          </FieldDescription>
         </Field>
+        {form.roles.length ? (
+          <FieldSet>
+            <FieldLegend variant="label">
+              {m.alertManager_earlierRolesLabel()}
+            </FieldLegend>
+            <RemovableTags
+              tags={form.roles.map((role) => ({ key: role, label: role }))}
+              onRemove={(key) =>
+                setForm((prev) => ({
+                  ...prev,
+                  roles: prev.roles.filter((role) => role !== key),
+                }))
+              }
+              removeAriaLabel={(name) => m.placeTags_removeAriaLabel({ name })}
+            />
+            <FieldDescription>
+              {m.alertManager_earlierRolesHelperText()}
+            </FieldDescription>
+          </FieldSet>
+        ) : null}
         <FieldSet>
           <FieldLegend variant="label">
             {m.alertManager_remoteOptionsLegend()}
@@ -345,10 +404,13 @@ export interface AlertManagerDependencies {
 export function AlertManagerView({
   alerts,
   places,
+  anchorJobPaths = {},
   dependencies,
 }: {
   alerts: Alert[];
   places: AlertPlaceOption[];
+  /** Job links for similar-job alerts' anchor jobs, by job slug. */
+  anchorJobPaths?: AnchorJobPaths;
   dependencies: AlertManagerDependencies;
 }) {
   const placeNames: PlaceNameMap = useMemo(
@@ -362,25 +424,25 @@ export function AlertManagerView({
 
   const editingAlert = alerts.find((alert) => alert.id === editing) ?? null;
 
-  const describeAlert = (alert: Alert) => {
-    const parts = [
-      alert.filters.jobFunctions.length
-        ? alert.filters.jobFunctions.join(', ')
-        : m.alertManager_anyRoleText(),
-    ];
-    if (alert.filters.remoteOptions.length) {
-      parts.push(
-        alert.filters.remoteOptions
-          .map((option) => remoteOptionLabel(option))
-          .join(', '),
+  const describeAlert = (alert: Alert, match: JobAlertMatch) => {
+    // A similar-job alert follows its anchor job, near the job's location:
+    // there are no filters of the subscriber's to list.
+    if (match.kind === 'similar_job') {
+      const slug = match.anchorJob?.slug;
+      return (
+        <AnchorJobTitle
+          anchorJob={match.anchorJob}
+          path={slug ? anchorJobPaths[slug] : undefined}
+        />
       );
     }
-    if (alert.filters.placeIds.length) {
-      parts.push(
-        alert.filters.placeIds.map((id) => placeNames[id] ?? id).join(', '),
-      );
-    }
-    return parts.join(' · ');
+    return [
+      searchKeywordsText(match) ?? m.alertManager_anyRoleText(),
+      alert.filters.remoteOptions.map(remoteOptionLabel).join(', '),
+      alert.filters.placeIds.map((id) => placeNames[id] ?? id).join(', '),
+    ]
+      .filter(Boolean)
+      .join(' · ');
   };
 
   const newAlertButton = (
@@ -405,70 +467,79 @@ export function AlertManagerView({
       ) : (
         <>
           <ul className="space-y-3">
-            {alerts.map((alert) => (
-              <li key={alert.id}>
-                <Item variant="outline">
-                  <ItemContent>
-                    <ItemTitle className="flex-wrap">
-                      <span>
-                        {alert.label ?? m.alertManager_allNewJobsLabel()}
-                      </span>
-                      <Badge>{m.alertManager_frequencyWeekly()}</Badge>
-                      {!alert.isActive ? (
-                        <Badge variant="secondary">
-                          {m.alertManager_pausedBadge()}
-                        </Badge>
+            {alerts.map((alert) => {
+              const match = jobAlertMatch(alert);
+              return (
+                <li key={alert.id}>
+                  <Item variant="outline">
+                    <ItemContent>
+                      <ItemTitle className="flex-wrap">
+                        <span>{alert.label ?? KIND_TITLE[match.kind]()}</span>
+                        <Badge>{m.alertManager_frequencyWeekly()}</Badge>
+                        {!alert.isActive ? (
+                          <Badge variant="secondary">
+                            {m.alertManager_pausedBadge()}
+                          </Badge>
+                        ) : null}
+                      </ItemTitle>
+                      <ItemDescription>
+                        {describeAlert(alert, match)}
+                      </ItemDescription>
+                      {alert.lastSentAt ? (
+                        <p className="text-muted-foreground text-xs">
+                          {m.alertManager_lastSentText({
+                            date:
+                              formatDate(getLocale(), alert.lastSentAt) ??
+                              alert.lastSentAt.slice(0, 10),
+                          })}
+                        </p>
                       ) : null}
-                    </ItemTitle>
-                    <ItemDescription>{describeAlert(alert)}</ItemDescription>
-                    {alert.lastSentAt ? (
-                      <p className="text-muted-foreground text-xs">
-                        {m.alertManager_lastSentText({
-                          date:
-                            formatDate(getLocale(), alert.lastSentAt) ??
-                            alert.lastSentAt.slice(0, 10),
-                        })}
-                      </p>
-                    ) : null}
-                  </ItemContent>
-                  <ItemActions className="self-start">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEditing(alert.id)}
-                    >
-                      {m.alertManager_editLabel()}
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      data-test="alert-delete"
-                      disabled={pendingDeleteId !== null}
-                      onClick={async () => {
-                        setPendingDeleteId(alert.id);
-                        try {
-                          await dependencies.deleteAlert({
-                            data: { id: alert.id },
-                          });
-                        } catch (error) {
-                          dependencies.notifyError(candidateLoaderError(error));
+                    </ItemContent>
+                    <ItemActions className="self-start">
+                      {/* A similar-job alert follows its anchor job and takes
+                        no keywords: subscribers can delete it, not edit it. */}
+                      {match.kind === 'similar_job' ? null : (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditing(alert.id)}
+                        >
+                          {m.alertManager_editLabel()}
+                        </Button>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        data-test="alert-delete"
+                        disabled={pendingDeleteId !== null}
+                        onClick={async () => {
+                          setPendingDeleteId(alert.id);
+                          try {
+                            await dependencies.deleteAlert({
+                              data: { id: alert.id },
+                            });
+                          } catch (error) {
+                            dependencies.notifyError(
+                              candidateLoaderError(error),
+                            );
+                            setPendingDeleteId(null);
+                            return;
+                          }
+                          dependencies.notifySuccess();
+                          await reconcileCommittedAction(
+                            dependencies.invalidate,
+                            dependencies.notifyReconciliationError,
+                          );
                           setPendingDeleteId(null);
-                          return;
-                        }
-                        dependencies.notifySuccess();
-                        await reconcileCommittedAction(
-                          dependencies.invalidate,
-                          dependencies.notifyReconciliationError,
-                        );
-                        setPendingDeleteId(null);
-                      }}
-                    >
-                      {m.alertManager_deleteLabel()}
-                    </Button>
-                  </ItemActions>
-                </Item>
-              </li>
-            ))}
+                        }}
+                      >
+                        {m.alertManager_deleteLabel()}
+                      </Button>
+                    </ItemActions>
+                  </Item>
+                </li>
+              );
+            })}
           </ul>
           {newAlertButton}
         </>
@@ -543,15 +614,18 @@ export function AlertManagerView({
 export function AlertManager({
   alerts,
   places,
+  anchorJobPaths,
 }: {
   alerts: Alert[];
   places: AlertPlaceOption[];
+  anchorJobPaths: AnchorJobPaths;
 }) {
   const router = useRouter();
   return (
     <AlertManagerView
       alerts={alerts}
       places={places}
+      anchorJobPaths={anchorJobPaths}
       dependencies={{
         createAlert: createMyAlert,
         deleteAlert: deleteMyAlert,

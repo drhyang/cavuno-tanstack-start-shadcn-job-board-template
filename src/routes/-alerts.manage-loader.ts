@@ -5,6 +5,7 @@
  */
 import { m } from '../paraglide/messages';
 import {
+  getAnchorJobPaths,
   getSeoBase,
   deleteJobAlertPreference,
   getJobAlertManageState,
@@ -12,6 +13,10 @@ import {
   unsubscribeJobAlert,
 } from '../server/queries';
 
+import {
+  resolveAnchorJobPaths,
+  type AnchorJobPaths,
+} from '@/board/job-alert-match';
 import { headTitle } from '@/lib/page-title';
 import type {
   JobAlertDeletePreferenceInput,
@@ -23,7 +28,7 @@ import type {
 type AlertManageSeo = { boardName: string };
 // `empty`: the token is valid but no alerts remain (the last one was deleted).
 export type ManageData =
-  | { state: JobAlertManageState }
+  | { state: JobAlertManageState; anchorJobPaths: AnchorJobPaths }
   | { empty: true }
   | { error: true };
 export type LoaderData = ManageData & { seo: AlertManageSeo };
@@ -40,6 +45,9 @@ export type AlertManageDependencies = {
   getJobAlertManageState: (options: {
     data: JobAlertManageQuery;
   }) => Promise<JobAlertManageState | null>;
+  getAnchorJobPaths: (options: {
+    data: { jobSlugs: string[] };
+  }) => Promise<AnchorJobPaths>;
   getSeoBase: () => Promise<AlertManageSeo>;
   resubscribeJobAlert: (options: {
     data: JobAlertManageTokenInput;
@@ -52,6 +60,7 @@ export type AlertManageDependencies = {
 export const alertManageDependencies: AlertManageDependencies = {
   deleteJobAlertPreference,
   getJobAlertManageState,
+  getAnchorJobPaths,
   getSeoBase,
   resubscribeJobAlert,
   unsubscribeJobAlert,
@@ -77,7 +86,12 @@ export function createAlertManageLoader(
         }),
         seoPromise,
       ]);
-      return state ? { state, seo } : { empty: true, seo };
+      if (!state) return { empty: true, seo };
+      const anchorJobPaths = await resolveAnchorJobPaths(
+        state.preferences,
+        dependencies.getAnchorJobPaths,
+      );
+      return { state, anchorJobPaths, seo };
     } catch {
       return { error: true, seo: await seoPromise };
     }

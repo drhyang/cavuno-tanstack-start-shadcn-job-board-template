@@ -93,6 +93,7 @@ function LocationCategoryPage() {
       pageSize={PROGRAMMATIC_JOBS_PAGE_SIZE}
       relatedSearches={relatedSearches}
       filters={search}
+      listedTermSlug={category.sourceSlug}
       onSaveJob={async (jobId) => {
         await saveJob({ data: { jobId } });
       }}
