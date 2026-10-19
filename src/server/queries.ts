@@ -19,7 +19,7 @@ import { createServerFn } from '@tanstack/react-start';
 
 import { resolveRuntimeFeatureFlags } from '../board/board-feature-flags';
 import { getBoard } from '../lib/board';
-import { withApplyGatewayCapability } from '../lib/board';
+import { APPLY_GATEWAY_QUERY } from '../lib/board';
 import { boardAccessMiddleware } from '../lib/board-access-middleware';
 import { resolveBoardAds } from '../lib/board-ads';
 import {
@@ -253,8 +253,8 @@ export const getJob = createServerFn({ method: 'GET' })
   .middleware([boardAccessMiddleware])
   .handler(({ data, context }) =>
     gatedRead(context, (h) =>
-      getBoard().jobs.retrieve(data.jobSlug, undefined, {
-        headers: withApplyGatewayCapability(h),
+      getBoard().jobs.retrieve(data.jobSlug, APPLY_GATEWAY_QUERY, {
+        headers: h,
       }),
     ),
   );
