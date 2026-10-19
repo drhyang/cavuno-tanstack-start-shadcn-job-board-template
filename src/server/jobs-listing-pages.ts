@@ -181,6 +181,28 @@ function isPlainListingView(
 }
 
 /**
+ * Split a taxonomy resolution's intro off it. The API contract shows the
+ * intro only on the plain landing view (page 1, no query or filter), so other
+ * views get none and the resolution never carries it to the page.
+ */
+function landingIntro<T extends { introHtml?: string }>(
+  resolution: T,
+  data: JobsListingFiltersInput & { within?: number },
+) {
+  const { introHtml, ...rest } = resolution;
+  return {
+    resolution: rest,
+    introHtml: isPlainListingView(data) ? introHtml : undefined,
+  };
+}
+
+/** A resolution without its intro, for pages that never show one. */
+function withoutIntro<T extends { introHtml?: string }>(resolution: T) {
+  const { introHtml: _introHtml, ...rest } = resolution;
+  return rest;
+}
+
+/**
  * A location combination's own jobs in the place (`within=0`), which its
  * default-distance view's noindex turns on, as the sitemap does: with none
  * in the place the listing shows only nearby jobs. Read (one row, total
@@ -447,9 +469,11 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
           jobs: list.data,
         }),
       );
+      const intro = landingIntro(category, data);
       return {
         kind: 'ok' as const,
-        category,
+        category: intro.resolution,
+        introHtml: intro.introHtml,
         list,
         seo,
         relatedSearches: list.relatedSearches,
@@ -706,9 +730,11 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
           jobs: list.data,
         }),
       );
+      const intro = landingIntro(place, data);
       return {
         kind: 'ok' as const,
-        place,
+        place: intro.resolution,
+        introHtml: intro.introHtml,
         list,
         seo,
         relatedSearches,
@@ -874,8 +900,8 @@ export const getJobsLocationCategoryPage = createServerFn({ method: 'GET' })
       );
       return {
         kind: 'ok' as const,
-        place,
-        category,
+        place: withoutIntro(place),
+        category: withoutIntro(category),
         list,
         seo,
         relatedSearches: list.relatedSearches,
@@ -1037,7 +1063,7 @@ export const getJobsLocationSkillPage = createServerFn({ method: 'GET' })
       );
       return {
         kind: 'ok' as const,
-        place,
+        place: withoutIntro(place),
         skill,
         list,
         seo,
