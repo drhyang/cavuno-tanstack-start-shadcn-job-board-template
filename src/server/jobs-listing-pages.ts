@@ -195,6 +195,40 @@ function landingIntro<T extends { introHtml?: string }>(
   };
 }
 
+type LandingSeoCopy = {
+  title: string;
+  description: string;
+};
+
+/**
+ * /v1 taxonomy resolve already fills these. Board 4.53.0 types only
+ * introHtml; the extra optional strings still arrive on the object.
+ */
+type LandingPageContent = {
+  introHtml?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+};
+
+function filledLandingCopy(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined;
+  const trimmed = value.trim();
+  return trimmed === '' ? undefined : trimmed;
+}
+
+function landingDocument(
+  resolution: LandingPageContent,
+  data: JobsListingFiltersInput & { within?: number },
+  fallback: LandingSeoCopy,
+): LandingSeoCopy {
+  if (!isPlainListingView(data)) return fallback;
+  return {
+    title: filledLandingCopy(resolution.metaTitle) ?? fallback.title,
+    description:
+      filledLandingCopy(resolution.metaDescription) ?? fallback.description,
+  };
+}
+
 /** A resolution without its intro, for pages that never show one. */
 function withoutIntro<T extends { introHtml?: string }>(resolution: T) {
   const { introHtml: _introHtml, ...rest } = resolution;
@@ -444,7 +478,7 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
           ...counted,
           category: category.displayName,
         });
-      const head = listingHead({
+      const headCopy = landingDocument(category, data, {
         title: listingPageTitle({
           heading: heading,
           countedHeading,
@@ -452,14 +486,18 @@ export const getJobsCategoryPage = createServerFn({ method: 'GET' })
           language: seo.language,
           count: catalogJobCount(list.count, list.gatedCount),
         }),
-        origin: seo.origin,
-        path: localizePath(jobsCategoryPath(data.categorySlug)),
         description: listingMetaDescription({
           heading: heading,
           countedHeading,
           boardName: seo.boardName,
           count: catalogJobCount(list.count, list.gatedCount),
         }),
+      });
+      const head = listingHead({
+        title: headCopy.title,
+        origin: seo.origin,
+        path: localizePath(jobsCategoryPath(data.categorySlug)),
+        description: headCopy.description,
       });
       const crumbs = breadcrumbsCopy();
       const jsonLd = asJsonObjects(
@@ -711,23 +749,27 @@ export const getJobsLocationPage = createServerFn({ method: 'GET' })
         { name: crumbs.jobs, href: BOARD_PATHS.jobs },
         ...toJobsLocationHierarchyCrumbs(placeTree?.data ?? [], place),
       ];
+      const headCopy = landingDocument(place, data, {
+        title: listingPageTitle({
+          heading: heading,
+          countedHeading,
+          boardName: seo.boardName,
+          language: seo.language,
+          count: catalogJobCount(list.count, list.gatedCount),
+        }),
+        description: listingMetaDescription({
+          heading: heading,
+          countedHeading,
+          boardName: seo.boardName,
+          count: catalogJobCount(list.count, list.gatedCount),
+        }),
+      });
       const head = noindexFollow(
         listingHead({
-          title: listingPageTitle({
-            heading: heading,
-            countedHeading,
-            boardName: seo.boardName,
-            language: seo.language,
-            count: catalogJobCount(list.count, list.gatedCount),
-          }),
+          title: headCopy.title,
           origin: seo.origin,
           path: localizePath(`/jobs/locations/${data.locationSlug}`),
-          description: listingMetaDescription({
-            heading: heading,
-            countedHeading,
-            boardName: seo.boardName,
-            count: catalogJobCount(list.count, list.gatedCount),
-          }),
+          description: headCopy.description,
         }),
         // A suggested place is indexed at its default distance with enough
         // on-site and hybrid jobs within it.
